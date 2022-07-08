@@ -15,6 +15,7 @@
 #include "Doge.objc.h"
 #include "Eth.objc.h"
 #include "Polka.objc.h"
+#include "Solana.objc.h"
 
 @class WalletWallet;
 
@@ -59,6 +60,10 @@
  * Get or create the polka account with specified network.
  */
 - (PolkaAccount* _Nullable)getOrCreatePolkaAccount:(long)network error:(NSError* _Nullable* _Nullable)error;
+/**
+ * Get or create the ethereum account.
+ */
+- (SolanaAccount* _Nullable)getOrCreateSolanaAccount:(NSError* _Nullable* _Nullable)error;
 /**
  * Deprecated: GetPrivateKeyHex is deprecated. Please use wallet.PolkaAccount(network).PrivateKey() instead
  */

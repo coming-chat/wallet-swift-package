@@ -703,6 +703,7 @@ MaxFee = (MaxPriorityFee + BaseFee) * maxFeeRate
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
 - (nullable instancetype)init:(NSString* _Nullable)nonce gasPrice:(NSString* _Nullable)gasPrice gasLimit:(NSString* _Nullable)gasLimit to:(NSString* _Nullable)to value:(NSString* _Nullable)value data:(NSString* _Nullable)data;
+- (nullable instancetype)initFromHex:(NSString* _Nullable)hexData;
 @property (nonatomic) NSString* _Nonnull nonce;
 @property (nonatomic) NSString* _Nonnull gasPrice;
 @property (nonatomic) NSString* _Nonnull gasLimit;
@@ -852,6 +853,8 @@ FOUNDATION_EXPORT EthRpcReachability* _Nullable EthNewRpcReachability(void);
 FOUNDATION_EXPORT EthToken* _Nullable EthNewToken(NSError* _Nullable* _Nullable error);
 
 FOUNDATION_EXPORT EthTransaction* _Nullable EthNewTransaction(NSString* _Nullable nonce, NSString* _Nullable gasPrice, NSString* _Nullable gasLimit, NSString* _Nullable to, NSString* _Nullable value, NSString* _Nullable data);
+
+FOUNDATION_EXPORT EthTransaction* _Nullable EthNewTransactionFromHex(NSString* _Nullable hexData, NSError* _Nullable* _Nullable error);
 
 FOUNDATION_EXPORT EthUtil* _Nullable EthNewUtil(void);
 
