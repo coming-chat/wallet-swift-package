@@ -23,7 +23,6 @@
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
 - (nullable instancetype)initWithMnemonic:(NSString* _Nullable)mnemonic;
-- (nullable instancetype)initWithPrivateKey:(NSString* _Nullable)prikey;
 - (NSString* _Nonnull)address;
 /**
  * @return publicKey that will start with 0x.
@@ -87,10 +86,7 @@
 @property(strong, readonly) _Nonnull id _ref;
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
-/**
- * Warning: initial unavailable, You must create based on Chain.MainToken()
- */
-- (nullable instancetype)init;
+- (nullable instancetype)init:(SolanaChain* _Nullable)chain;
 - (BaseBalance* _Nullable)balanceOfAccount:(id<BaseAccount> _Nullable)account error:(NSError* _Nullable* _Nullable)error;
 - (BaseBalance* _Nullable)balanceOfAddress:(NSString* _Nullable)address error:(NSError* _Nullable* _Nullable)error;
 - (BaseBalance* _Nullable)balanceOfPublicKey:(NSString* _Nullable)publicKey error:(NSError* _Nullable* _Nullable)error;
@@ -125,6 +121,12 @@
 // skipped const TestnetRPCEndpoint with unsupported type: invalid type
 
 
+/**
+ * rename for support android.
+Android cant support both NewAccountWithMnemonic(string) and NewAccountWithPrivateKey(string)
+ */
+FOUNDATION_EXPORT SolanaAccount* _Nullable SolanaAccountWithPrivateKey(NSString* _Nullable prikey, NSError* _Nullable* _Nullable error);
+
 FOUNDATION_EXPORT NSString* _Nonnull SolanaDecodeAddressToPublicKey(NSString* _Nullable address, NSError* _Nullable* _Nullable error);
 
 FOUNDATION_EXPORT NSString* _Nonnull SolanaEncodePublicKeyToAddress(NSString* _Nullable publicKey, NSError* _Nullable* _Nullable error);
@@ -133,14 +135,9 @@ FOUNDATION_EXPORT BOOL SolanaIsValidAddress(NSString* _Nullable address);
 
 FOUNDATION_EXPORT SolanaAccount* _Nullable SolanaNewAccountWithMnemonic(NSString* _Nullable mnemonic, NSError* _Nullable* _Nullable error);
 
-FOUNDATION_EXPORT SolanaAccount* _Nullable SolanaNewAccountWithPrivateKey(NSString* _Nullable prikey, NSError* _Nullable* _Nullable error);
-
 FOUNDATION_EXPORT SolanaChain* _Nullable SolanaNewChainWithRpc(NSString* _Nullable rpcUrl);
 
-/**
- * Warning: initial unavailable, You must create based on Chain.MainToken()
- */
-FOUNDATION_EXPORT SolanaToken* _Nullable SolanaNewToken(NSError* _Nullable* _Nullable error);
+FOUNDATION_EXPORT SolanaToken* _Nullable SolanaNewToken(SolanaChain* _Nullable chain);
 
 FOUNDATION_EXPORT SolanaUtil* _Nullable SolanaNewUtil(void);
 

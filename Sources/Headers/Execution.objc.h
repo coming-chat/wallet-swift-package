@@ -108,6 +108,7 @@ step.StatusParams.Error is util.ErrExecutionStopped, but step.status not change 
 @property (nonatomic) NSError* _Nullable err;
 @property (nonatomic) NSString* _Nonnull txHash;
 @property (nonatomic) TypesStatusRes* _Nullable statusRes;
+@property (nonatomic) TypesTxStatusRes* _Nullable txStatusRes;
 @end
 
 @interface ExecutionStepWithStatus : NSObject <goSeqRefInterface> {

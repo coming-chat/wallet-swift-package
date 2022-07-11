@@ -11,6 +11,7 @@
 #include "Universe.objc.h"
 
 
+@class TypesAccountNonceRes;
 @class TypesAction;
 @class TypesChainInfo;
 @class TypesChainListRes;
@@ -21,11 +22,14 @@
 @class TypesCost;
 @class TypesCurrencyBaseInfo;
 @class TypesEstimate;
+@class TypesEstimateGasReq;
+@class TypesEstimateGasRes;
 @class TypesQuoteReq;
 @class TypesQuoteRes;
 @class TypesStatusReq;
 @class TypesStatusRes;
 @class TypesStep;
+@class TypesStepPath;
 @class TypesTokenInfo;
 @class TypesTokenInfoReq;
 @class TypesTokenInfoRes;
@@ -33,6 +37,18 @@
 @class TypesTokenListRes;
 @class TypesToolDetail;
 @class TypesTxData;
+@class TypesTxStatusReq;
+@class TypesTxStatusRes;
+
+@interface TypesAccountNonceRes : NSObject <goSeqRefInterface> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nonnull instancetype)init;
+// skipped field AccountNonceRes.Nonce with unsupported type: uint64
+
+@end
 
 /**
  * Action is what user do at one step
@@ -188,6 +204,29 @@ connections struct like ["chainA":{"tokens": [tokenAA, tokenAB]}, "chainB": {"to
 - (long)sizeCosts;
 @end
 
+@interface TypesEstimateGasReq : NSObject <goSeqRefInterface> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nonnull instancetype)init;
+@property (nonatomic) NSString* _Nonnull chain;
+@property (nonatomic) NSString* _Nonnull from;
+@property (nonatomic) NSString* _Nonnull to;
+@property (nonatomic) NSString* _Nonnull hexData;
+@property (nonatomic) NSString* _Nonnull value;
+@end
+
+@interface TypesEstimateGasRes : NSObject <goSeqRefInterface> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nonnull instancetype)init;
+// skipped field EstimateGasRes.Gas with unsupported type: uint64
+
+@end
+
 @interface TypesQuoteReq : NSObject <goSeqRefInterface> {
 }
 @property(strong, readonly) _Nonnull id _ref;
@@ -212,10 +251,22 @@ connections struct like ["chainA":{"tokens": [tokenAA, tokenAB]}, "chainB": {"to
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
 - (nonnull instancetype)init;
+@property (nonatomic) NSString* _Nonnull id_;
 @property (nonatomic) TypesEstimate* _Nullable estimate;
 // skipped field QuoteRes.Steps with unsupported type: []go-defi-sdk/core/crossswap/types.Step
 
+// skipped field QuoteRes.Paths with unsupported type: []go-defi-sdk/core/crossswap/types.StepPath
+
+- (TypesStepPath* _Nullable)indexPath:(long)i;
 - (TypesStep* _Nullable)indexStep:(long)i;
+/**
+ * SetGasPrice set gas price in current quoteRes, include costs info and tx gas fee data
+before create execution, user can modify gas price
+for legacy tx, maxPriorityFee equal maxFee
+string number base is 10
+ */
+- (BOOL)setGasPrice:(NSString* _Nullable)chain maxPriorityFee:(NSString* _Nullable)maxPriorityFee maxFee:(NSString* _Nullable)maxFee error:(NSError* _Nullable* _Nullable)error;
+- (long)sizePaths;
 - (long)sizeSteps;
 @end
 
@@ -227,6 +278,7 @@ connections struct like ["chainA":{"tokens": [tokenAA, tokenAB]}, "chainB": {"to
 - (nonnull instancetype)init;
 @property (nonatomic) NSString* _Nonnull fromChain;
 @property (nonatomic) NSString* _Nonnull txHash;
+@property (nonatomic) NSString* _Nonnull swapId;
 @end
 
 /**
@@ -276,6 +328,22 @@ user should follow steps, sign and send transaction
 @property (nonatomic) TypesAction* _Nullable action;
 @property (nonatomic) TypesEstimate* _Nullable estimate;
 @property (nonatomic) TypesTxData* _Nullable txData;
+@end
+
+@interface TypesStepPath : NSObject <goSeqRefInterface> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nonnull instancetype)init;
+@property (nonatomic) NSString* _Nonnull fromChain;
+@property (nonatomic) NSString* _Nonnull toChain;
+// skipped field StepPath.FromToken with unsupported type: go-defi-sdk/core/crossswap/types.TokenInfo
+
+// skipped field StepPath.ToToken with unsupported type: go-defi-sdk/core/crossswap/types.TokenInfo
+
+@property (nonatomic) NSString* _Nonnull type;
+@property (nonatomic) NSString* _Nonnull name;
 @end
 
 @interface TypesTokenInfo : NSObject <goSeqRefInterface> {
@@ -362,13 +430,37 @@ user should follow steps, sign and send transaction
 @property (nonatomic) long chainId;
 @property (nonatomic) NSString* _Nonnull gasLimit;
 @property (nonatomic) NSString* _Nonnull gasPrice;
+@property (nonatomic) NSString* _Nonnull gasTipCap;
+@end
+
+@interface TypesTxStatusReq : NSObject <goSeqRefInterface> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nonnull instancetype)init;
+@property (nonatomic) NSString* _Nonnull chain;
+@property (nonatomic) NSString* _Nonnull txHash;
+@end
+
+@interface TypesTxStatusRes : NSObject <goSeqRefInterface> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nonnull instancetype)init;
+@property (nonatomic) BOOL isPending;
+@property (nonatomic) long status;
+@property (nonatomic) NSString* _Nonnull error;
 @end
 
 FOUNDATION_EXPORT NSString* _Nonnull const TypesChainTypeEvm;
 FOUNDATION_EXPORT NSString* _Nonnull const TypesChainTypePolka;
-FOUNDATION_EXPORT NSString* _Nonnull const TypesCostTypeFee;
+FOUNDATION_EXPORT NSString* _Nonnull const TypesCostTypeCrossFee;
 FOUNDATION_EXPORT NSString* _Nonnull const TypesCostTypeGasFee;
 FOUNDATION_EXPORT NSString* _Nonnull const TypesCostTypePolkaFee;
+FOUNDATION_EXPORT NSString* _Nonnull const TypesCostTypeServiceFee;
+FOUNDATION_EXPORT const int64_t TypesErc20AssetId;
 FOUNDATION_EXPORT const int64_t TypesOriginAssetId;
 FOUNDATION_EXPORT NSString* _Nonnull const TypesStatusChecking;
 FOUNDATION_EXPORT NSString* _Nonnull const TypesStatusFail;
@@ -376,8 +468,11 @@ FOUNDATION_EXPORT NSString* _Nonnull const TypesStatusInit;
 FOUNDATION_EXPORT NSString* _Nonnull const TypesStatusProcessing;
 FOUNDATION_EXPORT NSString* _Nonnull const TypesStatusSuccess;
 FOUNDATION_EXPORT NSString* _Nonnull const TypesStatusUnknown;
+FOUNDATION_EXPORT NSString* _Nonnull const TypesStepPathTypeBridge;
+FOUNDATION_EXPORT NSString* _Nonnull const TypesStepPathTypeSwap;
 FOUNDATION_EXPORT NSString* _Nonnull const TypesStepTypeApprove;
 FOUNDATION_EXPORT NSString* _Nonnull const TypesStepTypeCrossSwap;
+FOUNDATION_EXPORT NSString* _Nonnull const TypesStepTypeLocalSwap;
 FOUNDATION_EXPORT NSString* _Nonnull const TypesToolCCSwap;
 FOUNDATION_EXPORT NSString* _Nonnull const TypesToolSoDiamond;
 

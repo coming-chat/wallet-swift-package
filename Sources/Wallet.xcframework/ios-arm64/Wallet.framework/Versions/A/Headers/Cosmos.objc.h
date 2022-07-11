@@ -148,10 +148,7 @@ which can only be passed as strings separated by ","
 @property(strong, readonly) _Nonnull id _ref;
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
-/**
- * Warning: initial unavailable, You must create based on Chain.DenomToken()
- */
-- (nullable instancetype)init;
+- (nullable instancetype)init:(CosmosChain* _Nullable)chain prefix:(NSString* _Nullable)prefix denom:(NSString* _Nullable)denom;
 @property (nonatomic) NSString* _Nonnull prefix;
 @property (nonatomic) NSString* _Nonnull denom;
 - (BaseBalance* _Nullable)balanceOfAccount:(id<BaseAccount> _Nullable)account error:(NSError* _Nullable* _Nullable)error;
@@ -285,10 +282,7 @@ FOUNDATION_EXPORT CosmosAccount* _Nullable CosmosNewCosmosAccountWithMnemonic(NS
  */
 FOUNDATION_EXPORT CosmosAccount* _Nullable CosmosNewTerraAccountWithMnemonic(NSString* _Nullable mnemonic, NSError* _Nullable* _Nullable error);
 
-/**
- * Warning: initial unavailable, You must create based on Chain.DenomToken()
- */
-FOUNDATION_EXPORT CosmosToken* _Nullable CosmosNewToken(NSError* _Nullable* _Nullable error);
+FOUNDATION_EXPORT CosmosToken* _Nullable CosmosNewToken(CosmosChain* _Nullable chain, NSString* _Nullable prefix, NSString* _Nullable denom);
 
 FOUNDATION_EXPORT CosmosUtil* _Nullable CosmosNewUtilWithPrefix(NSString* _Nullable addressPrefix);
 

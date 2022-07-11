@@ -133,10 +133,7 @@ This will save a lot of network traffic to download metadata from rpcUrl.
 @property(strong, readonly) _Nonnull id _ref;
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
-/**
- * Warning: initial unavailable, You must create based on Chain.MainToken()
- */
-- (nullable instancetype)init;
+- (nullable instancetype)init:(PolkaChain* _Nullable)chain;
 - (BaseBalance* _Nullable)balanceOfAccount:(id<BaseAccount> _Nullable)account error:(NSError* _Nullable* _Nullable)error;
 - (BaseBalance* _Nullable)balanceOfAddress:(NSString* _Nullable)address error:(NSError* _Nullable* _Nullable)error;
 - (BaseBalance* _Nullable)balanceOfPublicKey:(NSString* _Nullable)publicKey error:(NSError* _Nullable* _Nullable)error;
@@ -317,10 +314,7 @@ FOUNDATION_EXPORT PolkaAccount* _Nullable PolkaNewAccountWithMnemonic(NSString* 
  */
 FOUNDATION_EXPORT PolkaChain* _Nullable PolkaNewChainWithRpc(NSString* _Nullable rpcUrl, NSString* _Nullable scanUrl, NSError* _Nullable* _Nullable error);
 
-/**
- * Warning: initial unavailable, You must create based on Chain.MainToken()
- */
-FOUNDATION_EXPORT PolkaToken* _Nullable PolkaNewToken(NSError* _Nullable* _Nullable error);
+FOUNDATION_EXPORT PolkaToken* _Nullable PolkaNewToken(PolkaChain* _Nullable chain);
 
 FOUNDATION_EXPORT PolkaTx* _Nullable PolkaNewTx(NSString* _Nullable metadataString, NSError* _Nullable* _Nullable error);
 

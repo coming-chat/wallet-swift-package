@@ -679,10 +679,7 @@ MaxFee = (MaxPriorityFee + BaseFee) * maxFeeRate
 @property(strong, readonly) _Nonnull id _ref;
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
-/**
- * Warning: initial unavailable, You must create based on Chain.MainToken()
- */
-- (nullable instancetype)init;
+- (nullable instancetype)init:(EthChain* _Nullable)chain;
 - (BaseBalance* _Nullable)balanceOfAccount:(id<BaseAccount> _Nullable)account error:(NSError* _Nullable* _Nullable)error;
 - (BaseBalance* _Nullable)balanceOfAddress:(NSString* _Nullable)address error:(NSError* _Nullable* _Nullable)error;
 - (BaseBalance* _Nullable)balanceOfPublicKey:(NSString* _Nullable)publicKey error:(NSError* _Nullable* _Nullable)error;
@@ -847,10 +844,7 @@ FOUNDATION_EXPORT EthEthChain* _Nullable EthNewEthChain(void);
 
 FOUNDATION_EXPORT EthRpcReachability* _Nullable EthNewRpcReachability(void);
 
-/**
- * Warning: initial unavailable, You must create based on Chain.MainToken()
- */
-FOUNDATION_EXPORT EthToken* _Nullable EthNewToken(NSError* _Nullable* _Nullable error);
+FOUNDATION_EXPORT EthToken* _Nullable EthNewToken(EthChain* _Nullable chain);
 
 FOUNDATION_EXPORT EthTransaction* _Nullable EthNewTransaction(NSString* _Nullable nonce, NSString* _Nullable gasPrice, NSString* _Nullable gasLimit, NSString* _Nullable to, NSString* _Nullable value, NSString* _Nullable data);
 
