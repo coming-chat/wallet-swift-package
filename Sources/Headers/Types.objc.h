@@ -309,6 +309,7 @@ success means swap success, and dst balance transferred to receiver account
 @property (nonatomic) NSString* _Nonnull status;
 @property (nonatomic) NSString* _Nonnull reason;
 @property (nonatomic) int64_t updateTime;
+@property (nonatomic) NSString* _Nonnull txHash;
 @end
 
 /**

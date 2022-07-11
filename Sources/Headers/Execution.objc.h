@@ -95,6 +95,7 @@ step.StatusParams.Error is util.ErrExecutionStopped, but step.status not change 
 - (nonnull instancetype)init;
 @property (nonatomic) id<ExecutionExecutionCallback> _Nullable callback;
 @property (nonatomic) long customId;
+@property (nonatomic) NSString* _Nonnull swapId;
 // skipped field StatusManager.Steps with unsupported type: []*go-defi-sdk/core/crossswap/execution.StepWithStatus
 
 @end
@@ -131,6 +132,7 @@ step.StatusParams.Error is util.ErrExecutionStopped, but step.status not change 
 // skipped field StepsStatusData.Steps with unsupported type: []*go-defi-sdk/core/crossswap/execution.StepWithStatus
 
 @property (nonatomic) long customId;
+@property (nonatomic) NSString* _Nonnull swapId;
 - (ExecutionStepWithStatus* _Nullable)index:(long)i;
 - (long)size;
 @end
