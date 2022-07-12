@@ -339,10 +339,8 @@ user should follow steps, sign and send transaction
 - (nonnull instancetype)init;
 @property (nonatomic) NSString* _Nonnull fromChain;
 @property (nonatomic) NSString* _Nonnull toChain;
-// skipped field StepPath.FromToken with unsupported type: go-defi-sdk/core/crossswap/types.TokenInfo
-
-// skipped field StepPath.ToToken with unsupported type: go-defi-sdk/core/crossswap/types.TokenInfo
-
+@property (nonatomic) TypesTokenInfo* _Nullable fromToken;
+@property (nonatomic) TypesTokenInfo* _Nullable toToken;
 @property (nonatomic) NSString* _Nonnull type;
 @property (nonatomic) NSString* _Nonnull name;
 @end
