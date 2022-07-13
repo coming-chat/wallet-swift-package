@@ -80,7 +80,7 @@
 @property (nonatomic) NSString* _Nonnull type;
 @property (nonatomic) long chainId;
 @property (nonatomic) BOOL mainnet;
-@property (nonatomic) NSString* _Nonnull logURI;
+@property (nonatomic) NSString* _Nonnull logoURI;
 // skipped field ChainInfo.BlockExplorerUrls with unsupported type: []string
 
 @property (nonatomic) TypesCurrencyBaseInfo* _Nullable nativeCurrency;
@@ -357,7 +357,7 @@ user should follow steps, sign and send transaction
 @property (nonatomic) long decimals;
 @property (nonatomic) long chainId;
 @property (nonatomic) NSString* _Nonnull name;
-@property (nonatomic) NSString* _Nonnull logURI;
+@property (nonatomic) NSString* _Nonnull logoURI;
 @property (nonatomic) NSString* _Nonnull priceUsd;
 @end
 
