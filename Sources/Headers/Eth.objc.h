@@ -26,6 +26,7 @@
 @class EthGasPrice;
 @class EthOptimismLayer2Gas;
 @class EthReceipt;
+@class EthRedPacketAction;
 @class EthRpcLatency;
 @class EthRpcReachability;
 @class EthToken;
@@ -191,6 +192,7 @@
  * Set amount with hexadecimal number
  */
 - (void)setValueHex:(NSString* _Nullable)hex;
+- (EthTransaction* _Nullable)transferToTransaction;
 @end
 
 @interface EthChain : NSObject <goSeqRefInterface, BaseChain> {
@@ -220,6 +222,8 @@ which can only be passed as strings separated by ","
 @return Batch transaction status, its order is consistent with hashListString: "status1,status2,status3"
  */
 - (NSString* _Nonnull)batchFetchTransactionStatus:(NSString* _Nullable)hashListString;
+- (BaseOptionalString* _Nullable)buildTransferTx:(NSString* _Nullable)privateKey transaction:(EthTransaction* _Nullable)transaction error:(NSError* _Nullable* _Nullable)error;
+- (BaseOptionalString* _Nullable)buildTransferTxWithAccount:(EthAccount* _Nullable)account transaction:(EthTransaction* _Nullable)transaction error:(NSError* _Nullable* _Nullable)error;
 /**
  * call eth_call method
 @param blockNumber Especially -2 is the latest block, -1 is pending block.
@@ -335,18 +339,20 @@ which can only be passed as strings separated by ","
 @property(strong, readonly) _Nonnull id _ref;
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
-/**
- * Warning: initial unavailable, You must create based on Chain.Erc20Token()
- */
-- (nullable instancetype)init;
+- (nullable instancetype)init:(EthChain* _Nullable)chain contractAddress:(NSString* _Nullable)contractAddress;
 @property (nonatomic) EthToken* _Nullable token;
 @property (nonatomic) NSString* _Nonnull contractAddress;
+// skipped method Erc20Token.Allowance with unsupported parameter or return types
+
+// skipped method Erc20Token.Approve with unsupported parameter or return types
+
 - (BaseBalance* _Nullable)balanceOfAccount:(id<BaseAccount> _Nullable)account error:(NSError* _Nullable* _Nullable)error;
 - (BaseBalance* _Nullable)balanceOfAddress:(NSString* _Nullable)address error:(NSError* _Nullable* _Nullable)error;
 - (BaseBalance* _Nullable)balanceOfPublicKey:(NSString* _Nullable)publicKey error:(NSError* _Nullable* _Nullable)error;
 - (BaseOptionalString* _Nullable)buildTransferTx:(NSString* _Nullable)privateKey transaction:(EthTransaction* _Nullable)transaction error:(NSError* _Nullable* _Nullable)error;
 - (BaseOptionalString* _Nullable)buildTransferTxWithAccount:(EthAccount* _Nullable)account transaction:(EthTransaction* _Nullable)transaction error:(NSError* _Nullable* _Nullable)error;
 - (id<BaseChain> _Nullable)chain;
+- (BOOL)decimal:(int16_t* _Nullable)ret0_ error:(NSError* _Nullable* _Nullable)error;
 /**
  * cannot get balance
  */
@@ -633,6 +639,42 @@ MaxFee = (MaxPriorityFee + BaseFee) * maxFeeRate
 - (BOOL)unmarshalJSON:(NSData* _Nullable)data error:(NSError* _Nullable* _Nullable)error;
 @end
 
+@interface EthRedPacketAction : NSObject <goSeqRefInterface> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+/**
+ * 结束红包领取 的操作
+ */
+- (nullable instancetype)initClose:(int64_t)packetId creator:(NSString* _Nullable)creator;
+/**
+ * 用户发红包 的操作
+ */
+- (nullable instancetype)initCreate:(NSString* _Nullable)erc20TokenAddress count:(long)count amount:(NSString* _Nullable)amount;
+// skipped constructor RedPacketAction.NewRedPacketActionOpen with unsupported parameter or return types
+
+@property (nonatomic) NSString* _Nonnull method;
+// skipped field RedPacketAction.Params with unsupported type: []interface{}
+
+/**
+ * 保证用户发 erc20 的红包时，红包合约可以有权限操作用户的资产
+@param account 要发红包的用户的账号，也许需要用到私钥来发起授权交易
+@param chain evm 链
+@param erc20Contract 要用作发红包的币种
+@param coins 如果需要发起新授权，指定要授权的币个数 default 10^6
+@return 如果授权成功，不会返回错误，如果有新授权，会返回授权交易的 hash
+ */
+- (NSString* _Nonnull)ensureApprovedTokens:(EthAccount* _Nullable)account chain:(EthChain* _Nullable)chain spender:(NSString* _Nullable)spender coins:(long)coins error:(NSError* _Nullable* _Nullable)error;
+- (NSString* _Nonnull)estimateAmount;
+/**
+ * @param fromAddress 要调用红包业务的操作者
+@param contractAddress 红包合约地址
+@param chain 要发红包的链
+ */
+- (EthTransaction* _Nullable)transactionFrom:(NSString* _Nullable)fromAddress contractAddress:(NSString* _Nullable)contractAddress chain:(EthChain* _Nullable)chain error:(NSError* _Nullable* _Nullable)error;
+@end
+
 @interface EthRpcLatency : NSObject <goSeqRefInterface> {
 }
 @property(strong, readonly) _Nonnull id _ref;
@@ -721,6 +763,10 @@ MaxFee = (MaxPriorityFee + BaseFee) * maxFeeRate
  * This is an alias property for GasPrice in order to support EIP1559
  */
 - (void)setMaxFee:(NSString* _Nullable)maxFee;
+/**
+ * @return gasPrice * gasLimit + value
+ */
+- (NSString* _Nonnull)totalAmount;
 - (BOOL)transformToErc20Transaction:(NSString* _Nullable)contractAddress error:(NSError* _Nullable* _Nullable)error;
 @end
 
@@ -788,11 +834,21 @@ FOUNDATION_EXPORT NSString* _Nonnull const EthERC20_METHOD_TRANSFER;
  * 合约 ABI json文件，查询ERC20 相关代币信息需要使用 ABI 文件
  */
 FOUNDATION_EXPORT NSString* _Nonnull const EthErc20AbiStr;
+FOUNDATION_EXPORT NSString* _Nonnull const EthRPAMethodClose;
+FOUNDATION_EXPORT NSString* _Nonnull const EthRPAMethodCreate;
+FOUNDATION_EXPORT NSString* _Nonnull const EthRPAMethodOpen;
+FOUNDATION_EXPORT NSString* _Nonnull const EthRedPacketABI;
 
 /**
  * Warning: eth cannot support decode address to public key
  */
 FOUNDATION_EXPORT NSString* _Nonnull EthDecodeAddressToPublicKey(NSString* _Nullable address, NSError* _Nullable* _Nullable error);
+
+// skipped function EncodeAbiData with unsupported parameter or return types
+
+
+// skipped function EncodeErc20Approve with unsupported parameter or return types
+
 
 /**
  * Encode erc20 transfer data
@@ -800,6 +856,11 @@ FOUNDATION_EXPORT NSString* _Nonnull EthDecodeAddressToPublicKey(NSString* _Null
 FOUNDATION_EXPORT NSData* _Nullable EthEncodeErc20Transfer(NSString* _Nullable toAddress, NSString* _Nullable amount, NSError* _Nullable* _Nullable error);
 
 FOUNDATION_EXPORT NSString* _Nonnull EthEncodePublicKeyToAddress(NSString* _Nullable publicKey, NSError* _Nullable* _Nullable error);
+
+/**
+ * We cannot use name `NewAccountWithPrivateKey`, because android not support.
+ */
+FOUNDATION_EXPORT EthAccount* _Nullable EthEthAccountWithPrivateKey(NSString* _Nullable privateKey, NSError* _Nullable* _Nullable error);
 
 /**
  * 获取链ID
@@ -835,12 +896,22 @@ FOUNDATION_EXPORT EthChain* _Nullable EthNewChainWithRpc(NSString* _Nullable rpc
  */
 FOUNDATION_EXPORT EthCoinUtil* _Nullable EthNewCoinUtilWithRpc(NSString* _Nullable rpcUrl, NSString* _Nullable contractAddress, NSString* _Nullable walletAddress);
 
-/**
- * Warning: initial unavailable, You must create based on Chain.Erc20Token()
- */
-FOUNDATION_EXPORT EthErc20Token* _Nullable EthNewErc20Token(NSError* _Nullable* _Nullable error);
+FOUNDATION_EXPORT EthErc20Token* _Nullable EthNewErc20Token(EthChain* _Nullable chain, NSString* _Nullable contractAddress);
 
 FOUNDATION_EXPORT EthEthChain* _Nullable EthNewEthChain(void);
+
+/**
+ * 结束红包领取 的操作
+ */
+FOUNDATION_EXPORT EthRedPacketAction* _Nullable EthNewRedPacketActionClose(int64_t packetId, NSString* _Nullable creator, NSError* _Nullable* _Nullable error);
+
+/**
+ * 用户发红包 的操作
+ */
+FOUNDATION_EXPORT EthRedPacketAction* _Nullable EthNewRedPacketActionCreate(NSString* _Nullable erc20TokenAddress, long count, NSString* _Nullable amount, NSError* _Nullable* _Nullable error);
+
+// skipped function NewRedPacketActionOpen with unsupported parameter or return types
+
 
 FOUNDATION_EXPORT EthRpcReachability* _Nullable EthNewRpcReachability(void);
 
