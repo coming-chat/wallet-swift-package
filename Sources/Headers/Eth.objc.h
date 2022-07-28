@@ -18,7 +18,6 @@
 @class EthCallMethodOptsBigInt;
 @class EthCallMsg;
 @class EthChain;
-@class EthCoinUtil;
 @class EthErc20Token;
 @class EthErc20TokenInfo;
 @class EthErc20TxParams;
@@ -27,6 +26,7 @@
 @class EthOptimismLayer2Gas;
 @class EthReceipt;
 @class EthRedPacketAction;
+@class EthRedPacketDetail;
 @class EthRpcLatency;
 @class EthRpcReachability;
 @class EthToken;
@@ -232,8 +232,10 @@ which can only be passed as strings separated by ","
 - (NSString* _Nonnull)chainId:(NSError* _Nullable* _Nullable)error;
 - (id<EthTokenProtocol> _Nullable)erc20Token:(NSString* _Nullable)contractAddress;
 - (BaseOptionalString* _Nullable)estimateGasLimit:(EthCallMsg* _Nullable)msg error:(NSError* _Nullable* _Nullable)error;
+- (EthRedPacketDetail* _Nullable)fetchRedPacketCreationDetail:(NSString* _Nullable)hash error:(NSError* _Nullable* _Nullable)error;
 /**
  * Fetch transaction details through transaction hash
+Support normal or erc20 transfer
  */
 - (BaseTransactionDetail* _Nullable)fetchTransactionDetail:(NSString* _Nullable)hash error:(NSError* _Nullable* _Nullable)error;
 /**
@@ -266,72 +268,6 @@ which can only be passed as strings separated by ","
  * The gas price use average grade default.
  */
 - (EthGasPrice* _Nullable)suggestGasPriceEIP1559:(NSError* _Nullable* _Nullable)error;
-@end
-
-/**
- * Deprecated: CoinUtil is deprecated. Please Use EthChain instead.
- */
-@interface EthCoinUtil : NSObject <goSeqRefInterface> {
-}
-@property(strong, readonly) _Nonnull id _ref;
-
-- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
-/**
- * Deprecated: CoinUtil is deprecated. Please Use NewChainWithRpc() instead.
- */
-- (nullable instancetype)initWithRpc:(NSString* _Nullable)rpcUrl contractAddress:(NSString* _Nullable)contractAddress walletAddress:(NSString* _Nullable)walletAddress;
-/**
- * 链的 RPC 地址
- */
-@property (nonatomic) NSString* _Nonnull rpcUrl;
-/**
- * 币种的合约地址，如果为 nil，表示是主网的币
- */
-@property (nonatomic) NSString* _Nonnull contractAddress;
-/**
- * 用户的钱包地址
- */
-@property (nonatomic) NSString* _Nonnull walletAddress;
-/**
- * Deprecated: BuildTransferTx is deprecated. Please Use Chain.Token().BuildTransferTx() instead.
- */
-- (BaseOptionalString* _Nullable)buildTransferTx:(NSString* _Nullable)privateKey receiverAddress:(NSString* _Nullable)receiverAddress nonce:(NSString* _Nullable)nonce gasPrice:(NSString* _Nullable)gasPrice gasLimit:(NSString* _Nullable)gasLimit amount:(NSString* _Nullable)amount error:(NSError* _Nullable* _Nullable)error;
-/**
- * Deprecated: CoinInfo is deprecated.
- */
-- (EthErc20TokenInfo* _Nullable)coinInfo:(NSError* _Nullable* _Nullable)error;
-/**
- * Deprecated: Nonce is deprecated. Please Use Chain.Token().EstimateGasLimit() instead.
- */
-- (NSString* _Nonnull)estimateGasLimit:(NSString* _Nullable)receiverAddress gasPrice:(NSString* _Nullable)gasPrice amount:(NSString* _Nullable)amount error:(NSError* _Nullable* _Nullable)error;
-/**
- * Deprecated: FetchTransactionDetail is deprecated. Please Use Chain.FetchTransactionDetail() instead.
- */
-- (BaseTransactionDetail* _Nullable)fetchTransactionDetail:(NSString* _Nullable)hashString error:(NSError* _Nullable* _Nullable)error;
-/**
- * Deprecated: FetchTransactionStatus is deprecated. Please Use Chain.FetchTransactionStatus() instead.
- */
-- (long)fetchTransactionStatus:(NSString* _Nullable)hashString;
-/**
- * 是否是主币
- */
-- (BOOL)isMainCoin;
-/**
- * Deprecated: Nonce is deprecated. Please Use Chain.NonceOfAddress() instead.
- */
-- (NSString* _Nonnull)nonce:(NSError* _Nullable* _Nullable)error;
-/**
- * Deprecated: QueryBalance is deprecated. Please Use Chain.Token().BalanceOfAddress() instead.
- */
-- (NSString* _Nonnull)queryBalance:(NSError* _Nullable* _Nullable)error;
-/**
- * Deprecated: SdkBatchTransactionStatus is deprecated. Please Use Chain.SdkBatchTransactionStatus() instead.
- */
-- (NSString* _Nonnull)sdkBatchTransactionStatus:(NSString* _Nullable)hashListString error:(NSError* _Nullable* _Nullable)error;
-/**
- * Deprecated: SendRawTransaction is deprecated. Please Use Chain.SendRawTransaction() instead.
- */
-- (NSString* _Nonnull)sendRawTransaction:(NSString* _Nullable)txHex error:(NSError* _Nullable* _Nullable)error;
 @end
 
 @interface EthErc20Token : NSObject <goSeqRefInterface, BaseToken, EthTokenProtocol> {
@@ -452,12 +388,8 @@ var erc20TxParams Erc20TxParams
 @return Estimate gasLimit, is a `String` converted from `Uint64`
  */
 - (NSString* _Nonnull)estimateGasLimit:(NSString* _Nullable)fromAddress receiverAddress:(NSString* _Nullable)receiverAddress gasPrice:(NSString* _Nullable)gasPrice amount:(NSString* _Nullable)amount error:(NSError* _Nullable* _Nullable)error;
-/**
- * 获取交易的详情
-@param hashString 交易的 hash
-@return 详情对象，该对象无法提供 CID 信息
- */
-- (BaseTransactionDetail* _Nullable)fetchTransactionDetail:(NSString* _Nullable)hashString error:(NSError* _Nullable* _Nullable)error;
+// skipped method EthChain.FetchTransactionDetail with unsupported parameter or return types
+
 /**
  * 获取交易的状态
 @param hashString 交易的 hash
@@ -675,6 +607,18 @@ MaxFee = (MaxPriorityFee + BaseFee) * maxFeeRate
 - (EthTransaction* _Nullable)transactionFrom:(NSString* _Nullable)fromAddress contractAddress:(NSString* _Nullable)contractAddress chain:(EthChain* _Nullable)chain error:(NSError* _Nullable* _Nullable)error;
 @end
 
+@interface EthRedPacketDetail : NSObject <goSeqRefInterface, EthJsonable> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nullable instancetype)initWithJsonString:(NSString* _Nullable)s;
+@property (nonatomic) BaseTransactionDetail* _Nullable transactionDetail;
+@property (nonatomic) NSString* _Nonnull amountName;
+@property (nonatomic) int16_t amountDecimal;
+- (NSString* _Nonnull)jsonString;
+@end
+
 @interface EthRpcLatency : NSObject <goSeqRefInterface> {
 }
 @property(strong, readonly) _Nonnull id _ref;
@@ -844,7 +788,10 @@ FOUNDATION_EXPORT NSString* _Nonnull const EthRedPacketABI;
  */
 FOUNDATION_EXPORT NSString* _Nonnull EthDecodeAddressToPublicKey(NSString* _Nullable address, NSError* _Nullable* _Nullable error);
 
-// skipped function EncodeAbiData with unsupported parameter or return types
+// skipped function DecodeContractParams with unsupported parameter or return types
+
+
+// skipped function EncodeContractData with unsupported parameter or return types
 
 
 // skipped function EncodeErc20Approve with unsupported parameter or return types
@@ -891,11 +838,6 @@ FOUNDATION_EXPORT EthCallMsg* _Nullable EthNewCallMsg(void);
 
 FOUNDATION_EXPORT EthChain* _Nullable EthNewChainWithRpc(NSString* _Nullable rpcUrl);
 
-/**
- * Deprecated: CoinUtil is deprecated. Please Use NewChainWithRpc() instead.
- */
-FOUNDATION_EXPORT EthCoinUtil* _Nullable EthNewCoinUtilWithRpc(NSString* _Nullable rpcUrl, NSString* _Nullable contractAddress, NSString* _Nullable walletAddress);
-
 FOUNDATION_EXPORT EthErc20Token* _Nullable EthNewErc20Token(EthChain* _Nullable chain, NSString* _Nullable contractAddress);
 
 FOUNDATION_EXPORT EthEthChain* _Nullable EthNewEthChain(void);
@@ -912,6 +854,8 @@ FOUNDATION_EXPORT EthRedPacketAction* _Nullable EthNewRedPacketActionCreate(NSSt
 
 // skipped function NewRedPacketActionOpen with unsupported parameter or return types
 
+
+FOUNDATION_EXPORT EthRedPacketDetail* _Nullable EthNewRedPacketDetailWithJsonString(NSString* _Nullable s);
 
 FOUNDATION_EXPORT EthRpcReachability* _Nullable EthNewRpcReachability(void);
 
