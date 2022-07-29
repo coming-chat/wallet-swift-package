@@ -23,7 +23,12 @@
 @class EthErc20TxParams;
 @class EthEthChain;
 @class EthGasPrice;
+@class EthNft;
+@class EthNftMetadata;
 @class EthOptimismLayer2Gas;
+@class EthRSS3Fetcher;
+@class EthRSS3Note;
+@class EthRSS3NoteAction;
 @class EthReceipt;
 @class EthRedPacketAction;
 @class EthRedPacketDetail;
@@ -528,6 +533,34 @@ MaxFee = (MaxPriorityFee + BaseFee) * maxFeeRate
 - (EthGasPrice* _Nullable)useRate:(double)priorityRate maxFeeRate:(double)maxFeeRate;
 @end
 
+@interface EthNft : NSObject <goSeqRefInterface> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nonnull instancetype)init;
+@property (nonatomic) int64_t timestamp;
+@property (nonatomic) NSString* _Nonnull hashString;
+@property (nonatomic) NSString* _Nonnull tokenId;
+@property (nonatomic) NSString* _Nonnull tokenAddress;
+@property (nonatomic) NSString* _Nonnull tokenStandard;
+@property (nonatomic) NSString* _Nonnull name;
+@property (nonatomic) NSString* _Nonnull image;
+@property (nonatomic) NSString* _Nonnull detail;
+- (NSString* _Nonnull)identifierKey;
+@end
+
+@interface EthNftMetadata : NSObject <goSeqRefInterface> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nonnull instancetype)init;
+@property (nonatomic) NSString* _Nonnull name;
+@property (nonatomic) NSString* _Nonnull image;
+@property (nonatomic) NSString* _Nonnull description;
+@end
+
 @interface EthOptimismLayer2Gas : NSObject <goSeqRefInterface> {
 }
 @property(strong, readonly) _Nonnull id _ref;
@@ -542,6 +575,64 @@ MaxFee = (MaxPriorityFee + BaseFee) * maxFeeRate
  * l1GasLimit * l1GasPrice + l2Gaslimit * l2GasPrice
  */
 - (NSString* _Nonnull)gasFee;
+@end
+
+@interface EthRSS3Fetcher : NSObject <goSeqRefInterface> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nullable instancetype)initWithNetwork:(NSString* _Nullable)network owner:(NSString* _Nullable)owner;
+/**
+ * Filter notes by networks.
+Possible values: [ethereum, ethereum_classic, binance_smart_chain, polygon, zksync, xdai, arweave, arbitrum, optimism, fantom, avalanche, crossbell]
+ */
+@property (nonatomic) NSString* _Nonnull network;
+/**
+ * Limit the page number of Notes returned by the server. max 500.
+ */
+@property (nonatomic) long limit;
+/**
+ * owner eth address
+ */
+@property (nonatomic) NSString* _Nonnull owner;
+@property (nonatomic) NSString* _Nonnull nextCursor;
+- (BaseOptionalString* _Nullable)fetchNftsJsonString:(NSError* _Nullable* _Nullable)error;
+// skipped method RSS3Fetcher.FetchNotes with unsupported parameter or return types
+
+// skipped method RSS3Fetcher.FetchNotesNext with unsupported parameter or return types
+
+// skipped method RSS3Fetcher.FetchNtfs with unsupported parameter or return types
+
+@end
+
+@interface EthRSS3Note : NSObject <goSeqRefInterface> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nonnull instancetype)init;
+// skipped field RSS3Note.Timestamp with unsupported type: time.Time
+
+@property (nonatomic) NSString* _Nonnull hash;
+@property (nonatomic) BOOL success;
+// skipped field RSS3Note.Actions with unsupported type: []*github.com/coming-chat/wallet-SDK/core/eth.RSS3NoteAction
+
+@end
+
+@interface EthRSS3NoteAction : NSObject <goSeqRefInterface> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nonnull instancetype)init;
+@property (nonatomic) NSString* _Nonnull from;
+@property (nonatomic) NSString* _Nonnull to;
+@property (nonatomic) NSString* _Nonnull tag;
+@property (nonatomic) NSString* _Nonnull type;
+// skipped field RSS3NoteAction.Metadata with unsupported type: map[string]interface{}
+
+- (EthNft* _Nullable)nft;
 @end
 
 /**
@@ -612,6 +703,7 @@ MaxFee = (MaxPriorityFee + BaseFee) * maxFeeRate
 @property(strong, readonly) _Nonnull id _ref;
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nullable instancetype)init;
 - (nullable instancetype)initWithJsonString:(NSString* _Nullable)s;
 @property (nonatomic) BaseTransactionDetail* _Nullable transactionDetail;
 @property (nonatomic) NSString* _Nonnull amountName;
@@ -778,6 +870,12 @@ FOUNDATION_EXPORT NSString* _Nonnull const EthERC20_METHOD_TRANSFER;
  * 合约 ABI json文件，查询ERC20 相关代币信息需要使用 ABI 文件
  */
 FOUNDATION_EXPORT NSString* _Nonnull const EthErc20AbiStr;
+FOUNDATION_EXPORT NSString* _Nonnull const EthNetworkNameArbitrum;
+FOUNDATION_EXPORT NSString* _Nonnull const EthNetworkNameAvalanche;
+FOUNDATION_EXPORT NSString* _Nonnull const EthNetworkNameBSC;
+FOUNDATION_EXPORT NSString* _Nonnull const EthNetworkNameEthereum;
+FOUNDATION_EXPORT NSString* _Nonnull const EthNetworkNameOptimism;
+FOUNDATION_EXPORT NSString* _Nonnull const EthNetworkNamePolygon;
 FOUNDATION_EXPORT NSString* _Nonnull const EthRPAMethodClose;
 FOUNDATION_EXPORT NSString* _Nonnull const EthRPAMethodCreate;
 FOUNDATION_EXPORT NSString* _Nonnull const EthRPAMethodOpen;
@@ -842,6 +940,8 @@ FOUNDATION_EXPORT EthErc20Token* _Nullable EthNewErc20Token(EthChain* _Nullable 
 
 FOUNDATION_EXPORT EthEthChain* _Nullable EthNewEthChain(void);
 
+FOUNDATION_EXPORT EthRSS3Fetcher* _Nullable EthNewRSS3FetcherWithNetwork(NSString* _Nullable network, NSString* _Nullable owner);
+
 /**
  * 结束红包领取 的操作
  */
@@ -854,6 +954,8 @@ FOUNDATION_EXPORT EthRedPacketAction* _Nullable EthNewRedPacketActionCreate(NSSt
 
 // skipped function NewRedPacketActionOpen with unsupported parameter or return types
 
+
+FOUNDATION_EXPORT EthRedPacketDetail* _Nullable EthNewRedPacketDetail(void);
 
 FOUNDATION_EXPORT EthRedPacketDetail* _Nullable EthNewRedPacketDetailWithJsonString(NSString* _Nullable s);
 
