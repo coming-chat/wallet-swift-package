@@ -957,7 +957,7 @@ FOUNDATION_EXPORT EthRedPacketAction* _Nullable EthNewRedPacketActionCreate(NSSt
 
 FOUNDATION_EXPORT EthRedPacketDetail* _Nullable EthNewRedPacketDetail(void);
 
-FOUNDATION_EXPORT EthRedPacketDetail* _Nullable EthNewRedPacketDetailWithJsonString(NSString* _Nullable s);
+FOUNDATION_EXPORT EthRedPacketDetail* _Nullable EthNewRedPacketDetailWithJsonString(NSString* _Nullable s, NSError* _Nullable* _Nullable error);
 
 FOUNDATION_EXPORT EthRpcReachability* _Nullable EthNewRpcReachability(void);
 
