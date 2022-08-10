@@ -32,7 +32,6 @@
 @class EthReceipt;
 @class EthRedPacketAction;
 @class EthRedPacketDetail;
-@class EthRpcLatency;
 @class EthRpcReachability;
 @class EthToken;
 @class EthTransaction;
@@ -41,8 +40,6 @@
 @class EthUtil;
 @protocol EthJsonable;
 @class EthJsonable;
-@protocol EthRpcReachabilityDelegate;
-@class EthRpcReachabilityDelegate;
 @protocol EthTokenProtocol;
 @class EthTokenProtocol;
 
@@ -51,22 +48,6 @@
  * 将对象转为 json 字符串
  */
 - (NSString* _Nonnull)jsonString;
-@end
-
-@protocol EthRpcReachabilityDelegate <NSObject>
-/**
- * A node request failed
- */
-- (void)reachabilityDidFailNode:(EthRpcReachability* _Nullable)tester latency:(EthRpcLatency* _Nullable)latency;
-/**
- * The entire network connection test task is over
-@param overview Overview of the results of all connection tests
- */
-- (void)reachabilityDidFinish:(EthRpcReachability* _Nullable)tester overview:(NSString* _Nullable)overview;
-/**
- * A node has received a response
- */
-- (void)reachabilityDidReceiveNode:(EthRpcReachability* _Nullable)tester latency:(EthRpcLatency* _Nullable)latency;
 @end
 
 @protocol EthTokenProtocol <NSObject>
@@ -711,45 +692,16 @@ Possible values: [ethereum, ethereum_classic, binance_smart_chain, polygon, zksy
 - (NSString* _Nonnull)jsonString;
 @end
 
-@interface EthRpcLatency : NSObject <goSeqRefInterface> {
-}
-@property(strong, readonly) _Nonnull id _ref;
-
-- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
-- (nonnull instancetype)init;
-@property (nonatomic) NSString* _Nonnull rpcUrl;
-@property (nonatomic) int64_t latency;
-@property (nonatomic) int64_t height;
-@end
-
-@interface EthRpcReachability : NSObject <goSeqRefInterface> {
+@interface EthRpcReachability : NSObject <goSeqRefInterface, BaseRpcReachability> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
 - (nullable instancetype)init;
 /**
- * The number of network connectivity tests to be performed per rpc. 0 means infinite, default is 1
+ * @return latency (ms) of rpc query blockNumber. -1 means the connection failed.
  */
-@property (nonatomic) long reachCount;
-/**
- * Timeout for each connectivity test (ms). default 20000ms
- */
-@property (nonatomic) int64_t timeout;
-/**
- * Time interval between two network connectivity tests (ms). default 1500ms
- */
-@property (nonatomic) int64_t delay;
-/**
- * @param rpcList string of rpcs like "rpc1,rpc2,rpc3,..."
- */
-- (void)startConnectivityDelegate:(NSString* _Nullable)rpcList delegate:(id<EthRpcReachabilityDelegate> _Nullable)delegate;
-/**
- * @param rpcList string of rpcs like "rpc1,rpc2,rpc3,..."
-@return jsonString sorted array base of tatency like "[{rpcUrl:rpc1,latency:100}, {rpcUrl:rpc2, latency:111}, ...]" latency unit is ms. -1 means the connection failed
- */
-- (NSString* _Nonnull)startConnectivitySync:(NSString* _Nullable)rpcList;
-- (void)stopConnectivity;
+- (BaseRpcLatency* _Nullable)latencyOf:(NSString* _Nullable)rpc timeout:(int64_t)timeout error:(NSError* _Nullable* _Nullable)error;
 @end
 
 @interface EthToken : NSObject <goSeqRefInterface, BaseToken, EthTokenProtocol> {
@@ -990,8 +942,6 @@ FOUNDATION_EXPORT BOOL EthVerifySignature(NSString* _Nullable pubkey, NSString* 
 
 @class EthJsonable;
 
-@class EthRpcReachabilityDelegate;
-
 @class EthTokenProtocol;
 
 /**
@@ -1006,26 +956,6 @@ FOUNDATION_EXPORT BOOL EthVerifySignature(NSString* _Nullable pubkey, NSString* 
  * 将对象转为 json 字符串
  */
 - (NSString* _Nonnull)jsonString;
-@end
-
-@interface EthRpcReachabilityDelegate : NSObject <goSeqRefInterface, EthRpcReachabilityDelegate> {
-}
-@property(strong, readonly) _Nonnull id _ref;
-
-- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
-/**
- * A node request failed
- */
-- (void)reachabilityDidFailNode:(EthRpcReachability* _Nullable)tester latency:(EthRpcLatency* _Nullable)latency;
-/**
- * The entire network connection test task is over
-@param overview Overview of the results of all connection tests
- */
-- (void)reachabilityDidFinish:(EthRpcReachability* _Nullable)tester overview:(NSString* _Nullable)overview;
-/**
- * A node has received a response
- */
-- (void)reachabilityDidReceiveNode:(EthRpcReachability* _Nullable)tester latency:(EthRpcLatency* _Nullable)latency;
 @end
 
 @interface EthTokenProtocol : NSObject <goSeqRefInterface, EthTokenProtocol> {

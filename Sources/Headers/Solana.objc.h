@@ -14,6 +14,7 @@
 
 @class SolanaAccount;
 @class SolanaChain;
+@class SolanaRpcReachability;
 @class SolanaToken;
 @class SolanaUtil;
 
@@ -81,6 +82,18 @@
 - (NSString* _Nonnull)sendRawTransaction:(NSString* _Nullable)signedTx error:(NSError* _Nullable* _Nullable)error;
 @end
 
+@interface SolanaRpcReachability : NSObject <goSeqRefInterface, BaseRpcReachability> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nullable instancetype)init;
+/**
+ * @return latency (ms) of rpc query blockNumber. -1 means the connection failed.
+ */
+- (BaseRpcLatency* _Nullable)latencyOf:(NSString* _Nullable)rpc timeout:(int64_t)timeout error:(NSError* _Nullable* _Nullable)error;
+@end
+
 @interface SolanaToken : NSObject <goSeqRefInterface, BaseToken> {
 }
 @property(strong, readonly) _Nonnull id _ref;
@@ -136,6 +149,8 @@ FOUNDATION_EXPORT BOOL SolanaIsValidAddress(NSString* _Nullable address);
 FOUNDATION_EXPORT SolanaAccount* _Nullable SolanaNewAccountWithMnemonic(NSString* _Nullable mnemonic, NSError* _Nullable* _Nullable error);
 
 FOUNDATION_EXPORT SolanaChain* _Nullable SolanaNewChainWithRpc(NSString* _Nullable rpcUrl);
+
+FOUNDATION_EXPORT SolanaRpcReachability* _Nullable SolanaNewRpcReachability(void);
 
 FOUNDATION_EXPORT SolanaToken* _Nullable SolanaNewToken(SolanaChain* _Nullable chain);
 

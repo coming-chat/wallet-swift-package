@@ -17,6 +17,7 @@
 @class CosmosChain;
 @class CosmosGradedGasPrice;
 @class CosmosKnownTokenInfo;
+@class CosmosRpcReachability;
 @class CosmosToken;
 @class CosmosUtil;
 
@@ -141,6 +142,18 @@ which can only be passed as strings separated by ","
 @property (nonatomic) NSString* _Nonnull denom;
 @property (nonatomic) CosmosGradedGasPrice* _Nullable gasPrice;
 @property (nonatomic) NSString* _Nonnull gasLimit;
+@end
+
+@interface CosmosRpcReachability : NSObject <goSeqRefInterface, BaseRpcReachability> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nullable instancetype)init;
+/**
+ * @return latency (ms) of rpc query blockNumber. -1 means the connection failed.
+ */
+- (BaseRpcLatency* _Nullable)latencyOf:(NSString* _Nullable)rpc timeout:(int64_t)timeout error:(NSError* _Nullable* _Nullable)error;
 @end
 
 @interface CosmosToken : NSObject <goSeqRefInterface, BaseToken> {
@@ -276,6 +289,8 @@ FOUNDATION_EXPORT CosmosChain* _Nullable CosmosNewChainWithRpc(NSString* _Nullab
  * return NewAccountWithMnemonic(mnemonic, 118, "cosmos")
  */
 FOUNDATION_EXPORT CosmosAccount* _Nullable CosmosNewCosmosAccountWithMnemonic(NSString* _Nullable mnemonic, NSError* _Nullable* _Nullable error);
+
+FOUNDATION_EXPORT CosmosRpcReachability* _Nullable CosmosNewRpcReachability(void);
 
 /**
  * return NewAccountWithMnemonic(mnemonic, 330, "terra")

@@ -15,6 +15,7 @@
 @class PolkaAccount;
 @class PolkaChain;
 @class PolkaMiniXScriptHash;
+@class PolkaRpcReachability;
 @class PolkaToken;
 @class PolkaTransaction;
 @class PolkaTx;
@@ -126,6 +127,18 @@ This will save a lot of network traffic to download metadata from rpcUrl.
 - (nonnull instancetype)init;
 @property (nonatomic) NSString* _Nonnull scriptHash;
 @property (nonatomic) int32_t blockNumber;
+@end
+
+@interface PolkaRpcReachability : NSObject <goSeqRefInterface, BaseRpcReachability> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nullable instancetype)init;
+/**
+ * @return latency (ms) of rpc query blockNumber. -1 means the connection failed.
+ */
+- (BaseRpcLatency* _Nullable)latencyOf:(NSString* _Nullable)rpc timeout:(int64_t)timeout error:(NSError* _Nullable* _Nullable)error;
 @end
 
 @interface PolkaToken : NSObject <goSeqRefInterface, BaseToken> {
@@ -313,6 +326,8 @@ FOUNDATION_EXPORT PolkaAccount* _Nullable PolkaNewAccountWithMnemonic(NSString* 
 @param scanUrl will be used to query transaction details
  */
 FOUNDATION_EXPORT PolkaChain* _Nullable PolkaNewChainWithRpc(NSString* _Nullable rpcUrl, NSString* _Nullable scanUrl, NSError* _Nullable* _Nullable error);
+
+FOUNDATION_EXPORT PolkaRpcReachability* _Nullable PolkaNewRpcReachability(void);
 
 FOUNDATION_EXPORT PolkaToken* _Nullable PolkaNewToken(PolkaChain* _Nullable chain);
 

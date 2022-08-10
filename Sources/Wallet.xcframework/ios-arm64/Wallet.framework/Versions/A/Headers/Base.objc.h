@@ -14,6 +14,8 @@
 @class BaseBalance;
 @class BaseOptionalBool;
 @class BaseOptionalString;
+@class BaseReachMonitor;
+@class BaseRpcLatency;
 @class BaseTokenInfo;
 @class BaseTransaction;
 @class BaseTransactionDetail;
@@ -23,6 +25,10 @@
 @class BaseAddressUtil;
 @protocol BaseChain;
 @class BaseChain;
+@protocol BaseReachMonitorDelegate;
+@class BaseReachMonitorDelegate;
+@protocol BaseRpcReachability;
+@class BaseRpcReachability;
 @protocol BaseToken;
 @class BaseToken;
 
@@ -90,6 +96,26 @@ which can only be passed as strings separated by ","
 - (NSString* _Nonnull)sendRawTransaction:(NSString* _Nullable)signedTx error:(NSError* _Nullable* _Nullable)error;
 @end
 
+@protocol BaseReachMonitorDelegate <NSObject>
+/**
+ * A node request failed
+ */
+- (void)reachabilityDidFailNode:(BaseReachMonitor* _Nullable)tester latency:(BaseRpcLatency* _Nullable)latency;
+/**
+ * The entire network connection test task is over
+@param overview Overview of the results of all connection tests
+ */
+- (void)reachabilityDidFinish:(BaseReachMonitor* _Nullable)tester overview:(NSString* _Nullable)overview;
+/**
+ * A node has received a response
+ */
+- (void)reachabilityDidReceiveNode:(BaseReachMonitor* _Nullable)tester latency:(BaseRpcLatency* _Nullable)latency;
+@end
+
+@protocol BaseRpcReachability <NSObject>
+- (BaseRpcLatency* _Nullable)latencyOf:(NSString* _Nullable)rpc timeout:(int64_t)timeout error:(NSError* _Nullable* _Nullable)error;
+@end
+
 @protocol BaseToken <NSObject>
 - (BaseBalance* _Nullable)balanceOfAccount:(id<BaseAccount> _Nullable)account error:(NSError* _Nullable* _Nullable)error;
 - (BaseBalance* _Nullable)balanceOfAddress:(NSString* _Nullable)address error:(NSError* _Nullable* _Nullable)error;
@@ -130,6 +156,47 @@ which can only be passed as strings separated by ","
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
 - (nonnull instancetype)init;
 @property (nonatomic) NSString* _Nonnull value;
+@end
+
+@interface BaseReachMonitor : NSObject <goSeqRefInterface> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nullable instancetype)initWithReachability:(id<BaseRpcReachability> _Nullable)reachability;
+/**
+ * The number of network connectivity tests to be performed per rpc. 0 means infinite, default is 1
+ */
+@property (nonatomic) long reachCount;
+/**
+ * Timeout for each connectivity test (ms). default 20000ms
+ */
+@property (nonatomic) int64_t timeout;
+/**
+ * Time interval between two network connectivity tests (ms). default 1500ms
+ */
+@property (nonatomic) int64_t delay;
+/**
+ * @param rpcList string of rpcs like "rpc1,rpc2,rpc3,..."
+ */
+- (void)startConnectivityDelegate:(NSString* _Nullable)rpcList delegate:(id<BaseReachMonitorDelegate> _Nullable)delegate;
+/**
+ * @param rpcList string of rpcs like "rpc1,rpc2,rpc3,..."
+@return jsonString sorted array base of tatency like "[{rpcUrl:rpc1,latency:100}, {rpcUrl:rpc2, latency:111}, ...]" latency unit is ms. -1 means the connection failed
+ */
+- (NSString* _Nonnull)startConnectivitySync:(NSString* _Nullable)rpcList;
+- (void)stopConnectivity;
+@end
+
+@interface BaseRpcLatency : NSObject <goSeqRefInterface> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nonnull instancetype)init;
+@property (nonatomic) NSString* _Nonnull rpcUrl;
+@property (nonatomic) int64_t latency;
+@property (nonatomic) int64_t height;
 @end
 
 @interface BaseTokenInfo : NSObject <goSeqRefInterface> {
@@ -213,14 +280,26 @@ FOUNDATION_EXPORT BaseBalance* _Nullable BaseEmptyBalance(void);
 // skipped function MapListConcurrentStringToString with unsupported parameter or return types
 
 
+// skipped function Max with unsupported parameter or return types
+
+
 // skipped function MaxBigInt with unsupported parameter or return types
 
+
+// skipped function Min with unsupported parameter or return types
+
+
+FOUNDATION_EXPORT BaseReachMonitor* _Nullable BaseNewReachMonitorWithReachability(id<BaseRpcReachability> _Nullable reachability);
 
 @class BaseAccount;
 
 @class BaseAddressUtil;
 
 @class BaseChain;
+
+@class BaseReachMonitorDelegate;
+
+@class BaseRpcReachability;
 
 @class BaseToken;
 
@@ -298,6 +377,34 @@ which can only be passed as strings separated by ","
 @return the hex hash string
  */
 - (NSString* _Nonnull)sendRawTransaction:(NSString* _Nullable)signedTx error:(NSError* _Nullable* _Nullable)error;
+@end
+
+@interface BaseReachMonitorDelegate : NSObject <goSeqRefInterface, BaseReachMonitorDelegate> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+/**
+ * A node request failed
+ */
+- (void)reachabilityDidFailNode:(BaseReachMonitor* _Nullable)tester latency:(BaseRpcLatency* _Nullable)latency;
+/**
+ * The entire network connection test task is over
+@param overview Overview of the results of all connection tests
+ */
+- (void)reachabilityDidFinish:(BaseReachMonitor* _Nullable)tester overview:(NSString* _Nullable)overview;
+/**
+ * A node has received a response
+ */
+- (void)reachabilityDidReceiveNode:(BaseReachMonitor* _Nullable)tester latency:(BaseRpcLatency* _Nullable)latency;
+@end
+
+@interface BaseRpcReachability : NSObject <goSeqRefInterface, BaseRpcReachability> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (BaseRpcLatency* _Nullable)latencyOf:(NSString* _Nullable)rpc timeout:(int64_t)timeout error:(NSError* _Nullable* _Nullable)error;
 @end
 
 @interface BaseToken : NSObject <goSeqRefInterface, BaseToken> {
