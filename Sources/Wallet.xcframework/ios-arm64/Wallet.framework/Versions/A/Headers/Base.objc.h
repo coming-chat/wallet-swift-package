@@ -100,16 +100,16 @@ which can only be passed as strings separated by ","
 /**
  * A node request failed
  */
-- (void)reachabilityDidFailNode:(BaseReachMonitor* _Nullable)tester latency:(BaseRpcLatency* _Nullable)latency;
+- (void)reachabilityDidFailNode:(BaseReachMonitor* _Nullable)monitor latency:(BaseRpcLatency* _Nullable)latency;
 /**
  * The entire network connection test task is over
 @param overview Overview of the results of all connection tests
  */
-- (void)reachabilityDidFinish:(BaseReachMonitor* _Nullable)tester overview:(NSString* _Nullable)overview;
+- (void)reachabilityDidFinish:(BaseReachMonitor* _Nullable)monitor overview:(NSString* _Nullable)overview;
 /**
  * A node has received a response
  */
-- (void)reachabilityDidReceiveNode:(BaseReachMonitor* _Nullable)tester latency:(BaseRpcLatency* _Nullable)latency;
+- (void)reachabilityDidReceiveNode:(BaseReachMonitor* _Nullable)monitor latency:(BaseRpcLatency* _Nullable)latency;
 @end
 
 @protocol BaseRpcReachability <NSObject>
@@ -387,16 +387,16 @@ which can only be passed as strings separated by ","
 /**
  * A node request failed
  */
-- (void)reachabilityDidFailNode:(BaseReachMonitor* _Nullable)tester latency:(BaseRpcLatency* _Nullable)latency;
+- (void)reachabilityDidFailNode:(BaseReachMonitor* _Nullable)monitor latency:(BaseRpcLatency* _Nullable)latency;
 /**
  * The entire network connection test task is over
 @param overview Overview of the results of all connection tests
  */
-- (void)reachabilityDidFinish:(BaseReachMonitor* _Nullable)tester overview:(NSString* _Nullable)overview;
+- (void)reachabilityDidFinish:(BaseReachMonitor* _Nullable)monitor overview:(NSString* _Nullable)overview;
 /**
  * A node has received a response
  */
-- (void)reachabilityDidReceiveNode:(BaseReachMonitor* _Nullable)tester latency:(BaseRpcLatency* _Nullable)latency;
+- (void)reachabilityDidReceiveNode:(BaseReachMonitor* _Nullable)monitor latency:(BaseRpcLatency* _Nullable)latency;
 @end
 
 @interface BaseRpcReachability : NSObject <goSeqRefInterface, BaseRpcReachability> {

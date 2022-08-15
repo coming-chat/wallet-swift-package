@@ -9,6 +9,7 @@
 //	github.com/coming-chat/wallet-SDK/core/cosmos
 //	github.com/coming-chat/wallet-SDK/core/doge
 //	github.com/coming-chat/wallet-SDK/core/solana
+//	github.com/coming-chat/wallet-SDK/core/aptos
 //	github.com/coming-chat/wallet-SDK/core/multi-signature-check
 //	go-defi-sdk/util
 //	go-defi-sdk/core/crossswap/execution
@@ -27,6 +28,7 @@
 #include "Cosmos.objc.h"
 #include "Doge.objc.h"
 #include "Solana.objc.h"
+#include "Aptos.objc.h"
 #include "Multi_signature_check.objc.h"
 #include "Util.objc.h"
 #include "Execution.objc.h"
