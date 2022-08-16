@@ -10,6 +10,7 @@
 #include "ref.h"
 #include "Universe.objc.h"
 
+#include "Aptos.objc.h"
 #include "Btc.objc.h"
 #include "Cosmos.objc.h"
 #include "Doge.objc.h"
@@ -39,6 +40,10 @@
  * Deprecated: GetAddress is deprecated. Please use wallet.PolkaAccount(network).Address() instead
  */
 - (NSString* _Nonnull)getAddress:(long)network error:(NSError* _Nullable* _Nullable)error;
+/**
+ * Get or create the ethereum account.
+ */
+- (AptosAccount* _Nullable)getOrCreateAptosAccount:(NSError* _Nullable* _Nullable)error;
 /**
  * Get or create the bitcoin account with specified chainnet.
  */
@@ -76,6 +81,8 @@
  * Deprecated: GetPublicKeyHex is deprecated. Please use wallet.PolkaAccount(network).PublicKey() instead
  */
 - (NSString* _Nonnull)getPublicKeyHex:(NSError* _Nullable* _Nullable)error;
+- (BOOL)isKeystoreWallet;
+- (BOOL)isMnemonicWallet;
 /**
  * Deprecated: Sign is deprecated. Please use wallet.PolkaAccount(network).Sign() instead
  */
