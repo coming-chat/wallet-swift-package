@@ -36,6 +36,7 @@
 @class TypesTokenListInfoReq;
 @class TypesTokenListRes;
 @class TypesToolDetail;
+@class TypesTxBaseInfo;
 @class TypesTxData;
 @class TypesTxStatusReq;
 @class TypesTxStatusRes;
@@ -310,6 +311,7 @@ success means swap success, and dst balance transferred to receiver account
 @property (nonatomic) NSString* _Nonnull reason;
 @property (nonatomic) int64_t updateTime;
 @property (nonatomic) NSString* _Nonnull txHash;
+@property (nonatomic) TypesTxBaseInfo* _Nullable dstTxInfo;
 @end
 
 /**
@@ -411,6 +413,17 @@ user should follow steps, sign and send transaction
 - (nonnull instancetype)init;
 @property (nonatomic) NSString* _Nonnull name;
 @property (nonatomic) NSString* _Nonnull logoURI;
+@end
+
+@interface TypesTxBaseInfo : NSObject <goSeqRefInterface> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nonnull instancetype)init;
+@property (nonatomic) NSString* _Nonnull txHash;
+@property (nonatomic) long blockNumber;
+@property (nonatomic) long blockTimestamp;
 @end
 
 @interface TypesTxData : NSObject <goSeqRefInterface> {
