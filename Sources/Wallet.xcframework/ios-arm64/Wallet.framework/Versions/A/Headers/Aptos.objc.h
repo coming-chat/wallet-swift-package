@@ -14,6 +14,7 @@
 
 @class AptosAccount;
 @class AptosChain;
+@class AptosRestReachability;
 @class AptosToken;
 @class AptosUtil;
 
@@ -75,6 +76,18 @@
 @return the hex hash string
  */
 - (NSString* _Nonnull)sendRawTransaction:(NSString* _Nullable)signedTx error:(NSError* _Nullable* _Nullable)error;
+@end
+
+@interface AptosRestReachability : NSObject <goSeqRefInterface, BaseRpcReachability> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nullable instancetype)init;
+/**
+ * @return latency (ms) of rpc query blockNumber. -1 means the connection failed.
+ */
+- (BaseRpcLatency* _Nullable)latencyOf:(NSString* _Nullable)rpc timeout:(int64_t)timeout error:(NSError* _Nullable* _Nullable)error;
 @end
 
 @interface AptosToken : NSObject <goSeqRefInterface, BaseToken> {
@@ -145,6 +158,8 @@ FOUNDATION_EXPORT BOOL AptosIsValidAddress(NSString* _Nullable address);
 FOUNDATION_EXPORT AptosAccount* _Nullable AptosNewAccountWithMnemonic(NSString* _Nullable mnemonic, NSError* _Nullable* _Nullable error);
 
 FOUNDATION_EXPORT AptosChain* _Nullable AptosNewChainWithRestUrl(NSString* _Nullable restUrl);
+
+FOUNDATION_EXPORT AptosRestReachability* _Nullable AptosNewRestReachability(void);
 
 FOUNDATION_EXPORT AptosToken* _Nullable AptosNewToken(AptosChain* _Nullable chain);
 
