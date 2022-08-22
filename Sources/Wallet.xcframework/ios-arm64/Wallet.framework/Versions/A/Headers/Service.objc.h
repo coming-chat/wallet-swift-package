@@ -34,7 +34,7 @@
 /**
  * GetAllToken get all tokens from api server
  */
-- (TypesGetAllTokenV2Res* _Nullable)getAllToken:(TypesGetAllTokenV2Req* _Nullable)input error:(NSError* _Nullable* _Nullable)error;
+- (TypesGetAllTokenV2Res* _Nullable)getAllToken:(long)page error:(NSError* _Nullable* _Nullable)error;
 /**
  * GetChainTokens get all avaliable chains from api server
  */
@@ -70,7 +70,7 @@ so we use generated swapId to represent the swap
 /**
  * GetTokens get all avaliable tokens from one chain
  */
-- (TypesTokenListRes* _Nullable)getTokens:(NSString* _Nullable)chain error:(NSError* _Nullable* _Nullable)error;
+- (TypesTokenListRes* _Nullable)getTokens:(NSString* _Nullable)chain page:(long)page pageSize:(long)pageSize error:(NSError* _Nullable* _Nullable)error;
 /**
  * GetTxStatus query evm tx status, isPending/status
  */
