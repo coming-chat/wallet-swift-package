@@ -89,6 +89,10 @@
 
 // skipped field AllToken.Chains with unsupported type: []go-defi-sdk/core/crossswap/types.ChainInfo
 
+- (TypesChainInfo* _Nullable)indexChains:(long)i;
+- (TypesTokenInfo* _Nullable)indexTokens:(long)i;
+- (long)sizeChains;
+- (long)sizeTokens;
 @end
 
 @interface TypesChainInfo : NSObject <goSeqRefInterface> {
@@ -190,10 +194,11 @@ connections struct like ["chainA":{"tokens": [tokenAA, tokenAB]}, "chainB": {"to
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
 - (nonnull instancetype)init;
-// skipped field Connectionv3Res.AllToken with unsupported type: go-defi-sdk/core/crossswap/types.AllToken
-
+@property (nonatomic) TypesAllToken* _Nullable allToken;
 // skipped field Connectionv3Res.Chains with unsupported type: []go-defi-sdk/core/crossswap/types.ChainInfo
 
+- (TypesChainInfo* _Nullable)index:(long)i;
+- (long)size;
 @end
 
 @interface TypesCost : NSObject <goSeqRefInterface> {
@@ -298,6 +303,8 @@ connections struct like ["chainA":{"tokens": [tokenAA, tokenAB]}, "chainB": {"to
 - (nonnull instancetype)init;
 // skipped field GetChainTokensRes.Chains with unsupported type: []go-defi-sdk/core/crossswap/types.ChainInfo
 
+- (TypesChainInfo* _Nullable)index:(long)i;
+- (long)size;
 @end
 
 @interface TypesQuoteReq : NSObject <goSeqRefInterface> {
@@ -363,6 +370,8 @@ string number base is 10
 @property (nonatomic) long totalPage;
 // skipped field SearchTokenRes.Tokens with unsupported type: []go-defi-sdk/core/crossswap/types.TokenInfo
 
+- (TypesTokenInfo* _Nullable)index:(long)i;
+- (long)size;
 @end
 
 @interface TypesStatusReq : NSObject <goSeqRefInterface> {
