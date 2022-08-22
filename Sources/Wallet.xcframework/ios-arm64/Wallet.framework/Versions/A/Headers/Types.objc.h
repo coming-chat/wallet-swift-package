@@ -13,19 +13,27 @@
 
 @class TypesAccountNonceRes;
 @class TypesAction;
+@class TypesAllToken;
 @class TypesChainInfo;
 @class TypesChainListRes;
 @class TypesConfig;
 @class TypesConnection;
 @class TypesConnectionsReq;
 @class TypesConnectionsRes;
+@class TypesConnectionv3Res;
 @class TypesCost;
 @class TypesCurrencyBaseInfo;
 @class TypesEstimate;
 @class TypesEstimateGasReq;
 @class TypesEstimateGasRes;
+@class TypesGetAllTokenV2Req;
+@class TypesGetAllTokenV2Res;
+@class TypesGetChainTokensReq;
+@class TypesGetChainTokensRes;
 @class TypesQuoteReq;
 @class TypesQuoteRes;
+@class TypesSearchTokenReq;
+@class TypesSearchTokenRes;
 @class TypesStatusReq;
 @class TypesStatusRes;
 @class TypesStep;
@@ -69,6 +77,18 @@
 @property (nonatomic) NSString* _Nonnull fromAddress;
 @property (nonatomic) NSString* _Nonnull toAddress;
 @property (nonatomic) float slippage;
+@end
+
+@interface TypesAllToken : NSObject <goSeqRefInterface> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nonnull instancetype)init;
+// skipped field AllToken.Tokens with unsupported type: []go-defi-sdk/core/crossswap/types.TokenInfo
+
+// skipped field AllToken.Chains with unsupported type: []go-defi-sdk/core/crossswap/types.ChainInfo
+
 @end
 
 @interface TypesChainInfo : NSObject <goSeqRefInterface> {
@@ -164,6 +184,18 @@ connections struct like ["chainA":{"tokens": [tokenAA, tokenAB]}, "chainB": {"to
 - (long)size;
 @end
 
+@interface TypesConnectionv3Res : NSObject <goSeqRefInterface> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nonnull instancetype)init;
+// skipped field Connectionv3Res.AllToken with unsupported type: go-defi-sdk/core/crossswap/types.AllToken
+
+// skipped field Connectionv3Res.Chains with unsupported type: []go-defi-sdk/core/crossswap/types.ChainInfo
+
+@end
+
 @interface TypesCost : NSObject <goSeqRefInterface> {
 }
 @property(strong, readonly) _Nonnull id _ref;
@@ -228,6 +260,46 @@ connections struct like ["chainA":{"tokens": [tokenAA, tokenAB]}, "chainB": {"to
 
 @end
 
+@interface TypesGetAllTokenV2Req : NSObject <goSeqRefInterface> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nonnull instancetype)init;
+@property (nonatomic) long page;
+@end
+
+@interface TypesGetAllTokenV2Res : NSObject <goSeqRefInterface> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nonnull instancetype)init;
+@property (nonatomic) long totalPage;
+@property (nonatomic) TypesAllToken* _Nullable allToken;
+@end
+
+@interface TypesGetChainTokensReq : NSObject <goSeqRefInterface> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nonnull instancetype)init;
+@property (nonatomic) NSString* _Nonnull chainName;
+@property (nonatomic) long page;
+@property (nonatomic) long pageSize;
+@end
+
+@interface TypesGetChainTokensRes : NSObject <goSeqRefInterface> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nonnull instancetype)init;
+// skipped field GetChainTokensRes.Chains with unsupported type: []go-defi-sdk/core/crossswap/types.ChainInfo
+
+@end
+
 @interface TypesQuoteReq : NSObject <goSeqRefInterface> {
 }
 @property(strong, readonly) _Nonnull id _ref;
@@ -269,6 +341,28 @@ string number base is 10
 - (BOOL)setGasPrice:(NSString* _Nullable)chain maxPriorityFee:(NSString* _Nullable)maxPriorityFee maxFee:(NSString* _Nullable)maxFee error:(NSError* _Nullable* _Nullable)error;
 - (long)sizePaths;
 - (long)sizeSteps;
+@end
+
+@interface TypesSearchTokenReq : NSObject <goSeqRefInterface> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nonnull instancetype)init;
+@property (nonatomic) NSString* _Nonnull chainName;
+@property (nonatomic) NSString* _Nonnull content;
+@property (nonatomic) long page;
+@end
+
+@interface TypesSearchTokenRes : NSObject <goSeqRefInterface> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nonnull instancetype)init;
+@property (nonatomic) long totalPage;
+// skipped field SearchTokenRes.Tokens with unsupported type: []go-defi-sdk/core/crossswap/types.TokenInfo
+
 @end
 
 @interface TypesStatusReq : NSObject <goSeqRefInterface> {
@@ -358,9 +452,11 @@ user should follow steps, sign and send transaction
 @property (nonatomic) NSString* _Nonnull symbol;
 @property (nonatomic) long decimals;
 @property (nonatomic) long chainId;
+@property (nonatomic) NSString* _Nonnull chainName;
 @property (nonatomic) NSString* _Nonnull name;
 @property (nonatomic) NSString* _Nonnull logoURI;
 @property (nonatomic) NSString* _Nonnull priceUsd;
+@property (nonatomic) NSString* _Nonnull source;
 @end
 
 @interface TypesTokenInfoReq : NSObject <goSeqRefInterface> {
