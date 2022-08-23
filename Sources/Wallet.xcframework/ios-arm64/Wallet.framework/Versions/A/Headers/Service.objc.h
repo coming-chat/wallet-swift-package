@@ -32,21 +32,13 @@
  */
 - (TypesAccountNonceRes* _Nullable)getAccountNonce:(NSString* _Nullable)chain address:(NSString* _Nullable)address error:(NSError* _Nullable* _Nullable)error;
 /**
- * GetAllToken get all tokens from api server
- */
-- (TypesGetAllTokenV2Res* _Nullable)getAllToken:(long)page error:(NSError* _Nullable* _Nullable)error;
-/**
- * GetChainTokens get all avaliable chains from api server
- */
-- (TypesGetChainTokensRes* _Nullable)getChainTokens:(TypesGetChainTokensReq* _Nullable)input error:(NSError* _Nullable* _Nullable)error;
-/**
  * GetChains get all avaliable chains from api server
  */
-- (TypesChainListRes* _Nullable)getChains:(NSError* _Nullable* _Nullable)error;
+- (TypesChainListRes* _Nullable)getChains:(TypesGetChainTokensReq* _Nullable)input error:(NSError* _Nullable* _Nullable)error;
 /**
  * GetConnections get tokens that req token can swap to
  */
-- (TypesConnectionv3Res* _Nullable)getConnections:(NSString* _Nullable)fromChain fromToken:(NSString* _Nullable)fromToken fromTokenAddress:(NSString* _Nullable)fromTokenAddress toChain:(NSString* _Nullable)toChain error:(NSError* _Nullable* _Nullable)error;
+- (TypesChainListRes* _Nullable)getConnections:(NSString* _Nullable)fromChain fromToken:(NSString* _Nullable)fromToken fromTokenAddress:(NSString* _Nullable)fromTokenAddress toChain:(NSString* _Nullable)toChain error:(NSError* _Nullable* _Nullable)error;
 /**
  * GetQuote get swap staps & estimate result
  */
@@ -78,11 +70,11 @@ so we use generated swapId to represent the swap
 /**
  * SearchConnectionToken search connection tokens
  */
-- (TypesSearchConnectTokenRes* _Nullable)searchConnectionToken:(TypesSearchConnectTokenReq* _Nullable)input error:(NSError* _Nullable* _Nullable)error;
+- (TypesChainListRes* _Nullable)searchConnectionToken:(TypesSearchConnectTokenReq* _Nullable)input error:(NSError* _Nullable* _Nullable)error;
 /**
  * SearchToken search one token
  */
-- (TypesSearchTokenRes* _Nullable)searchToken:(TypesSearchTokenReq* _Nullable)input error:(NSError* _Nullable* _Nullable)error;
+- (TypesChainListRes* _Nullable)searchToken:(TypesSearchTokenReq* _Nullable)input error:(NSError* _Nullable* _Nullable)error;
 @end
 
 @interface ServiceChainService : NSObject <goSeqRefInterface> {
