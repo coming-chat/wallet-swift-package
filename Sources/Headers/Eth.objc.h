@@ -38,10 +38,25 @@
 @class EthTransactionByHashResult;
 @class EthUrlParam;
 @class EthUtil;
+@protocol EthIChain;
+@class EthIChain;
 @protocol EthJsonable;
 @class EthJsonable;
 @protocol EthTokenProtocol;
 @class EthTokenProtocol;
+
+@protocol EthIChain <NSObject>
+- (BaseBalance* _Nullable)balanceOfAccount:(id<BaseAccount> _Nullable)account error:(NSError* _Nullable* _Nullable)error;
+- (BaseBalance* _Nullable)balanceOfAddress:(NSString* _Nullable)address error:(NSError* _Nullable* _Nullable)error;
+- (BaseBalance* _Nullable)balanceOfPublicKey:(NSString* _Nullable)publicKey error:(NSError* _Nullable* _Nullable)error;
+- (NSString* _Nonnull)batchFetchTransactionStatus:(NSString* _Nullable)hashListString;
+- (BaseTransactionDetail* _Nullable)fetchTransactionDetail:(NSString* _Nullable)hash error:(NSError* _Nullable* _Nullable)error;
+- (long)fetchTransactionStatus:(NSString* _Nullable)hash;
+- (EthEthChain* _Nullable)getEthChain:(NSError* _Nullable* _Nullable)error;
+- (id<BaseToken> _Nullable)mainToken;
+- (NSString* _Nonnull)sendRawTransaction:(NSString* _Nullable)signedTx error:(NSError* _Nullable* _Nullable)error;
+- (NSString* _Nonnull)submitTransactionData:(id<BaseAccount> _Nullable)account to:(NSString* _Nullable)to data:(NSData* _Nullable)data value:(NSString* _Nullable)value error:(NSError* _Nullable* _Nullable)error;
+@end
 
 @protocol EthJsonable <NSObject>
 /**
@@ -181,7 +196,7 @@
 - (EthTransaction* _Nullable)transferToTransaction;
 @end
 
-@interface EthChain : NSObject <goSeqRefInterface, BaseChain> {
+@interface EthChain : NSObject <goSeqRefInterface, BaseChain, EthIChain> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -216,6 +231,17 @@ which can only be passed as strings separated by ","
  */
 - (NSString* _Nonnull)callContract:(EthCallMsg* _Nullable)msg blockNumber:(int64_t)blockNumber error:(NSError* _Nullable* _Nullable)error;
 - (NSString* _Nonnull)chainId:(NSError* _Nullable* _Nullable)error;
+/**
+ * 保证用户发 erc20 的红包时，红包合约可以有权限操作用户的资产
+@param account 要发红包的用户的账号，也许需要用到私钥来发起授权交易
+@param chain evm 链
+@param erc20Contract 要用作发红包的币种
+@param coins 如果需要发起新授权，指定要授权的币个数 default 10^6
+@param tokenAddress 代币地址
+@param minAmount 最低应 approve 的数量，即合约需要的 approve 数量
+@return 如果授权成功，不会返回错误，如果有新授权，会返回授权交易的 hash
+ */
+- (NSString* _Nonnull)ensureApprovedTokens:(EthAccount* _Nullable)account spender:(NSString* _Nullable)spender coins:(long)coins tokenAddress:(NSString* _Nullable)tokenAddress minAmount:(NSString* _Nullable)minAmount error:(NSError* _Nullable* _Nullable)error;
 - (id<EthTokenProtocol> _Nullable)erc20Token:(NSString* _Nullable)contractAddress;
 - (BaseOptionalString* _Nullable)estimateGasLimit:(EthCallMsg* _Nullable)msg error:(NSError* _Nullable* _Nullable)error;
 - (EthRedPacketDetail* _Nullable)fetchRedPacketCreationDetail:(NSString* _Nullable)hash error:(NSError* _Nullable* _Nullable)error;
@@ -228,6 +254,7 @@ Support normal or erc20 transfer
  * Fetch transaction status through transaction hash
  */
 - (long)fetchTransactionStatus:(NSString* _Nullable)hash;
+- (EthEthChain* _Nullable)getEthChain:(NSError* _Nullable* _Nullable)error;
 - (NSString* _Nonnull)latestBlockNumber:(NSError* _Nullable* _Nullable)error;
 - (NSString* _Nonnull)latestCallContract:(EthCallMsg* _Nullable)msg error:(NSError* _Nullable* _Nullable)error;
 - (id<EthTokenProtocol> _Nullable)mainEthToken;
@@ -249,6 +276,7 @@ Support normal or erc20 transfer
 - (BaseOptionalString* _Nullable)signTransaction:(NSString* _Nullable)privateKey transaction:(EthTransaction* _Nullable)transaction error:(NSError* _Nullable* _Nullable)error;
 - (BaseOptionalString* _Nullable)signTransactionWithAccount:(id<BaseAccount> _Nullable)account transaction:(EthTransaction* _Nullable)transaction error:(NSError* _Nullable* _Nullable)error;
 - (BaseOptionalString* _Nullable)signWithPrivateKeyData:(NSData* _Nullable)privateKeyData transaction:(EthTransaction* _Nullable)transaction error:(NSError* _Nullable* _Nullable)error;
+- (NSString* _Nonnull)submitTransactionData:(id<BaseAccount> _Nullable)account to:(NSString* _Nullable)to data:(NSData* _Nullable)data value:(NSString* _Nullable)value error:(NSError* _Nullable* _Nullable)error;
 - (BaseOptionalString* _Nullable)suggestGasPrice:(NSError* _Nullable* _Nullable)error;
 /**
  * The gas price use average grade default.
@@ -650,10 +678,14 @@ Possible values: [ethereum, ethereum_classic, binance_smart_chain, polygon, zksy
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
 /**
  * 结束红包领取 的操作
+
+Deprecated: use base.NewRedPacketActionClose
  */
 - (nullable instancetype)initClose:(int64_t)packetId creator:(NSString* _Nullable)creator;
 /**
  * 用户发红包 的操作
+
+Deprecated: use base.NewRedPacketActionCreate
  */
 - (nullable instancetype)initCreate:(NSString* _Nullable)erc20TokenAddress count:(long)count amount:(NSString* _Nullable)amount;
 // skipped constructor RedPacketAction.NewRedPacketActionOpen with unsupported parameter or return types
@@ -668,6 +700,8 @@ Possible values: [ethereum, ethereum_classic, binance_smart_chain, polygon, zksy
 @param erc20Contract 要用作发红包的币种
 @param coins 如果需要发起新授权，指定要授权的币个数 default 10^6
 @return 如果授权成功，不会返回错误，如果有新授权，会返回授权交易的 hash
+
+Deprecated: use chain.EnsureApprovedTokens
  */
 - (NSString* _Nonnull)ensureApprovedTokens:(EthAccount* _Nullable)account chain:(EthChain* _Nullable)chain spender:(NSString* _Nullable)spender coins:(long)coins error:(NSError* _Nullable* _Nullable)error;
 - (NSString* _Nonnull)estimateAmount;
@@ -675,16 +709,27 @@ Possible values: [ethereum, ethereum_classic, binance_smart_chain, polygon, zksy
  * @param fromAddress 要调用红包业务的操作者
 @param contractAddress 红包合约地址
 @param chain 要发红包的链
+
+Deprecated: use NewRedPacketContract() get base.RedPacketContract, and SendTransaction(base.Account, *base.RedPacketAction)
  */
 - (EthTransaction* _Nullable)transactionFrom:(NSString* _Nullable)fromAddress contractAddress:(NSString* _Nullable)contractAddress chain:(EthChain* _Nullable)chain error:(NSError* _Nullable* _Nullable)error;
 @end
 
+/**
+ * Deprecated: use base.RedPacketDetail
+ */
 @interface EthRedPacketDetail : NSObject <goSeqRefInterface, EthJsonable> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+/**
+ * Deprecated: use base.NewRedPacketDetail
+ */
 - (nullable instancetype)init;
+/**
+ * Deprecated: use base.NewRedPacketDetailWithJsonString
+ */
 - (nullable instancetype)initWithJsonString:(NSString* _Nullable)s;
 @property (nonatomic) BaseTransactionDetail* _Nullable transactionDetail;
 @property (nonatomic) NSString* _Nonnull amountName;
@@ -896,19 +941,29 @@ FOUNDATION_EXPORT EthRSS3Fetcher* _Nullable EthNewRSS3FetcherWithNetwork(NSStrin
 
 /**
  * 结束红包领取 的操作
+
+Deprecated: use base.NewRedPacketActionClose
  */
 FOUNDATION_EXPORT EthRedPacketAction* _Nullable EthNewRedPacketActionClose(int64_t packetId, NSString* _Nullable creator, NSError* _Nullable* _Nullable error);
 
 /**
  * 用户发红包 的操作
+
+Deprecated: use base.NewRedPacketActionCreate
  */
 FOUNDATION_EXPORT EthRedPacketAction* _Nullable EthNewRedPacketActionCreate(NSString* _Nullable erc20TokenAddress, long count, NSString* _Nullable amount, NSError* _Nullable* _Nullable error);
 
 // skipped function NewRedPacketActionOpen with unsupported parameter or return types
 
 
+/**
+ * Deprecated: use base.NewRedPacketDetail
+ */
 FOUNDATION_EXPORT EthRedPacketDetail* _Nullable EthNewRedPacketDetail(void);
 
+/**
+ * Deprecated: use base.NewRedPacketDetailWithJsonString
+ */
 FOUNDATION_EXPORT EthRedPacketDetail* _Nullable EthNewRedPacketDetailWithJsonString(NSString* _Nullable s, NSError* _Nullable* _Nullable error);
 
 FOUNDATION_EXPORT EthRpcReachability* _Nullable EthNewRpcReachability(void);
@@ -940,9 +995,28 @@ FOUNDATION_EXPORT NSString* _Nonnull EthTransformEIP55Address(NSString* _Nullabl
 
 FOUNDATION_EXPORT BOOL EthVerifySignature(NSString* _Nullable pubkey, NSString* _Nullable message, NSString* _Nullable signedMsg);
 
+@class EthIChain;
+
 @class EthJsonable;
 
 @class EthTokenProtocol;
+
+@interface EthIChain : NSObject <goSeqRefInterface, EthIChain> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (BaseBalance* _Nullable)balanceOfAccount:(id<BaseAccount> _Nullable)account error:(NSError* _Nullable* _Nullable)error;
+- (BaseBalance* _Nullable)balanceOfAddress:(NSString* _Nullable)address error:(NSError* _Nullable* _Nullable)error;
+- (BaseBalance* _Nullable)balanceOfPublicKey:(NSString* _Nullable)publicKey error:(NSError* _Nullable* _Nullable)error;
+- (NSString* _Nonnull)batchFetchTransactionStatus:(NSString* _Nullable)hashListString;
+- (BaseTransactionDetail* _Nullable)fetchTransactionDetail:(NSString* _Nullable)hash error:(NSError* _Nullable* _Nullable)error;
+- (long)fetchTransactionStatus:(NSString* _Nullable)hash;
+- (EthEthChain* _Nullable)getEthChain:(NSError* _Nullable* _Nullable)error;
+- (id<BaseToken> _Nullable)mainToken;
+- (NSString* _Nonnull)sendRawTransaction:(NSString* _Nullable)signedTx error:(NSError* _Nullable* _Nullable)error;
+- (NSString* _Nonnull)submitTransactionData:(id<BaseAccount> _Nullable)account to:(NSString* _Nullable)to data:(NSData* _Nullable)data value:(NSString* _Nullable)value error:(NSError* _Nullable* _Nullable)error;
+@end
 
 /**
  * 支持 对象 和 json 字符串 相互转换
