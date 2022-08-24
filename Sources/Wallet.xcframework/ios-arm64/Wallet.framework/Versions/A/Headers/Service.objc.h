@@ -34,11 +34,11 @@
 /**
  * GetChains get all avaliable chains from api server
  */
-- (TypesChainListRes* _Nullable)getChains:(TypesGetChainTokensReq* _Nullable)input error:(NSError* _Nullable* _Nullable)error;
+- (TypesChainListRes* _Nullable)getChains:(NSError* _Nullable* _Nullable)error;
 /**
  * GetConnections get tokens that req token can swap to
  */
-- (TypesChainListRes* _Nullable)getConnections:(NSString* _Nullable)fromChain fromToken:(NSString* _Nullable)fromToken fromTokenAddress:(NSString* _Nullable)fromTokenAddress toChain:(NSString* _Nullable)toChain error:(NSError* _Nullable* _Nullable)error;
+- (TypesChainListRes* _Nullable)getConnections:(NSString* _Nullable)fromChain fromToken:(NSString* _Nullable)fromToken toChain:(NSString* _Nullable)toChain error:(NSError* _Nullable* _Nullable)error;
 /**
  * GetQuote get swap staps & estimate result
  */
@@ -62,19 +62,11 @@ so we use generated swapId to represent the swap
 /**
  * GetTokens get all avaliable tokens from one chain
  */
-- (TypesTokenListRes* _Nullable)getTokens:(NSString* _Nullable)chain page:(long)page pageSize:(long)pageSize error:(NSError* _Nullable* _Nullable)error;
+- (TypesTokenListRes* _Nullable)getTokens:(NSString* _Nullable)chain error:(NSError* _Nullable* _Nullable)error;
 /**
  * GetTxStatus query evm tx status, isPending/status
  */
 - (TypesTxStatusRes* _Nullable)getTxStatus:(NSString* _Nullable)chain txHash:(NSString* _Nullable)txHash error:(NSError* _Nullable* _Nullable)error;
-/**
- * SearchConnectionToken search connection tokens
- */
-- (TypesChainListRes* _Nullable)searchConnectionToken:(TypesSearchConnectTokenReq* _Nullable)input error:(NSError* _Nullable* _Nullable)error;
-/**
- * SearchToken search one token
- */
-- (TypesChainListRes* _Nullable)searchToken:(TypesSearchTokenReq* _Nullable)input error:(NSError* _Nullable* _Nullable)error;
 @end
 
 @interface ServiceChainService : NSObject <goSeqRefInterface> {
@@ -102,8 +94,6 @@ so we use generated swapId to represent the swap
 - (void)useLocalApi;
 - (void)useTestApi;
 @end
-
-FOUNDATION_EXPORT ServiceApiService* _Nullable ServiceGetApiService(void);
 
 FOUNDATION_EXPORT ServiceApiService* _Nullable ServiceGetApiServiceInstance(void);
 
