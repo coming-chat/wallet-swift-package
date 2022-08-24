@@ -24,6 +24,7 @@
 
 @protocol RedpacketRedPacketContract <NSObject>
 - (NSString* _Nonnull)estimateFee:(RedpacketRedPacketAction* _Nullable)p0 error:(NSError* _Nullable* _Nullable)error;
+- (NSString* _Nonnull)estimateGasFee:(id<BaseAccount> _Nullable)p0 p1:(RedpacketRedPacketAction* _Nullable)p1 error:(NSError* _Nullable* _Nullable)error;
 - (RedpacketRedPacketDetail* _Nullable)fetchRedPacketCreationDetail:(NSString* _Nullable)hash error:(NSError* _Nullable* _Nullable)error;
 - (NSString* _Nonnull)sendTransaction:(id<BaseAccount> _Nullable)p0 p1:(RedpacketRedPacketAction* _Nullable)p1 error:(NSError* _Nullable* _Nullable)error;
 @end
@@ -80,6 +81,7 @@
 @property (nonatomic) BaseTransactionDetail* _Nullable transactionDetail;
 @property (nonatomic) NSString* _Nonnull amountName;
 @property (nonatomic) int16_t amountDecimal;
+@property (nonatomic) NSString* _Nonnull redPacketAmount;
 - (NSString* _Nonnull)jsonString;
 @end
 
@@ -139,6 +141,7 @@ FOUNDATION_EXPORT RedpacketRedPacketDetail* _Nullable RedpacketNewRedPacketDetai
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
 - (NSString* _Nonnull)estimateFee:(RedpacketRedPacketAction* _Nullable)p0 error:(NSError* _Nullable* _Nullable)error;
+- (NSString* _Nonnull)estimateGasFee:(id<BaseAccount> _Nullable)p0 p1:(RedpacketRedPacketAction* _Nullable)p1 error:(NSError* _Nullable* _Nullable)error;
 - (RedpacketRedPacketDetail* _Nullable)fetchRedPacketCreationDetail:(NSString* _Nullable)hash error:(NSError* _Nullable* _Nullable)error;
 - (NSString* _Nonnull)sendTransaction:(id<BaseAccount> _Nullable)p0 p1:(RedpacketRedPacketAction* _Nullable)p1 error:(NSError* _Nullable* _Nullable)error;
 @end
