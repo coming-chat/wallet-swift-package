@@ -99,6 +99,8 @@
 FOUNDATION_EXPORT const int64_t RedpacketAptosDecimal;
 FOUNDATION_EXPORT NSString* _Nonnull const RedpacketAptosName;
 FOUNDATION_EXPORT NSString* _Nonnull const RedpacketAptosSymbol;
+FOUNDATION_EXPORT NSString* _Nonnull const RedpacketChainTypeAptos;
+FOUNDATION_EXPORT NSString* _Nonnull const RedpacketChainTypeEth;
 FOUNDATION_EXPORT const int64_t RedpacketGasPrice;
 FOUNDATION_EXPORT const int64_t RedpacketMaxGasAmount;
 FOUNDATION_EXPORT NSString* _Nonnull const RedpacketRPAMethodClose;
@@ -122,6 +124,8 @@ FOUNDATION_EXPORT RedpacketRedPacketAction* _Nullable RedpacketNewRedPacketActio
 
 // skipped function NewRedPacketActionOpen with unsupported parameter or return types
 
+
+FOUNDATION_EXPORT id<RedpacketRedPacketContract> _Nullable RedpacketNewRedPacketContract(NSString* _Nullable chainType, id<BaseChain> _Nullable chain, NSString* _Nullable contractAddress, NSError* _Nullable* _Nullable error);
 
 FOUNDATION_EXPORT RedpacketRedPacketDetail* _Nullable RedpacketNewRedPacketDetail(void);
 
