@@ -11,6 +11,7 @@
 #include "Universe.objc.h"
 
 #include "Base.objc.h"
+#include "Aptosclient.objc.h"
 
 @class AptosAccount;
 @class AptosChain;
@@ -19,8 +20,6 @@
 @class AptosUtil;
 @protocol AptosIChain;
 @class AptosIChain;
-@protocol AptosTransactionOption;
-@class AptosTransactionOption;
 
 @protocol AptosIChain <NSObject>
 - (BaseBalance* _Nullable)balanceOfAccount:(id<BaseAccount> _Nullable)account error:(NSError* _Nullable* _Nullable)error;
@@ -29,17 +28,10 @@
 - (NSString* _Nonnull)batchFetchTransactionStatus:(NSString* _Nullable)hashListString;
 - (BaseTransactionDetail* _Nullable)fetchTransactionDetail:(NSString* _Nullable)hash error:(NSError* _Nullable* _Nullable)error;
 - (long)fetchTransactionStatus:(NSString* _Nullable)hash;
-// skipped method IChain.GetClient with unsupported parameter or return types
-
+- (AptosclientRestClient* _Nullable)getClient:(NSError* _Nullable* _Nullable)error;
 - (id<BaseToken> _Nullable)mainToken;
 - (NSString* _Nonnull)sendRawTransaction:(NSString* _Nullable)signedTx error:(NSError* _Nullable* _Nullable)error;
-// skipped method IChain.SubmitTransactionPayload with unsupported parameter or return types
-
-@end
-
-@protocol AptosTransactionOption <NSObject>
-// skipped method TransactionOption.Process with unsupported parameter or return types
-
+- (NSString* _Nonnull)submitTransactionPayload:(id<BaseAccount> _Nullable)account data:(NSData* _Nullable)data error:(NSError* _Nullable* _Nullable)error;
 @end
 
 @interface AptosAccount : NSObject <goSeqRefInterface, BaseAccount, BaseAddressUtil> {
@@ -94,16 +86,14 @@
  */
 - (BaseTransactionDetail* _Nullable)fetchTransactionDetail:(NSString* _Nullable)hash error:(NSError* _Nullable* _Nullable)error;
 - (long)fetchTransactionStatus:(NSString* _Nullable)hash;
-// skipped method Chain.GetClient with unsupported parameter or return types
-
+- (AptosclientRestClient* _Nullable)getClient:(NSError* _Nullable* _Nullable)error;
 - (id<BaseToken> _Nullable)mainToken;
 /**
  * Send the raw transaction on-chain
 @return the hex hash string
  */
 - (NSString* _Nonnull)sendRawTransaction:(NSString* _Nullable)signedTx error:(NSError* _Nullable* _Nullable)error;
-// skipped method Chain.SubmitTransactionPayload with unsupported parameter or return types
-
+- (NSString* _Nonnull)submitTransactionPayload:(id<BaseAccount> _Nullable)account data:(NSData* _Nullable)data error:(NSError* _Nullable* _Nullable)error;
 @end
 
 @interface AptosRestReachability : NSObject <goSeqRefInterface, BaseRpcReachability> {
@@ -198,8 +188,6 @@ FOUNDATION_EXPORT AptosUtil* _Nullable AptosNewUtil(NSError* _Nullable* _Nullabl
 
 @class AptosIChain;
 
-@class AptosTransactionOption;
-
 @interface AptosIChain : NSObject <goSeqRefInterface, AptosIChain> {
 }
 @property(strong, readonly) _Nonnull id _ref;
@@ -211,21 +199,10 @@ FOUNDATION_EXPORT AptosUtil* _Nullable AptosNewUtil(NSError* _Nullable* _Nullabl
 - (NSString* _Nonnull)batchFetchTransactionStatus:(NSString* _Nullable)hashListString;
 - (BaseTransactionDetail* _Nullable)fetchTransactionDetail:(NSString* _Nullable)hash error:(NSError* _Nullable* _Nullable)error;
 - (long)fetchTransactionStatus:(NSString* _Nullable)hash;
-// skipped method IChain.GetClient with unsupported parameter or return types
-
+- (AptosclientRestClient* _Nullable)getClient:(NSError* _Nullable* _Nullable)error;
 - (id<BaseToken> _Nullable)mainToken;
 - (NSString* _Nonnull)sendRawTransaction:(NSString* _Nullable)signedTx error:(NSError* _Nullable* _Nullable)error;
-// skipped method IChain.SubmitTransactionPayload with unsupported parameter or return types
-
-@end
-
-@interface AptosTransactionOption : NSObject <goSeqRefInterface, AptosTransactionOption> {
-}
-@property(strong, readonly) _Nonnull id _ref;
-
-- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
-// skipped method TransactionOption.Process with unsupported parameter or return types
-
+- (NSString* _Nonnull)submitTransactionPayload:(id<BaseAccount> _Nullable)account data:(NSData* _Nullable)data error:(NSError* _Nullable* _Nullable)error;
 @end
 
 #endif
