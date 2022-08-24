@@ -118,8 +118,8 @@ step.StatusParams.Error is util.ErrExecutionStopped, but step.status not change 
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
 - (nonnull instancetype)init;
-@property (nonatomic) TypesStep* _Nullable step;
 @property (nonatomic) NSString* _Nonnull status;
+@property (nonatomic) TypesStep* _Nullable step;
 @property (nonatomic) ExecutionStatusParams* _Nullable statusParams;
 @end
 
