@@ -82,6 +82,7 @@
 @property (nonatomic) NSString* _Nonnull amountName;
 @property (nonatomic) int16_t amountDecimal;
 @property (nonatomic) NSString* _Nonnull redPacketAmount;
+@property (nonatomic) NSString* _Nonnull chainName;
 - (NSString* _Nonnull)jsonString;
 @end
 
