@@ -50,7 +50,11 @@
 // skipped method RestClient.LedgerInfo with unsupported parameter or return types
 
 - (void)setVersion:(NSString* _Nullable)version;
+// skipped method RestClient.SimulateSignedBCSTransaction with unsupported parameter or return types
+
 // skipped method RestClient.SimulateTransaction with unsupported parameter or return types
+
+// skipped method RestClient.SubmitSignedBCSTransaction with unsupported parameter or return types
 
 // skipped method RestClient.SubmitTransaction with unsupported parameter or return types
 
