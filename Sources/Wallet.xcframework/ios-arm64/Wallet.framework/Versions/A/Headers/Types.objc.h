@@ -13,6 +13,7 @@
 
 @class TypesAccountNonceRes;
 @class TypesAction;
+@class TypesAllToken;
 @class TypesChainInfo;
 @class TypesChainListRes;
 @class TypesConfig;
@@ -24,8 +25,11 @@
 @class TypesEstimate;
 @class TypesEstimateGasReq;
 @class TypesEstimateGasRes;
+@class TypesGetChainTokensReq;
 @class TypesQuoteReq;
 @class TypesQuoteRes;
+@class TypesSearchConnectTokenReq;
+@class TypesSearchTokenReq;
 @class TypesStatusReq;
 @class TypesStatusRes;
 @class TypesStep;
@@ -36,6 +40,7 @@
 @class TypesTokenListInfoReq;
 @class TypesTokenListRes;
 @class TypesToolDetail;
+@class TypesTxBaseInfo;
 @class TypesTxData;
 @class TypesTxStatusReq;
 @class TypesTxStatusRes;
@@ -68,6 +73,22 @@
 @property (nonatomic) NSString* _Nonnull fromAddress;
 @property (nonatomic) NSString* _Nonnull toAddress;
 @property (nonatomic) float slippage;
+@end
+
+@interface TypesAllToken : NSObject <goSeqRefInterface> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nonnull instancetype)init;
+// skipped field AllToken.Tokens with unsupported type: []github.com/coming-chat/go-defi-sdk/core/crossswap/types.TokenInfo
+
+// skipped field AllToken.Chains with unsupported type: []github.com/coming-chat/go-defi-sdk/core/crossswap/types.ChainInfo
+
+- (TypesChainInfo* _Nullable)indexChains:(long)i;
+- (TypesTokenInfo* _Nullable)indexTokens:(long)i;
+- (long)sizeChains;
+- (long)sizeTokens;
 @end
 
 @interface TypesChainInfo : NSObject <goSeqRefInterface> {
@@ -104,6 +125,8 @@
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
 - (nonnull instancetype)init;
+@property (nonatomic) long totalPage;
+@property (nonatomic) TypesAllToken* _Nullable allToken;
 // skipped field ChainListRes.Chains with unsupported type: []github.com/coming-chat/go-defi-sdk/core/crossswap/types.ChainInfo
 
 - (TypesChainInfo* _Nullable)index:(long)i;
@@ -227,6 +250,17 @@ connections struct like ["chainA":{"tokens": [tokenAA, tokenAB]}, "chainB": {"to
 
 @end
 
+@interface TypesGetChainTokensReq : NSObject <goSeqRefInterface> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nonnull instancetype)init;
+@property (nonatomic) NSString* _Nonnull chainName;
+@property (nonatomic) long page;
+@property (nonatomic) long pageSize;
+@end
+
 @interface TypesQuoteReq : NSObject <goSeqRefInterface> {
 }
 @property(strong, readonly) _Nonnull id _ref;
@@ -270,6 +304,33 @@ string number base is 10
 - (long)sizeSteps;
 @end
 
+@interface TypesSearchConnectTokenReq : NSObject <goSeqRefInterface> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nonnull instancetype)init;
+@property (nonatomic) NSString* _Nonnull fromChain;
+@property (nonatomic) NSString* _Nonnull fromToken;
+@property (nonatomic) NSString* _Nonnull fromTokenAddress;
+@property (nonatomic) NSString* _Nonnull toChain;
+@property (nonatomic) NSString* _Nonnull content;
+@property (nonatomic) long page;
+@property (nonatomic) long pageSize;
+@end
+
+@interface TypesSearchTokenReq : NSObject <goSeqRefInterface> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nonnull instancetype)init;
+@property (nonatomic) NSString* _Nonnull chainName;
+@property (nonatomic) NSString* _Nonnull content;
+@property (nonatomic) long page;
+@property (nonatomic) long pageSize;
+@end
+
 @interface TypesStatusReq : NSObject <goSeqRefInterface> {
 }
 @property(strong, readonly) _Nonnull id _ref;
@@ -310,6 +371,7 @@ success means swap success, and dst balance transferred to receiver account
 @property (nonatomic) NSString* _Nonnull reason;
 @property (nonatomic) int64_t updateTime;
 @property (nonatomic) NSString* _Nonnull txHash;
+@property (nonatomic) TypesTxBaseInfo* _Nullable dstTxInfo;
 @end
 
 /**
@@ -356,9 +418,12 @@ user should follow steps, sign and send transaction
 @property (nonatomic) NSString* _Nonnull symbol;
 @property (nonatomic) long decimals;
 @property (nonatomic) long chainId;
+@property (nonatomic) NSString* _Nonnull chainName;
 @property (nonatomic) NSString* _Nonnull name;
 @property (nonatomic) NSString* _Nonnull logoURI;
 @property (nonatomic) NSString* _Nonnull priceUsd;
+@property (nonatomic) NSString* _Nonnull source;
+@property (nonatomic) long orderType;
 @end
 
 @interface TypesTokenInfoReq : NSObject <goSeqRefInterface> {
@@ -411,6 +476,17 @@ user should follow steps, sign and send transaction
 - (nonnull instancetype)init;
 @property (nonatomic) NSString* _Nonnull name;
 @property (nonatomic) NSString* _Nonnull logoURI;
+@end
+
+@interface TypesTxBaseInfo : NSObject <goSeqRefInterface> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nonnull instancetype)init;
+@property (nonatomic) NSString* _Nonnull txHash;
+@property (nonatomic) long blockNumber;
+@property (nonatomic) long blockTimestamp;
 @end
 
 @interface TypesTxData : NSObject <goSeqRefInterface> {

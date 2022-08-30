@@ -17,6 +17,7 @@
 @class RedpacketRedPacketAction;
 @class RedpacketRedPacketCloseParams;
 @class RedpacketRedPacketCreateParams;
+@class RedpacketRedPacketDataError;
 @class RedpacketRedPacketDetail;
 @class RedpacketRedPacketOpenParams;
 @protocol RedpacketRedPacketContract;
@@ -69,6 +70,15 @@
 @property (nonatomic) NSString* _Nonnull tokenAddress;
 @property (nonatomic) long count;
 @property (nonatomic) NSString* _Nonnull amount;
+@end
+
+@interface RedpacketRedPacketDataError : NSObject <goSeqRefInterface> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nonnull instancetype)init;
+- (NSString* _Nonnull)error;
 @end
 
 @interface RedpacketRedPacketDetail : NSObject <goSeqRefInterface, EthJsonable> {
