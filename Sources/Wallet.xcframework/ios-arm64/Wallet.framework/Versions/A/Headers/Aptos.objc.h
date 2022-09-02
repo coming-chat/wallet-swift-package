@@ -82,7 +82,7 @@
 - (BaseBalance* _Nullable)balanceOfAddress:(NSString* _Nullable)address error:(NSError* _Nullable* _Nullable)error;
 - (BaseBalance* _Nullable)balanceOfPublicKey:(NSString* _Nullable)publicKey error:(NSError* _Nullable* _Nullable)error;
 - (NSString* _Nonnull)batchFetchTransactionStatus:(NSString* _Nullable)hashListString;
-// skipped method Chain.EstimateGasFee with unsupported parameter or return types
+// skipped method Chain.EstimateMaxGasAmount with unsupported parameter or return types
 
 - (BaseOptionalString* _Nullable)estimatePayloadGasFee:(id<BaseAccount> _Nullable)account data:(NSData* _Nullable)data error:(NSError* _Nullable* _Nullable)error;
 /**
