@@ -114,6 +114,7 @@
  */
 - (NSString* _Nonnull)publicKeyHex;
 - (NSData* _Nullable)sign:(NSData* _Nullable)message password:(NSString* _Nullable)password error:(NSError* _Nullable* _Nullable)error;
+- (NSData* _Nullable)signHash:(NSData* _Nullable)hash error:(NSError* _Nullable* _Nullable)error;
 - (BaseOptionalString* _Nullable)signHex:(NSString* _Nullable)messageHex password:(NSString* _Nullable)password error:(NSError* _Nullable* _Nullable)error;
 @end
 
