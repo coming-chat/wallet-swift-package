@@ -35,6 +35,10 @@
 
 // skipped method RestClient.GetAccountTransactions with unsupported parameter or return types
 
+// skipped method RestClient.GetBlockByHeight with unsupported parameter or return types
+
+// skipped method RestClient.GetBlockByVersion with unsupported parameter or return types
+
 // skipped method RestClient.GetEventsByEventHandle with unsupported parameter or return types
 
 // skipped method RestClient.GetEventsByKey with unsupported parameter or return types
