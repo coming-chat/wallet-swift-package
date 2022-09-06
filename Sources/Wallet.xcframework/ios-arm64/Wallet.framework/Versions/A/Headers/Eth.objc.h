@@ -24,9 +24,9 @@
 @class EthEthChain;
 @class EthGasPrice;
 @class EthNft;
-@class EthNftMetadata;
 @class EthOptimismLayer2Gas;
 @class EthRSS3Fetcher;
+@class EthRSS3Metadata;
 @class EthRSS3Note;
 @class EthRSS3NoteAction;
 @class EthReceipt;
@@ -114,6 +114,7 @@
  */
 - (NSString* _Nonnull)publicKeyHex;
 - (NSData* _Nullable)sign:(NSData* _Nullable)message password:(NSString* _Nullable)password error:(NSError* _Nullable* _Nullable)error;
+- (NSData* _Nullable)signHash:(NSData* _Nullable)hash error:(NSError* _Nullable* _Nullable)error;
 - (BaseOptionalString* _Nullable)signHex:(NSString* _Nullable)messageHex password:(NSString* _Nullable)password error:(NSError* _Nullable* _Nullable)error;
 @end
 
@@ -551,24 +552,15 @@ MaxFee = (MaxPriorityFee + BaseFee) * maxFeeRate
 - (nonnull instancetype)init;
 @property (nonatomic) int64_t timestamp;
 @property (nonatomic) NSString* _Nonnull hashString;
-@property (nonatomic) NSString* _Nonnull tokenId;
-@property (nonatomic) NSString* _Nonnull tokenAddress;
-@property (nonatomic) NSString* _Nonnull tokenStandard;
+@property (nonatomic) NSString* _Nonnull id_;
 @property (nonatomic) NSString* _Nonnull name;
 @property (nonatomic) NSString* _Nonnull image;
-@property (nonatomic) NSString* _Nonnull detail;
-- (NSString* _Nonnull)identifierKey;
-@end
-
-@interface EthNftMetadata : NSObject <goSeqRefInterface> {
-}
-@property(strong, readonly) _Nonnull id _ref;
-
-- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
-- (nonnull instancetype)init;
-@property (nonatomic) NSString* _Nonnull name;
-@property (nonatomic) NSString* _Nonnull image;
+@property (nonatomic) NSString* _Nonnull standard;
+@property (nonatomic) NSString* _Nonnull collection;
 @property (nonatomic) NSString* _Nonnull description;
+@property (nonatomic) NSString* _Nonnull contractAddress;
+@property (nonatomic) NSString* _Nonnull relatedUrl;
+- (NSString* _Nonnull)identifierKey;
 @end
 
 @interface EthOptimismLayer2Gas : NSObject <goSeqRefInterface> {
@@ -607,6 +599,9 @@ Possible values: [ethereum, ethereum_classic, binance_smart_chain, polygon, zksy
  */
 @property (nonatomic) NSString* _Nonnull owner;
 @property (nonatomic) NSString* _Nonnull nextCursor;
+/**
+ * @return json string that grouped by nft's collection
+ */
 - (BaseOptionalString* _Nullable)fetchNftsJsonString:(NSError* _Nullable* _Nullable)error;
 // skipped method RSS3Fetcher.FetchNotes with unsupported parameter or return types
 
@@ -614,6 +609,21 @@ Possible values: [ethereum, ethereum_classic, binance_smart_chain, polygon, zksy
 
 // skipped method RSS3Fetcher.FetchNtfs with unsupported parameter or return types
 
+@end
+
+@interface EthRSS3Metadata : NSObject <goSeqRefInterface> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nonnull instancetype)init;
+@property (nonatomic) NSString* _Nonnull id_;
+@property (nonatomic) NSString* _Nonnull name;
+@property (nonatomic) NSString* _Nonnull image;
+@property (nonatomic) NSString* _Nonnull standard;
+@property (nonatomic) NSString* _Nonnull collection;
+@property (nonatomic) NSString* _Nonnull description;
+@property (nonatomic) NSString* _Nonnull contractAddress;
 @end
 
 @interface EthRSS3Note : NSObject <goSeqRefInterface> {
@@ -626,6 +636,7 @@ Possible values: [ethereum, ethereum_classic, binance_smart_chain, polygon, zksy
 
 @property (nonatomic) NSString* _Nonnull hash;
 @property (nonatomic) BOOL success;
+@property (nonatomic) NSString* _Nonnull network;
 // skipped field RSS3Note.Actions with unsupported type: []*github.com/coming-chat/wallet-SDK/core/eth.RSS3NoteAction
 
 @end
@@ -640,9 +651,17 @@ Possible values: [ethereum, ethereum_classic, binance_smart_chain, polygon, zksy
 @property (nonatomic) NSString* _Nonnull to;
 @property (nonatomic) NSString* _Nonnull tag;
 @property (nonatomic) NSString* _Nonnull type;
-// skipped field RSS3NoteAction.Metadata with unsupported type: map[string]interface{}
+@property (nonatomic) EthRSS3Metadata* _Nullable metadata;
+// skipped field RSS3NoteAction.RelatedUrls with unsupported type: []string
 
+@property (nonatomic) int64_t timestamp;
+@property (nonatomic) NSString* _Nonnull hash;
+- (BOOL)isNftAction;
 - (EthNft* _Nullable)nft;
+/**
+ * @return nft identifierKey if the action is a nft action, else return empty
+ */
+- (NSString* _Nonnull)nftIdentifierKey;
 @end
 
 /**
@@ -878,6 +897,7 @@ FOUNDATION_EXPORT NSString* _Nonnull const EthRPAMethodClose;
 FOUNDATION_EXPORT NSString* _Nonnull const EthRPAMethodCreate;
 FOUNDATION_EXPORT NSString* _Nonnull const EthRPAMethodOpen;
 FOUNDATION_EXPORT NSString* _Nonnull const EthRedPacketABI;
+FOUNDATION_EXPORT NSString* _Nonnull const EthTagCollectible;
 
 /**
  * Warning: eth cannot support decode address to public key
