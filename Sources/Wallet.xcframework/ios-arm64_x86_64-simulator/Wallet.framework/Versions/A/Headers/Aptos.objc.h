@@ -27,12 +27,14 @@
 - (BaseBalance* _Nullable)balanceOfPublicKey:(NSString* _Nullable)publicKey error:(NSError* _Nullable* _Nullable)error;
 - (NSString* _Nonnull)batchFetchTransactionStatus:(NSString* _Nullable)hashListString;
 - (BaseOptionalString* _Nullable)estimatePayloadGasFee:(id<BaseAccount> _Nullable)account data:(NSData* _Nullable)data error:(NSError* _Nullable* _Nullable)error;
+- (BaseOptionalString* _Nullable)estimatePayloadGasFeeBCS:(id<BaseAccount> _Nullable)account data:(NSData* _Nullable)data error:(NSError* _Nullable* _Nullable)error;
 - (BaseTransactionDetail* _Nullable)fetchTransactionDetail:(NSString* _Nullable)hash error:(NSError* _Nullable* _Nullable)error;
 - (long)fetchTransactionStatus:(NSString* _Nullable)hash;
 - (AptosclientRestClient* _Nullable)getClient:(NSError* _Nullable* _Nullable)error;
 - (id<BaseToken> _Nullable)mainToken;
 - (NSString* _Nonnull)sendRawTransaction:(NSString* _Nullable)signedTx error:(NSError* _Nullable* _Nullable)error;
 - (NSString* _Nonnull)submitTransactionPayload:(id<BaseAccount> _Nullable)account data:(NSData* _Nullable)data error:(NSError* _Nullable* _Nullable)error;
+- (NSString* _Nonnull)submitTransactionPayloadBCS:(id<BaseAccount> _Nullable)account data:(NSData* _Nullable)data error:(NSError* _Nullable* _Nullable)error;
 @end
 
 @interface AptosAccount : NSObject <goSeqRefInterface, BaseAccount, BaseAddressUtil> {
@@ -84,7 +86,10 @@
 - (NSString* _Nonnull)batchFetchTransactionStatus:(NSString* _Nullable)hashListString;
 // skipped method Chain.EstimateMaxGasAmount with unsupported parameter or return types
 
+// skipped method Chain.EstimateMaxGasAmountBCS with unsupported parameter or return types
+
 - (BaseOptionalString* _Nullable)estimatePayloadGasFee:(id<BaseAccount> _Nullable)account data:(NSData* _Nullable)data error:(NSError* _Nullable* _Nullable)error;
+- (BaseOptionalString* _Nullable)estimatePayloadGasFeeBCS:(id<BaseAccount> _Nullable)account data:(NSData* _Nullable)data error:(NSError* _Nullable* _Nullable)error;
 /**
  * Fetch transaction details through transaction hash
  */
@@ -98,6 +103,7 @@
  */
 - (NSString* _Nonnull)sendRawTransaction:(NSString* _Nullable)signedTx error:(NSError* _Nullable* _Nullable)error;
 - (NSString* _Nonnull)submitTransactionPayload:(id<BaseAccount> _Nullable)account data:(NSData* _Nullable)data error:(NSError* _Nullable* _Nullable)error;
+- (NSString* _Nonnull)submitTransactionPayloadBCS:(id<BaseAccount> _Nullable)account data:(NSData* _Nullable)data error:(NSError* _Nullable* _Nullable)error;
 @end
 
 @interface AptosRestReachability : NSObject <goSeqRefInterface, BaseRpcReachability> {
@@ -150,6 +156,7 @@ FOUNDATION_EXPORT NSString* _Nonnull const AptosAptosName;
 FOUNDATION_EXPORT NSString* _Nonnull const AptosAptosSymbol;
 FOUNDATION_EXPORT const int64_t AptosGasPrice;
 FOUNDATION_EXPORT const int64_t AptosMaxGasAmount;
+FOUNDATION_EXPORT const int64_t AptosTxExpireSec;
 
 /**
  * rename for support android.
@@ -202,12 +209,14 @@ FOUNDATION_EXPORT AptosUtil* _Nullable AptosNewUtil(NSError* _Nullable* _Nullabl
 - (BaseBalance* _Nullable)balanceOfPublicKey:(NSString* _Nullable)publicKey error:(NSError* _Nullable* _Nullable)error;
 - (NSString* _Nonnull)batchFetchTransactionStatus:(NSString* _Nullable)hashListString;
 - (BaseOptionalString* _Nullable)estimatePayloadGasFee:(id<BaseAccount> _Nullable)account data:(NSData* _Nullable)data error:(NSError* _Nullable* _Nullable)error;
+- (BaseOptionalString* _Nullable)estimatePayloadGasFeeBCS:(id<BaseAccount> _Nullable)account data:(NSData* _Nullable)data error:(NSError* _Nullable* _Nullable)error;
 - (BaseTransactionDetail* _Nullable)fetchTransactionDetail:(NSString* _Nullable)hash error:(NSError* _Nullable* _Nullable)error;
 - (long)fetchTransactionStatus:(NSString* _Nullable)hash;
 - (AptosclientRestClient* _Nullable)getClient:(NSError* _Nullable* _Nullable)error;
 - (id<BaseToken> _Nullable)mainToken;
 - (NSString* _Nonnull)sendRawTransaction:(NSString* _Nullable)signedTx error:(NSError* _Nullable* _Nullable)error;
 - (NSString* _Nonnull)submitTransactionPayload:(id<BaseAccount> _Nullable)account data:(NSData* _Nullable)data error:(NSError* _Nullable* _Nullable)error;
+- (NSString* _Nonnull)submitTransactionPayloadBCS:(id<BaseAccount> _Nullable)account data:(NSData* _Nullable)data error:(NSError* _Nullable* _Nullable)error;
 @end
 
 #endif
