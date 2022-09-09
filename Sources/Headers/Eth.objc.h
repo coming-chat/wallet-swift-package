@@ -560,7 +560,6 @@ MaxFee = (MaxPriorityFee + BaseFee) * maxFeeRate
 @property (nonatomic) NSString* _Nonnull description;
 @property (nonatomic) NSString* _Nonnull contractAddress;
 @property (nonatomic) NSString* _Nonnull relatedUrl;
-- (NSString* _Nonnull)identifierKey;
 @end
 
 @interface EthOptimismLayer2Gas : NSObject <goSeqRefInterface> {
@@ -662,6 +661,7 @@ Possible values: [ethereum, ethereum_classic, binance_smart_chain, polygon, zksy
  * @return nft identifierKey if the action is a nft action, else return empty
  */
 - (NSString* _Nonnull)nftIdentifierKey;
+- (NSString* _Nonnull)relatedScanUrl;
 @end
 
 /**

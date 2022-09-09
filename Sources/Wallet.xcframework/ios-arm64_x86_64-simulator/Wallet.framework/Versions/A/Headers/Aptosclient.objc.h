@@ -19,6 +19,8 @@
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
 - (nonnull instancetype)init;
+// skipped method RestClient.AptosBalanceOf with unsupported parameter or return types
+
 // skipped method RestClient.BalanceOf with unsupported parameter or return types
 
 // skipped method RestClient.CreateTransactionSigningMessage with unsupported parameter or return types
@@ -51,6 +53,8 @@
 
 - (NSString* _Nonnull)getVersion;
 - (NSString* _Nonnull)getVersionedRpcUrl;
+// skipped method RestClient.IsAccountHasResource with unsupported parameter or return types
+
 // skipped method RestClient.LedgerInfo with unsupported parameter or return types
 
 - (void)setVersion:(NSString* _Nullable)version;
