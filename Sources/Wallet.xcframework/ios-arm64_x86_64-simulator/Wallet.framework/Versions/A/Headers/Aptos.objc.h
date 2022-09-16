@@ -99,6 +99,7 @@
 @return the hex hash string
  */
 - (NSString* _Nonnull)sendRawTransaction:(NSString* _Nullable)signedTx error:(NSError* _Nullable* _Nullable)error;
+- (BaseOptionalString* _Nullable)signAndSendTransaction:(id<BaseAccount> _Nullable)account hexData:(NSString* _Nullable)hexData error:(NSError* _Nullable* _Nullable)error;
 - (NSString* _Nonnull)submitTransactionPayloadBCS:(id<BaseAccount> _Nullable)account data:(NSData* _Nullable)data error:(NSError* _Nullable* _Nullable)error;
 @end
 
@@ -129,12 +130,13 @@
 - (BaseOptionalString* _Nullable)buildTransferTx:(NSString* _Nullable)privateKey receiverAddress:(NSString* _Nullable)receiverAddress amount:(NSString* _Nullable)amount error:(NSError* _Nullable* _Nullable)error;
 - (BaseOptionalString* _Nullable)buildTransferTxWithAccount:(AptosAccount* _Nullable)account receiverAddress:(NSString* _Nullable)receiverAddress amount:(NSString* _Nullable)amount error:(NSError* _Nullable* _Nullable)error;
 - (id<BaseChain> _Nullable)chain;
-- (BOOL)ensureOwnerRegistedToken:(NSString* _Nullable)ownerAddress from:(AptosAccount* _Nullable)from error:(NSError* _Nullable* _Nullable)error;
+- (BaseOptionalString* _Nullable)ensureOwnerRegistedToken:(AptosAccount* _Nullable)owner error:(NSError* _Nullable* _Nullable)error;
 - (BaseOptionalString* _Nullable)estimateFees:(AptosAccount* _Nullable)account receiverAddress:(NSString* _Nullable)receiverAddress amount:(NSString* _Nullable)amount error:(NSError* _Nullable* _Nullable)error;
+- (BaseOptionalBool* _Nullable)hasRegisted:(NSString* _Nullable)ownerAddress error:(NSError* _Nullable* _Nullable)error;
 /**
  * @return transaction hash if register token succeed.
  */
-- (NSString* _Nonnull)registerTokenForOwner:(NSString* _Nullable)ownerAddress from:(AptosAccount* _Nullable)from error:(NSError* _Nullable* _Nullable)error;
+- (BaseOptionalString* _Nullable)registerTokenForOwner:(AptosAccount* _Nullable)owner error:(NSError* _Nullable* _Nullable)error;
 - (BaseTokenInfo* _Nullable)tokenInfo:(NSError* _Nullable* _Nullable)error;
 @end
 
