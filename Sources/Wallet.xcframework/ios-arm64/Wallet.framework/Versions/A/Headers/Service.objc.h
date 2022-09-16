@@ -67,6 +67,7 @@ so we use generated swapId to represent the swap
  * GetTxStatus query evm tx status, isPending/status
  */
 - (TypesTxStatusRes* _Nullable)getTxStatus:(NSString* _Nullable)chain txHash:(NSString* _Nullable)txHash error:(NSError* _Nullable* _Nullable)error;
+- (BOOL)reportSwap:(TypesReportSwapReq* _Nullable)swap error:(NSError* _Nullable* _Nullable)error;
 /**
  * SearchConnectionToken search connection tokens
  */

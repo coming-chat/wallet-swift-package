@@ -28,6 +28,7 @@
 @class TypesGetChainTokensReq;
 @class TypesQuoteReq;
 @class TypesQuoteRes;
+@class TypesReportSwapReq;
 @class TypesSearchConnectTokenReq;
 @class TypesSearchTokenReq;
 @class TypesStatusReq;
@@ -52,6 +53,8 @@
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
 - (nonnull instancetype)init;
 // skipped field AccountNonceRes.Nonce with unsupported type: uint64
+
+// skipped field AccountNonceRes.Timestamp with unsupported type: uint64
 
 @end
 
@@ -304,6 +307,17 @@ string number base is 10
 - (long)sizeSteps;
 @end
 
+@interface TypesReportSwapReq : NSObject <goSeqRefInterface> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nonnull instancetype)init;
+@property (nonatomic) NSString* _Nonnull chain;
+@property (nonatomic) NSString* _Nonnull swapId;
+@property (nonatomic) NSString* _Nonnull txHash;
+@end
+
 @interface TypesSearchConnectTokenReq : NSObject <goSeqRefInterface> {
 }
 @property(strong, readonly) _Nonnull id _ref;
@@ -529,6 +543,7 @@ user should follow steps, sign and send transaction
 @property (nonatomic) NSString* _Nonnull error;
 @end
 
+FOUNDATION_EXPORT NSString* _Nonnull const TypesChainTypeAptos;
 FOUNDATION_EXPORT NSString* _Nonnull const TypesChainTypeEvm;
 FOUNDATION_EXPORT NSString* _Nonnull const TypesChainTypePolka;
 FOUNDATION_EXPORT NSString* _Nonnull const TypesCostTypeCrossFee;
@@ -548,7 +563,9 @@ FOUNDATION_EXPORT NSString* _Nonnull const TypesStepPathTypeSwap;
 FOUNDATION_EXPORT NSString* _Nonnull const TypesStepTypeApprove;
 FOUNDATION_EXPORT NSString* _Nonnull const TypesStepTypeCrossSwap;
 FOUNDATION_EXPORT NSString* _Nonnull const TypesStepTypeLocalSwap;
+FOUNDATION_EXPORT NSString* _Nonnull const TypesStepTypeRegister;
 FOUNDATION_EXPORT NSString* _Nonnull const TypesToolCCSwap;
+FOUNDATION_EXPORT NSString* _Nonnull const TypesToolLiquidSwap;
 FOUNDATION_EXPORT NSString* _Nonnull const TypesToolSoDiamond;
 
 #endif
