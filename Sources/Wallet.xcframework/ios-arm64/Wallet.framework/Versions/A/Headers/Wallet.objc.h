@@ -17,6 +17,7 @@
 #include "Eth.objc.h"
 #include "Polka.objc.h"
 #include "Solana.objc.h"
+#include "Sui.objc.h"
 
 @class WalletWallet;
 
@@ -69,6 +70,10 @@
  * Get or create the ethereum account.
  */
 - (SolanaAccount* _Nullable)getOrCreateSolanaAccount:(NSError* _Nullable* _Nullable)error;
+/**
+ * Get or create the ethereum account.
+ */
+- (SuiAccount* _Nullable)getOrCreateSuiAccount:(NSError* _Nullable* _Nullable)error;
 /**
  * Deprecated: GetPrivateKeyHex is deprecated. Please use wallet.PolkaAccount(network).PrivateKey() instead
  */
