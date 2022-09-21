@@ -14,7 +14,6 @@
 
 @class SuiAccount;
 @class SuiChain;
-@class SuiCoin;
 @class SuiPickedCoins;
 @class SuiToken;
 @class SuiUtil;
@@ -79,25 +78,13 @@
 - (NSString* _Nonnull)sendRawTransaction:(NSString* _Nullable)signedTx error:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface SuiCoin : NSObject <goSeqRefInterface> {
-}
-@property(strong, readonly) _Nonnull id _ref;
-
-- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
-- (nonnull instancetype)init;
-// skipped field Coin.ObjectId with unsupported type: invalid type
-
-// skipped field Coin.Balance with unsupported type: uint64
-
-@end
-
 @interface SuiPickedCoins : NSObject <goSeqRefInterface> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
 - (nonnull instancetype)init;
-// skipped field PickedCoins.Coins with unsupported type: github.com/coming-chat/wallet-SDK/core/sui.Coins
+// skipped field PickedCoins.Coins with unsupported type: invalid type
 
 // skipped field PickedCoins.Total with unsupported type: *math/big.Int
 
@@ -105,8 +92,7 @@
 
 // skipped method PickedCoins.EstimateGas with unsupported parameter or return types
 
-- (SuiCoin* _Nullable)lastCoin;
-// skipped method PickedCoins.LastCoinTransferAmount with unsupported parameter or return types
+// skipped method PickedCoins.LastCoin with unsupported parameter or return types
 
 @end
 

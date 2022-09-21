@@ -25,6 +25,8 @@
 
 // skipped method RestClient.CreateTransactionSigningMessage with unsupported parameter or return types
 
+// skipped method RestClient.EstimateGasPrice with unsupported parameter or return types
+
 // skipped method RestClient.GetAccount with unsupported parameter or return types
 
 // skipped method RestClient.GetAccountModule with unsupported parameter or return types
@@ -41,9 +43,9 @@
 
 // skipped method RestClient.GetBlockByVersion with unsupported parameter or return types
 
-// skipped method RestClient.GetEventsByEventHandle with unsupported parameter or return types
+// skipped method RestClient.GetEventsByCreationNumber with unsupported parameter or return types
 
-// skipped method RestClient.GetEventsByKey with unsupported parameter or return types
+// skipped method RestClient.GetEventsByEventHandle with unsupported parameter or return types
 
 // skipped method RestClient.GetTransactionByHash with unsupported parameter or return types
 

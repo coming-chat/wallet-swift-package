@@ -114,8 +114,6 @@ FOUNDATION_EXPORT NSString* _Nonnull const RedpacketAptosName;
 FOUNDATION_EXPORT NSString* _Nonnull const RedpacketAptosSymbol;
 FOUNDATION_EXPORT NSString* _Nonnull const RedpacketChainTypeAptos;
 FOUNDATION_EXPORT NSString* _Nonnull const RedpacketChainTypeEth;
-FOUNDATION_EXPORT const int64_t RedpacketGasPrice;
-FOUNDATION_EXPORT const int64_t RedpacketMaxGasAmount;
 FOUNDATION_EXPORT NSString* _Nonnull const RedpacketRPAMethodClose;
 FOUNDATION_EXPORT NSString* _Nonnull const RedpacketRPAMethodCreate;
 FOUNDATION_EXPORT NSString* _Nonnull const RedpacketRPAMethodOpen;
