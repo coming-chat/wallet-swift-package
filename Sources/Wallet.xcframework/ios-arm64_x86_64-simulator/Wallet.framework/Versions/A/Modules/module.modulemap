@@ -10,6 +10,7 @@ framework module "Wallet" {
     header "Solana.objc.h"
     header "Aptos.objc.h"
     header "Sui.objc.h"
+    header "Starcoin.objc.h"
     header "Multi_signature_check.objc.h"
     header "Util.objc.h"
     header "Execution.objc.h"

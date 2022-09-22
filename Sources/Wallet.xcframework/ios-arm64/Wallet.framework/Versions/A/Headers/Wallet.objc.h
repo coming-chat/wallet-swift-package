@@ -17,6 +17,7 @@
 #include "Eth.objc.h"
 #include "Polka.objc.h"
 #include "Solana.objc.h"
+#include "Starcoin.objc.h"
 #include "Sui.objc.h"
 
 @class WalletWallet;
@@ -42,7 +43,7 @@
  */
 - (NSString* _Nonnull)getAddress:(long)network error:(NSError* _Nullable* _Nullable)error;
 /**
- * Get or create the ethereum account.
+ * Get or create the aptos account.
  */
 - (AptosAccount* _Nullable)getOrCreateAptosAccount:(NSError* _Nullable* _Nullable)error;
 /**
@@ -67,11 +68,15 @@
  */
 - (PolkaAccount* _Nullable)getOrCreatePolkaAccount:(long)network error:(NSError* _Nullable* _Nullable)error;
 /**
- * Get or create the ethereum account.
+ * Get or create the solana account.
  */
 - (SolanaAccount* _Nullable)getOrCreateSolanaAccount:(NSError* _Nullable* _Nullable)error;
 /**
- * Get or create the ethereum account.
+ * Get or create the starcoin account.
+ */
+- (StarcoinAccount* _Nullable)getOrCreateStarcoinAccount:(NSError* _Nullable* _Nullable)error;
+/**
+ * Get or create the sui account.
  */
 - (SuiAccount* _Nullable)getOrCreateSuiAccount:(NSError* _Nullable* _Nullable)error;
 /**
