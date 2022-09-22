@@ -1012,7 +1012,7 @@ FOUNDATION_EXPORT NSString* _Nonnull EthPrivateKeyToAddress(NSString* _Nullable 
  */
 FOUNDATION_EXPORT NSData* _Nullable EthSignHashForMsg(NSString* _Nullable data);
 
-FOUNDATION_EXPORT NSString* _Nonnull EthTransformEIP55Address(NSString* _Nullable address, NSError* _Nullable* _Nullable error);
+FOUNDATION_EXPORT NSString* _Nonnull EthTransformEIP55Address(NSString* _Nullable address);
 
 FOUNDATION_EXPORT BOOL EthVerifySignature(NSString* _Nullable pubkey, NSString* _Nullable message, NSString* _Nullable signedMsg);
 

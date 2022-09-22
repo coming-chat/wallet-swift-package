@@ -11,6 +11,7 @@
 //	github.com/coming-chat/wallet-SDK/core/solana
 //	github.com/coming-chat/wallet-SDK/core/aptos
 //	github.com/coming-chat/wallet-SDK/core/sui
+//	github.com/coming-chat/wallet-SDK/core/starcoin
 //	github.com/coming-chat/wallet-SDK/core/multi-signature-check
 //	github.com/coming-chat/go-defi-sdk/util
 //	github.com/coming-chat/go-defi-sdk/core/crossswap/execution
@@ -33,6 +34,7 @@
 #include "Solana.objc.h"
 #include "Aptos.objc.h"
 #include "Sui.objc.h"
+#include "Starcoin.objc.h"
 #include "Multi_signature_check.objc.h"
 #include "Util.objc.h"
 #include "Execution.objc.h"
