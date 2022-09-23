@@ -43,6 +43,8 @@
 
 // skipped method RestClient.GetBlockByVersion with unsupported parameter or return types
 
+// skipped method RestClient.GetCoinInfo with unsupported parameter or return types
+
 // skipped method RestClient.GetEventsByCreationNumber with unsupported parameter or return types
 
 // skipped method RestClient.GetEventsByEventHandle with unsupported parameter or return types

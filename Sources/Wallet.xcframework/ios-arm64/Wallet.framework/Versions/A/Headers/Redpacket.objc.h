@@ -36,9 +36,10 @@
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
 /**
- * 结束红包领取 的操作
+ * NewRedPacketActionClose close red packet
+add empty arg to distinct with NewRedPacketActionCreate signature when build jar
  */
-- (nullable instancetype)initClose:(int64_t)packetId creator:(NSString* _Nullable)creator;
+- (nullable instancetype)initClose:(NSString* _Nullable)tokenAddress packetId:(int64_t)packetId creator:(NSString* _Nullable)creator p3:(NSString* _Nullable)p3;
 /**
  * 用户发红包 的操作
  */
@@ -57,6 +58,7 @@
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
 - (nonnull instancetype)init;
+@property (nonatomic) NSString* _Nonnull tokenAddress;
 @property (nonatomic) int64_t packetId;
 @property (nonatomic) NSString* _Nonnull creator;
 @end
@@ -102,6 +104,7 @@
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
 - (nonnull instancetype)init;
+@property (nonatomic) NSString* _Nonnull tokenAddress;
 @property (nonatomic) int64_t packetId;
 // skipped field RedPacketOpenParams.Addresses with unsupported type: []string
 
@@ -124,9 +127,10 @@ FOUNDATION_EXPORT id<RedpacketRedPacketContract> _Nullable RedpacketNewAptosRedP
 FOUNDATION_EXPORT id<RedpacketRedPacketContract> _Nullable RedpacketNewEthRedPacketContract(id<EthIChain> _Nullable chain, NSString* _Nullable contractAddress);
 
 /**
- * 结束红包领取 的操作
+ * NewRedPacketActionClose close red packet
+add empty arg to distinct with NewRedPacketActionCreate signature when build jar
  */
-FOUNDATION_EXPORT RedpacketRedPacketAction* _Nullable RedpacketNewRedPacketActionClose(int64_t packetId, NSString* _Nullable creator, NSError* _Nullable* _Nullable error);
+FOUNDATION_EXPORT RedpacketRedPacketAction* _Nullable RedpacketNewRedPacketActionClose(NSString* _Nullable tokenAddress, int64_t packetId, NSString* _Nullable creator, NSString* _Nullable p3, NSError* _Nullable* _Nullable error);
 
 /**
  * 用户发红包 的操作
