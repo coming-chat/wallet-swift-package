@@ -10,6 +10,7 @@
 #include "ref.h"
 #include "Universe.objc.h"
 
+#include "Base.objc.h"
 #include "Aptos.objc.h"
 #include "Btc.objc.h"
 #include "Cosmos.objc.h"
@@ -20,8 +21,53 @@
 #include "Starcoin.objc.h"
 #include "Sui.objc.h"
 
+@class WalletAccountCache;
+@class WalletAccountInfo;
 @class WalletWallet;
 
+/**
+ * 旧的钱包对象在内存里面会缓存 **助记词**，还有很多链的账号 **私钥**，这是比较危险的，可能会有用户钱包被盗的风险
+因此 SDK 里面不能缓存 **助记词** 、**私钥** 、还有 **keystore 密码**
+也建议客户端每次使用完带有私钥的账号后，不要缓存这些账号，而是销毁它们
+
+考虑到每次都导入助记词生成账号，而仅仅是为了获取账号地址或者公钥，可能会影响钱包的性能和体验
+因此这里会提供一个可以缓存 *账号地址* 和 *公钥* 这种不敏感信息的工具
+ */
+@interface WalletAccountCache : NSObject <goSeqRefInterface> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nullable instancetype)init;
+// skipped field AccountCache.Store with unsupported type: sync.Map
+
+- (void)clean;
+- (void)delete:(NSString* _Nullable)key;
+- (WalletAccountInfo* _Nullable)get:(NSString* _Nullable)key;
+- (WalletAccountInfo* _Nullable)getAccountInfo:(NSString* _Nullable)walletName chainName:(NSString* _Nullable)chainName;
+- (void)save:(NSString* _Nullable)key info:(WalletAccountInfo* _Nullable)info;
+/**
+ * 缓存账号信息，该账号的私钥不会被缓存
+ */
+- (void)saveAccount:(NSString* _Nullable)walletName chainName:(NSString* _Nullable)chainName account:(id<BaseAccount> _Nullable)account;
+- (void)saveAccountInfo:(NSString* _Nullable)walletName chainName:(NSString* _Nullable)chainName info:(WalletAccountInfo* _Nullable)info;
+@end
+
+@interface WalletAccountInfo : NSObject <goSeqRefInterface> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nonnull instancetype)init;
+@property (nonatomic) NSData* _Nullable publicKey;
+@property (nonatomic) NSString* _Nonnull address;
+@property (nonatomic) NSString* _Nonnull chain;
+- (NSString* _Nonnull)publicKeyHex;
+@end
+
+/**
+ * Deprecated: 这个钱包对象缓存了助记词、密码、私钥等信息，继续使用有泄露资产的风险 ⚠️
+ */
 @interface WalletWallet : NSObject <goSeqRefInterface> {
 }
 @property(strong, readonly) _Nonnull id _ref;
@@ -116,6 +162,8 @@ FOUNDATION_EXPORT NSString* _Nonnull WalletGenMnemonic(NSError* _Nullable* _Null
 FOUNDATION_EXPORT NSData* _Nullable WalletHexToByte(NSString* _Nullable hex, NSError* _Nullable* _Nullable error);
 
 FOUNDATION_EXPORT BOOL WalletIsValidMnemonic(NSString* _Nullable mnemonic);
+
+FOUNDATION_EXPORT WalletAccountCache* _Nullable WalletNewAccountCache(void);
 
 /**
  * Only support Polka keystore.

@@ -160,6 +160,8 @@
 FOUNDATION_EXPORT const int64_t AptosAptosDecimal;
 FOUNDATION_EXPORT NSString* _Nonnull const AptosAptosName;
 FOUNDATION_EXPORT NSString* _Nonnull const AptosAptosSymbol;
+FOUNDATION_EXPORT NSString* _Nonnull const AptosFaucetUrlDevnet;
+FOUNDATION_EXPORT NSString* _Nonnull const AptosFaucetUrlTestnet;
 FOUNDATION_EXPORT const int64_t AptosGasPrice;
 FOUNDATION_EXPORT const int64_t AptosMaxGasAmount;
 FOUNDATION_EXPORT const int64_t AptosTxExpireSec;
