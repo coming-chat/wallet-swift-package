@@ -12,6 +12,7 @@
 
 
 @class AptosclientRestClient;
+@class AptosclientTableItemRequest;
 
 @interface AptosclientRestClient : NSObject <goSeqRefInterface> {
 }
@@ -49,6 +50,8 @@
 
 // skipped method RestClient.GetEventsByEventHandle with unsupported parameter or return types
 
+// skipped method RestClient.GetTableItem with unsupported parameter or return types
+
 // skipped method RestClient.GetTransactionByHash with unsupported parameter or return types
 
 // skipped method RestClient.GetTransactionByVersion with unsupported parameter or return types
@@ -69,6 +72,18 @@
 // skipped method RestClient.SubmitSignedBCSTransaction with unsupported parameter or return types
 
 // skipped method RestClient.SubmitTransaction with unsupported parameter or return types
+
+@end
+
+@interface AptosclientTableItemRequest : NSObject <goSeqRefInterface> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nonnull instancetype)init;
+@property (nonatomic) NSString* _Nonnull keyType;
+@property (nonatomic) NSString* _Nonnull valueType;
+// skipped field TableItemRequest.Key with unsupported type: any
 
 @end
 

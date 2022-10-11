@@ -12,6 +12,7 @@
 
 
 @class BaseBalance;
+@class BaseNFT;
 @class BaseOptionalBool;
 @class BaseOptionalString;
 @class BaseReachMonitor;
@@ -25,6 +26,8 @@
 @class BaseAddressUtil;
 @protocol BaseChain;
 @class BaseChain;
+@protocol BaseNFTFetcher;
+@class BaseNFTFetcher;
 @protocol BaseReachMonitorDelegate;
 @class BaseReachMonitorDelegate;
 @protocol BaseRpcReachability;
@@ -96,6 +99,17 @@ which can only be passed as strings separated by ","
 - (NSString* _Nonnull)sendRawTransaction:(NSString* _Nullable)signedTx error:(NSError* _Nullable* _Nullable)error;
 @end
 
+@protocol BaseNFTFetcher <NSObject>
+// skipped method NFTFetcher.FetchNFTs with unsupported parameter or return types
+
+/**
+ * * Gets all NFT JSON Strings for the specified account
+	 * @owner The specified account address
+	 * @return This method directly calls `FetchNFTs()` and jsonifies the result and returns
+ */
+- (BaseOptionalString* _Nullable)fetchNFTsJsonString:(NSString* _Nullable)owner error:(NSError* _Nullable* _Nullable)error;
+@end
+
 @protocol BaseReachMonitorDelegate <NSObject>
 /**
  * A node request failed
@@ -132,6 +146,25 @@ which can only be passed as strings separated by ","
 - (nonnull instancetype)init;
 @property (nonatomic) NSString* _Nonnull total;
 @property (nonatomic) NSString* _Nonnull usable;
+@end
+
+@interface BaseNFT : NSObject <goSeqRefInterface> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nonnull instancetype)init;
+@property (nonatomic) int64_t timestamp;
+@property (nonatomic) NSString* _Nonnull hashString;
+@property (nonatomic) NSString* _Nonnull id_;
+@property (nonatomic) NSString* _Nonnull name;
+@property (nonatomic) NSString* _Nonnull image;
+@property (nonatomic) NSString* _Nonnull standard;
+@property (nonatomic) NSString* _Nonnull collection;
+@property (nonatomic) NSString* _Nonnull description;
+@property (nonatomic) NSString* _Nonnull contractAddress;
+@property (nonatomic) NSString* _Nonnull relatedUrl;
+- (NSString* _Nonnull)groupName;
 @end
 
 /**
@@ -297,6 +330,8 @@ FOUNDATION_EXPORT BaseReachMonitor* _Nullable BaseNewReachMonitorWithReachabilit
 
 @class BaseChain;
 
+@class BaseNFTFetcher;
+
 @class BaseReachMonitorDelegate;
 
 @class BaseRpcReachability;
@@ -377,6 +412,21 @@ which can only be passed as strings separated by ","
 @return the hex hash string
  */
 - (NSString* _Nonnull)sendRawTransaction:(NSString* _Nullable)signedTx error:(NSError* _Nullable* _Nullable)error;
+@end
+
+@interface BaseNFTFetcher : NSObject <goSeqRefInterface, BaseNFTFetcher> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+// skipped method NFTFetcher.FetchNFTs with unsupported parameter or return types
+
+/**
+ * * Gets all NFT JSON Strings for the specified account
+	 * @owner The specified account address
+	 * @return This method directly calls `FetchNFTs()` and jsonifies the result and returns
+ */
+- (BaseOptionalString* _Nullable)fetchNFTsJsonString:(NSString* _Nullable)owner error:(NSError* _Nullable* _Nullable)error;
 @end
 
 @interface BaseReachMonitorDelegate : NSObject <goSeqRefInterface, BaseReachMonitorDelegate> {

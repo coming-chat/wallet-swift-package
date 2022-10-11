@@ -15,6 +15,7 @@
 
 @class AptosAccount;
 @class AptosChain;
+@class AptosNFTFetcher;
 @class AptosRestReachability;
 @class AptosToken;
 @class AptosUtil;
@@ -101,6 +102,18 @@
 - (NSString* _Nonnull)sendRawTransaction:(NSString* _Nullable)signedTx error:(NSError* _Nullable* _Nullable)error;
 - (BaseOptionalString* _Nullable)signAndSendTransaction:(id<BaseAccount> _Nullable)account hexData:(NSString* _Nullable)hexData error:(NSError* _Nullable* _Nullable)error;
 - (NSString* _Nonnull)submitTransactionPayloadBCS:(id<BaseAccount> _Nullable)account data:(NSData* _Nullable)data error:(NSError* _Nullable* _Nullable)error;
+@end
+
+@interface AptosNFTFetcher : NSObject <goSeqRefInterface, BaseNFTFetcher> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nullable instancetype)init:(AptosChain* _Nullable)chain;
+@property (nonatomic) AptosChain* _Nullable chain;
+// skipped method NFTFetcher.FetchNFTs with unsupported parameter or return types
+
+- (BaseOptionalString* _Nullable)fetchNFTsJsonString:(NSString* _Nullable)owner error:(NSError* _Nullable* _Nullable)error;
 @end
 
 @interface AptosRestReachability : NSObject <goSeqRefInterface, BaseRpcReachability> {
@@ -200,6 +213,8 @@ FOUNDATION_EXPORT AptosAccount* _Nullable AptosNewAccountWithMnemonic(NSString* 
 FOUNDATION_EXPORT AptosChain* _Nullable AptosNewChainWithRestUrl(NSString* _Nullable restUrl);
 
 FOUNDATION_EXPORT AptosToken* _Nullable AptosNewMainToken(AptosChain* _Nullable chain);
+
+FOUNDATION_EXPORT AptosNFTFetcher* _Nullable AptosNewNFTFetcher(AptosChain* _Nullable chain);
 
 FOUNDATION_EXPORT AptosRestReachability* _Nullable AptosNewRestReachability(void);
 

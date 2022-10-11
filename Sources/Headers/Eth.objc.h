@@ -23,7 +23,6 @@
 @class EthErc20TxParams;
 @class EthEthChain;
 @class EthGasPrice;
-@class EthNft;
 @class EthOptimismLayer2Gas;
 @class EthRSS3Fetcher;
 @class EthRSS3Metadata;
@@ -544,24 +543,6 @@ MaxFee = (MaxPriorityFee + BaseFee) * maxFeeRate
 - (EthGasPrice* _Nullable)useRate:(double)priorityRate maxFeeRate:(double)maxFeeRate;
 @end
 
-@interface EthNft : NSObject <goSeqRefInterface> {
-}
-@property(strong, readonly) _Nonnull id _ref;
-
-- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
-- (nonnull instancetype)init;
-@property (nonatomic) int64_t timestamp;
-@property (nonatomic) NSString* _Nonnull hashString;
-@property (nonatomic) NSString* _Nonnull id_;
-@property (nonatomic) NSString* _Nonnull name;
-@property (nonatomic) NSString* _Nonnull image;
-@property (nonatomic) NSString* _Nonnull standard;
-@property (nonatomic) NSString* _Nonnull collection;
-@property (nonatomic) NSString* _Nonnull description;
-@property (nonatomic) NSString* _Nonnull contractAddress;
-@property (nonatomic) NSString* _Nonnull relatedUrl;
-@end
-
 @interface EthOptimismLayer2Gas : NSObject <goSeqRefInterface> {
 }
 @property(strong, readonly) _Nonnull id _ref;
@@ -578,7 +559,7 @@ MaxFee = (MaxPriorityFee + BaseFee) * maxFeeRate
 - (NSString* _Nonnull)gasFee;
 @end
 
-@interface EthRSS3Fetcher : NSObject <goSeqRefInterface> {
+@interface EthRSS3Fetcher : NSObject <goSeqRefInterface, BaseNFTFetcher> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -598,15 +579,15 @@ Possible values: [ethereum, ethereum_classic, binance_smart_chain, polygon, zksy
  */
 @property (nonatomic) NSString* _Nonnull owner;
 @property (nonatomic) NSString* _Nonnull nextCursor;
+// skipped method RSS3Fetcher.FetchNFTs with unsupported parameter or return types
+
 /**
  * @return json string that grouped by nft's collection
  */
-- (BaseOptionalString* _Nullable)fetchNftsJsonString:(NSError* _Nullable* _Nullable)error;
+- (BaseOptionalString* _Nullable)fetchNFTsJsonString:(NSString* _Nullable)owner error:(NSError* _Nullable* _Nullable)error;
 // skipped method RSS3Fetcher.FetchNotes with unsupported parameter or return types
 
 // skipped method RSS3Fetcher.FetchNotesNext with unsupported parameter or return types
-
-// skipped method RSS3Fetcher.FetchNtfs with unsupported parameter or return types
 
 @end
 
@@ -656,7 +637,7 @@ Possible values: [ethereum, ethereum_classic, binance_smart_chain, polygon, zksy
 @property (nonatomic) int64_t timestamp;
 @property (nonatomic) NSString* _Nonnull hash;
 - (BOOL)isNftAction;
-- (EthNft* _Nullable)nft;
+- (BaseNFT* _Nullable)nft;
 /**
  * @return nft identifierKey if the action is a nft action, else return empty
  */
