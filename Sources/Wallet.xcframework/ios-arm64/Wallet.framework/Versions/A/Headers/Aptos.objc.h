@@ -166,7 +166,8 @@
 /**
  * A nonce the dApp should generate
  */
-@property (nonatomic) NSString* _Nonnull nonce;
+@property (nonatomic) int64_t nonce;
+- (NSString* _Nonnull)jsonString;
 @end
 
 @interface AptosSignMessageResponse : NSObject <goSeqRefInterface> {
@@ -179,11 +180,12 @@
 @property (nonatomic) NSString* _Nonnull application;
 @property (nonatomic) int64_t chainId;
 @property (nonatomic) NSString* _Nonnull message;
-@property (nonatomic) NSString* _Nonnull nonce;
+@property (nonatomic) int64_t nonce;
 @property (nonatomic) NSString* _Nonnull prefix;
 @property (nonatomic) NSString* _Nonnull fullMessage;
 @property (nonatomic) NSString* _Nonnull signature;
 @property (nonatomic) NSData* _Nullable bitmap;
+- (NSString* _Nonnull)jsonString;
 @end
 
 @interface AptosToken : NSObject <goSeqRefInterface, BaseToken> {
