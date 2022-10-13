@@ -24,6 +24,7 @@
 
 // skipped method RestClient.BalanceOf with unsupported parameter or return types
 
+- (long)chainId;
 // skipped method RestClient.CreateTransactionSigningMessage with unsupported parameter or return types
 
 // skipped method RestClient.EstimateGasPrice with unsupported parameter or return types

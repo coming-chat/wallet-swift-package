@@ -17,6 +17,8 @@
 @class AptosChain;
 @class AptosNFTFetcher;
 @class AptosRestReachability;
+@class AptosSignMessagePayload;
+@class AptosSignMessageResponse;
 @class AptosToken;
 @class AptosUtil;
 @protocol AptosIChain;
@@ -93,6 +95,9 @@
  */
 - (BaseTransactionDetail* _Nullable)fetchTransactionDetail:(NSString* _Nullable)hash error:(NSError* _Nullable* _Nullable)error;
 - (long)fetchTransactionStatus:(NSString* _Nullable)hash;
+// skipped method Chain.GenerateTransaction with unsupported parameter or return types
+
+- (BaseOptionalString* _Nullable)generateTransactionJson:(NSString* _Nullable)senderPublicKey payload:(NSString* _Nullable)payload error:(NSError* _Nullable* _Nullable)error;
 - (AptosclientRestClient* _Nullable)getClient:(NSError* _Nullable* _Nullable)error;
 - (id<BaseToken> _Nullable)mainToken;
 /**
@@ -101,6 +106,14 @@
  */
 - (NSString* _Nonnull)sendRawTransaction:(NSString* _Nullable)signedTx error:(NSError* _Nullable* _Nullable)error;
 - (BaseOptionalString* _Nullable)signAndSendTransaction:(id<BaseAccount> _Nullable)account hexData:(NSString* _Nullable)hexData error:(NSError* _Nullable* _Nullable)error;
+- (AptosSignMessageResponse* _Nullable)signMessage:(id<BaseAccount> _Nullable)account payload:(AptosSignMessagePayload* _Nullable)payload error:(NSError* _Nullable* _Nullable)error;
+- (AptosSignMessageResponse* _Nullable)signMessageJson:(id<BaseAccount> _Nullable)account payload:(NSString* _Nullable)payload error:(NSError* _Nullable* _Nullable)error;
+// skipped method Chain.SignTransaction with unsupported parameter or return types
+
+- (BaseOptionalString* _Nullable)signTransactionJson:(id<BaseAccount> _Nullable)account transaction:(NSString* _Nullable)transaction error:(NSError* _Nullable* _Nullable)error;
+// skipped method Chain.SubmitTransaction with unsupported parameter or return types
+
+- (BaseOptionalString* _Nullable)submitTransactionJson:(NSString* _Nullable)signedTxn error:(NSError* _Nullable* _Nullable)error;
 - (NSString* _Nonnull)submitTransactionPayloadBCS:(id<BaseAccount> _Nullable)account data:(NSData* _Nullable)data error:(NSError* _Nullable* _Nullable)error;
 @end
 
@@ -126,6 +139,51 @@
  * @return latency (ms) of rpc query blockNumber. -1 means the connection failed.
  */
 - (BaseRpcLatency* _Nullable)latencyOf:(NSString* _Nullable)rpc timeout:(int64_t)timeout error:(NSError* _Nullable* _Nullable)error;
+@end
+
+@interface AptosSignMessagePayload : NSObject <goSeqRefInterface> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nonnull instancetype)init;
+/**
+ * Should we include the address of the account in the message
+ */
+@property (nonatomic) BOOL address;
+/**
+ * Should we include the domain of the dApp
+ */
+@property (nonatomic) BOOL application;
+/**
+ * Should we include the current chain id the wallet is connected to
+ */
+@property (nonatomic) BOOL chainId;
+/**
+ * The message to be signed and displayed to the user
+ */
+@property (nonatomic) NSString* _Nonnull message;
+/**
+ * A nonce the dApp should generate
+ */
+@property (nonatomic) NSString* _Nonnull nonce;
+@end
+
+@interface AptosSignMessageResponse : NSObject <goSeqRefInterface> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nonnull instancetype)init;
+@property (nonatomic) NSString* _Nonnull address;
+@property (nonatomic) NSString* _Nonnull application;
+@property (nonatomic) int64_t chainId;
+@property (nonatomic) NSString* _Nonnull message;
+@property (nonatomic) NSString* _Nonnull nonce;
+@property (nonatomic) NSString* _Nonnull prefix;
+@property (nonatomic) NSString* _Nonnull fullMessage;
+@property (nonatomic) NSString* _Nonnull signature;
+@property (nonatomic) NSData* _Nullable bitmap;
 @end
 
 @interface AptosToken : NSObject <goSeqRefInterface, BaseToken> {
