@@ -520,6 +520,7 @@ user should follow steps, sign and send transaction
 @property (nonatomic) NSString* _Nonnull gasLimit;
 @property (nonatomic) NSString* _Nonnull gasPrice;
 @property (nonatomic) NSString* _Nonnull gasTipCap;
+@property (nonatomic) NSString* _Nonnull jsonData;
 @end
 
 @interface TypesTxStatusReq : NSObject <goSeqRefInterface> {

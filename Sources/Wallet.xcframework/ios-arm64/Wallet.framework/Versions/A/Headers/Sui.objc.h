@@ -54,7 +54,7 @@
 - (BaseOptionalString* _Nullable)signHex:(NSString* _Nullable)messageHex password:(NSString* _Nullable)password error:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface SuiChain : NSObject <goSeqRefInterface, BaseChain> {
+@interface SuiChain : NSObject <goSeqRefInterface, BaseChain, BaseNFTFetcher> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -65,6 +65,12 @@
 - (BaseBalance* _Nullable)balanceOfAddress:(NSString* _Nullable)address error:(NSError* _Nullable* _Nullable)error;
 - (BaseBalance* _Nullable)balanceOfPublicKey:(NSString* _Nullable)publicKey error:(NSError* _Nullable* _Nullable)error;
 - (NSString* _Nonnull)batchFetchTransactionStatus:(NSString* _Nullable)hashListString;
+// skipped method Chain.FetchNFTs with unsupported parameter or return types
+
+/**
+ * Only support devnet now.
+ */
+- (BaseOptionalString* _Nullable)fetchNFTsJsonString:(NSString* _Nullable)owner error:(NSError* _Nullable* _Nullable)error;
 /**
  * Fetch transaction details through transaction hash
  */

@@ -138,6 +138,12 @@ step.StatusParams.Error is util.ErrExecutionStopped, but step.status not change 
 @end
 
 /**
+ * MagicAccountBalance used to distinct wasm sdk from appsdk
+web wallet not support bcs encode tx, show signAndSend(hex(jsonData))
+ */
+FOUNDATION_EXPORT NSString* _Nonnull const ExecutionMagicAccountBalance;
+
+/**
  * NewExecution create exection environment
  */
 FOUNDATION_EXPORT ExecutionExecution* _Nullable ExecutionNewExecution(TypesQuoteRes* _Nullable quote, ExecutionExecutionSetting* _Nullable setting, NSError* _Nullable* _Nullable error);
