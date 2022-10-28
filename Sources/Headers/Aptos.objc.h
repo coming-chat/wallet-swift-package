@@ -16,6 +16,7 @@
 @class AptosAccount;
 @class AptosChain;
 @class AptosNFTFetcher;
+@class AptosNFTPayloadBCSBuilder;
 @class AptosRestReachability;
 @class AptosSignMessagePayload;
 @class AptosSignMessageResponse;
@@ -85,6 +86,7 @@
 - (BaseBalance* _Nullable)balanceOfAddress:(NSString* _Nullable)address error:(NSError* _Nullable* _Nullable)error;
 - (BaseBalance* _Nullable)balanceOfPublicKey:(NSString* _Nullable)publicKey error:(NSError* _Nullable* _Nullable)error;
 - (NSString* _Nonnull)batchFetchTransactionStatus:(NSString* _Nullable)hashListString;
+- (BaseOptionalString* _Nullable)estimateGasPrice:(NSError* _Nullable* _Nullable)error;
 // skipped method Chain.EstimateMaxGasAmount with unsupported parameter or return types
 
 // skipped method Chain.EstimateMaxGasAmountBCS with unsupported parameter or return types
@@ -99,6 +101,7 @@
 
 - (BaseOptionalString* _Nullable)generateTransactionJson:(NSString* _Nullable)senderPublicKey payload:(NSString* _Nullable)payload error:(NSError* _Nullable* _Nullable)error;
 - (AptosclientRestClient* _Nullable)getClient:(NSError* _Nullable* _Nullable)error;
+- (BaseOptionalBool* _Nullable)isAllowedDirectTransferToken:(NSString* _Nullable)account error:(NSError* _Nullable* _Nullable)error;
 - (id<BaseToken> _Nullable)mainToken;
 /**
  * Send the raw transaction on-chain
@@ -127,6 +130,67 @@
 // skipped method NFTFetcher.FetchNFTs with unsupported parameter or return types
 
 - (BaseOptionalString* _Nullable)fetchNFTsJsonString:(NSString* _Nullable)owner error:(NSError* _Nullable* _Nullable)error;
+@end
+
+/**
+ * * BCS Payload builder for NFT (include Coming CID)
+
+	### Demo
+	example for `CIDTokenTransferPayload`
+	```
+	var payload, err = builder.CIDTokenTransferPayload(1234, receiverAddress)
+	var gasPrice, err = chain.EstimateGasPrice()
+	var gasAmount, err := chain.EstimatePayloadGasFeeBCS(account, payload)
+	print("estimate gas fee = %s", gasPrice * gasAmount)
+	var hash, err = chain.SubmitTransactionPayloadBCS(account, payload)
+	print("submited hash = %s", hash)
+	```
+ */
+@interface AptosNFTPayloadBCSBuilder : NSObject <goSeqRefInterface> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nullable instancetype)init:(NSString* _Nullable)contractAddress;
+/**
+ * The contract provider for the CID module. Default is `0xc73d3c0a171c871e1858414734c7776f0b0cfa567c2af7f0070d1436aab2306b`
+ */
+@property (nonatomic) NSString* _Nonnull cidContract;
+- (NSData* _Nullable)cidAllowDirectTransferPayload:(NSError* _Nullable* _Nullable)error;
+// skipped method NFTPayloadBCSBuilder.CIDRegister with unsupported parameter or return types
+
+- (NSData* _Nullable)cidTokenTransferPayload:(int64_t)cid toReceiver:(NSString* _Nullable)toReceiver error:(NSError* _Nullable* _Nullable)error;
+- (NSData* _Nullable)cancelTokenOffer:(NSString* _Nullable)receiver creator:(NSString* _Nullable)creator collection:(NSString* _Nullable)collection name:(NSString* _Nullable)name error:(NSError* _Nullable* _Nullable)error;
+/**
+ * * Build payload that claim token, the nft info will be obtaining through offer hash.
+
+  - @param offerHash The submitted hash of the transaction that offer the token
+  - @param chain The chain on which the transaction resides
+  - @param receiver The token receiver will be check whether it matches the nft offer information.
+  - @return The claim token payload
+ */
+- (NSData* _Nullable)claimTokenFromHash:(NSString* _Nullable)offerHash chain:(AptosChain* _Nullable)chain receiver:(NSString* _Nullable)receiver error:(NSError* _Nullable* _Nullable)error;
+/**
+ * * Build payload that claim token
+
+  - @param sender The transferred token owner
+  - @param creator The token creator
+  - @param collection The token's collection name
+  - @param name The token's name
+  - @return The claim token payload.
+ */
+- (NSData* _Nullable)claimTokenTransactionParams:(NSString* _Nullable)sender creator:(NSString* _Nullable)creator collection:(NSString* _Nullable)collection name:(NSString* _Nullable)name error:(NSError* _Nullable* _Nullable)error;
+- (NSData* _Nullable)offerTokenTransactionNFT:(NSString* _Nullable)receiver nft:(BaseNFT* _Nullable)nft error:(NSError* _Nullable* _Nullable)error;
+/**
+ * * Build payload that offer token
+
+  - @param receiver The token receiver
+  - @param creator The token creator
+  - @param collection The token's collection name
+  - @param name The token's name
+  - @return The offer token payload.
+ */
+- (NSData* _Nullable)offerTokenTransactionParams:(NSString* _Nullable)receiver creator:(NSString* _Nullable)creator collection:(NSString* _Nullable)collection name:(NSString* _Nullable)name error:(NSError* _Nullable* _Nullable)error;
 @end
 
 @interface AptosRestReachability : NSObject <goSeqRefInterface, BaseRpcReachability> {
@@ -275,6 +339,8 @@ FOUNDATION_EXPORT AptosChain* _Nullable AptosNewChainWithRestUrl(NSString* _Null
 FOUNDATION_EXPORT AptosToken* _Nullable AptosNewMainToken(AptosChain* _Nullable chain);
 
 FOUNDATION_EXPORT AptosNFTFetcher* _Nullable AptosNewNFTFetcher(AptosChain* _Nullable chain);
+
+FOUNDATION_EXPORT AptosNFTPayloadBCSBuilder* _Nullable AptosNewNFTPayloadBCSBuilder(NSString* _Nullable contractAddress);
 
 FOUNDATION_EXPORT AptosRestReachability* _Nullable AptosNewRestReachability(void);
 

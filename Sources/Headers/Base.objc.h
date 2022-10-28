@@ -286,6 +286,23 @@ which can only be passed as strings separated by ","
  * failure message
  */
 @property (nonatomic) NSString* _Nonnull failureMessage;
+/**
+ * If this transaction is a CID transfer, its value will be the CID, otherwise it is empty
+ */
+@property (nonatomic) NSString* _Nonnull cidNumber;
+/**
+ * If this transaction is a NFT transfer, its value will be the Token name, otherwise it is empty
+ */
+@property (nonatomic) NSString* _Nonnull tokenName;
+/**
+ * Check the `CIDNumber` is not empty.
+ */
+- (BOOL)isCIDTransfer;
+/**
+ * Check the `TokenName` is not empty.
+ */
+- (BOOL)isNFTTransfer;
+- (NSString* _Nonnull)jsonString;
 @end
 
 FOUNDATION_EXPORT const long BaseTransactionStatusFailure;

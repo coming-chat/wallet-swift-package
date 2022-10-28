@@ -735,6 +735,8 @@ Deprecated: use NewRedPacketContract() get base.RedPacketContract, and SendTrans
 @property (nonatomic) BaseTransactionDetail* _Nullable transactionDetail;
 @property (nonatomic) NSString* _Nonnull amountName;
 @property (nonatomic) int16_t amountDecimal;
+- (BOOL)isCIDTransfer;
+- (BOOL)isNFTTransfer;
 - (NSString* _Nonnull)jsonString;
 @end
 
@@ -925,6 +927,8 @@ FOUNDATION_EXPORT BOOL EthIsValidAddress(NSString* _Nullable address);
  * It will check based on eip55 rules
  */
 FOUNDATION_EXPORT BOOL EthIsValidEIP55Address(NSString* _Nullable address);
+
+FOUNDATION_EXPORT BOOL EthIsValidSignature(NSData* _Nullable publicKey, NSData* _Nullable msg, NSData* _Nullable signature);
 
 FOUNDATION_EXPORT EthAccount* _Nullable EthNewAccountWithMnemonic(NSString* _Nullable mnemonic, NSError* _Nullable* _Nullable error);
 

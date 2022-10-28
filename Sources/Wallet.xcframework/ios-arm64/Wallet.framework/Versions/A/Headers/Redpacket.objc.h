@@ -95,6 +95,8 @@ add empty arg to distinct with NewRedPacketActionCreate signature when build jar
 @property (nonatomic) int16_t amountDecimal;
 @property (nonatomic) NSString* _Nonnull redPacketAmount;
 @property (nonatomic) NSString* _Nonnull chainName;
+- (BOOL)isCIDTransfer;
+- (BOOL)isNFTTransfer;
 - (NSString* _Nonnull)jsonString;
 @end
 

@@ -37,6 +37,8 @@
 
 // skipped method RestClient.GetAccountResource with unsupported parameter or return types
 
+// skipped method RestClient.GetAccountResourceHandle404 with unsupported parameter or return types
+
 // skipped method RestClient.GetAccountResources with unsupported parameter or return types
 
 // skipped method RestClient.GetAccountTransactions with unsupported parameter or return types

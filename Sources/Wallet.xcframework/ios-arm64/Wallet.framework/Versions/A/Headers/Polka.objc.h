@@ -340,9 +340,4 @@ FOUNDATION_EXPORT PolkaUtil* _Nullable PolkaNewUtilWithNetwork(long network);
  */
 FOUNDATION_EXPORT PolkaToken* _Nullable PolkaNewXBTCToken(NSError* _Nullable* _Nullable error);
 
-// skipped function Verify with unsupported parameter or return types
-
-
-FOUNDATION_EXPORT BOOL PolkaVerifyWithPublicHex(NSString* _Nullable publicKey, NSData* _Nullable msg, NSData* _Nullable signature);
-
 #endif
