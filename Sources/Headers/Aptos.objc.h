@@ -125,8 +125,13 @@
 @property(strong, readonly) _Nonnull id _ref;
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+/**
+ * Deprecated: use `NewNFTFetcherGraphUrl()`
+ */
 - (nullable instancetype)init:(AptosChain* _Nullable)chain;
+- (nullable instancetype)initGraphUrl:(NSString* _Nullable)url;
 @property (nonatomic) AptosChain* _Nullable chain;
+@property (nonatomic) NSString* _Nonnull graphUrl;
 // skipped method NFTFetcher.FetchNFTs with unsupported parameter or return types
 
 - (BaseOptionalString* _Nullable)fetchNFTsJsonString:(NSString* _Nullable)owner error:(NSError* _Nullable* _Nullable)error;
@@ -300,6 +305,8 @@ FOUNDATION_EXPORT NSString* _Nonnull const AptosAptosSymbol;
 FOUNDATION_EXPORT NSString* _Nonnull const AptosFaucetUrlDevnet;
 FOUNDATION_EXPORT NSString* _Nonnull const AptosFaucetUrlTestnet;
 FOUNDATION_EXPORT const int64_t AptosGasPrice;
+FOUNDATION_EXPORT NSString* _Nonnull const AptosGraphUrlMainnet;
+FOUNDATION_EXPORT NSString* _Nonnull const AptosGraphUrlTestnet;
 FOUNDATION_EXPORT const int64_t AptosMaxGasAmount;
 FOUNDATION_EXPORT const int64_t AptosTxExpireSec;
 
@@ -338,7 +345,12 @@ FOUNDATION_EXPORT AptosChain* _Nullable AptosNewChainWithRestUrl(NSString* _Null
 
 FOUNDATION_EXPORT AptosToken* _Nullable AptosNewMainToken(AptosChain* _Nullable chain);
 
+/**
+ * Deprecated: use `NewNFTFetcherGraphUrl()`
+ */
 FOUNDATION_EXPORT AptosNFTFetcher* _Nullable AptosNewNFTFetcher(AptosChain* _Nullable chain);
+
+FOUNDATION_EXPORT AptosNFTFetcher* _Nullable AptosNewNFTFetcherGraphUrl(NSString* _Nullable url);
 
 FOUNDATION_EXPORT AptosNFTPayloadBCSBuilder* _Nullable AptosNewNFTPayloadBCSBuilder(NSString* _Nullable contractAddress);
 
