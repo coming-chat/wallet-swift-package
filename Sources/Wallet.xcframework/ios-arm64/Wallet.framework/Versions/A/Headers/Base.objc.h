@@ -164,6 +164,14 @@ which can only be passed as strings separated by ","
 @property (nonatomic) NSString* _Nonnull description;
 @property (nonatomic) NSString* _Nonnull contractAddress;
 @property (nonatomic) NSString* _Nonnull relatedUrl;
+/**
+ * Aptos token's largest_property_version
+ */
+@property (nonatomic) int64_t aptTokenVersion;
+/**
+ * Aptos token's amount
+ */
+@property (nonatomic) int64_t aptAmount;
 - (NSString* _Nonnull)groupName;
 @end
 
@@ -320,6 +328,13 @@ FOUNDATION_EXPORT const long BaseTransactionStatusSuccess;
 
 
 FOUNDATION_EXPORT BaseBalance* _Nullable BaseEmptyBalance(void);
+
+/**
+ * ExtractNFTImageUrl
+Extract the nft's real image url.
+If the content type of the given url is JSON, it's will return the `image` field specified url.
+ */
+FOUNDATION_EXPORT BaseOptionalString* _Nullable BaseExtractNFTImageUrl(NSString* _Nullable url, NSError* _Nullable* _Nullable error);
 
 // skipped function MapAnyToBasicError with unsupported parameter or return types
 
