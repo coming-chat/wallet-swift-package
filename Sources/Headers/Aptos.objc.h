@@ -126,10 +126,13 @@
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
 /**
- * Deprecated: use `NewNFTFetcherGraphUrl()`
+ * Default is `GraphUrlMainnet` if graphUrl is emptry.
  */
-- (nullable instancetype)init:(AptosChain* _Nullable)chain;
-- (nullable instancetype)initGraphUrl:(NSString* _Nullable)url;
+- (nullable instancetype)init:(NSString* _Nullable)graphUrl;
+/**
+ * Deprecated: use `NewNFTFetcher(graphUrl)`
+ */
+- (nullable instancetype)initWithChain:(AptosChain* _Nullable)chain;
 @property (nonatomic) AptosChain* _Nullable chain;
 @property (nonatomic) NSString* _Nonnull graphUrl;
 // skipped method NFTFetcher.FetchNFTs with unsupported parameter or return types
@@ -350,11 +353,14 @@ FOUNDATION_EXPORT AptosChain* _Nullable AptosNewChainWithRestUrl(NSString* _Null
 FOUNDATION_EXPORT AptosToken* _Nullable AptosNewMainToken(AptosChain* _Nullable chain);
 
 /**
- * Deprecated: use `NewNFTFetcherGraphUrl()`
+ * Default is `GraphUrlMainnet` if graphUrl is emptry.
  */
-FOUNDATION_EXPORT AptosNFTFetcher* _Nullable AptosNewNFTFetcher(AptosChain* _Nullable chain);
+FOUNDATION_EXPORT AptosNFTFetcher* _Nullable AptosNewNFTFetcher(NSString* _Nullable graphUrl);
 
-FOUNDATION_EXPORT AptosNFTFetcher* _Nullable AptosNewNFTFetcherGraphUrl(NSString* _Nullable url);
+/**
+ * Deprecated: use `NewNFTFetcher(graphUrl)`
+ */
+FOUNDATION_EXPORT AptosNFTFetcher* _Nullable AptosNewNFTFetcherWithChain(AptosChain* _Nullable chain);
 
 FOUNDATION_EXPORT AptosNFTPayloadBCSBuilder* _Nullable AptosNewNFTPayloadBCSBuilder(NSString* _Nullable contractAddress);
 

@@ -172,6 +172,7 @@ which can only be passed as strings separated by ","
  * Aptos token's amount
  */
 @property (nonatomic) int64_t aptAmount;
+- (NSString* _Nonnull)extractedImageUrl;
 - (NSString* _Nonnull)groupName;
 @end
 
