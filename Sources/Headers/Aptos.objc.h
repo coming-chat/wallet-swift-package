@@ -137,6 +137,8 @@
 @property (nonatomic) NSString* _Nonnull graphUrl;
 // skipped method NFTFetcher.FetchNFTs with unsupported parameter or return types
 
+// skipped method NFTFetcher.FetchNFTsFilterByCreatorAddr with unsupported parameter or return types
+
 - (BaseOptionalString* _Nullable)fetchNFTsJsonString:(NSString* _Nullable)owner error:(NSError* _Nullable* _Nullable)error;
 @end
 
