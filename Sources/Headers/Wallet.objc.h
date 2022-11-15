@@ -24,6 +24,7 @@
 @class WalletAccountCache;
 @class WalletAccountInfo;
 @class WalletWallet;
+@class WalletWatchAccount;
 
 /**
  * 旧的钱包对象在内存里面会缓存 **助记词**，还有很多链的账号 **私钥**，这是比较危险的，可能会有用户钱包被盗的风险
@@ -78,8 +79,10 @@
  */
 - (nullable instancetype)initWithKeyStore:(NSString* _Nullable)keyStoreJson password:(NSString* _Nullable)password;
 - (nullable instancetype)initWithMnemonic:(NSString* _Nullable)mnemonic;
+- (nullable instancetype)initWithWatchAddress:(NSString* _Nullable)address;
 @property (nonatomic) NSString* _Nonnull mnemonic;
 @property (nonatomic) NSString* _Nonnull keystore;
+@property (nonatomic) NSString* _Nonnull address;
 /**
  * check keystore password
  */
@@ -137,8 +140,10 @@
  * Deprecated: GetPublicKeyHex is deprecated. Please use wallet.PolkaAccount(network).PublicKey() instead
  */
 - (NSString* _Nonnull)getPublicKeyHex:(NSError* _Nullable* _Nullable)error;
+- (WalletWatchAccount* _Nullable)getWatchWallet;
 - (BOOL)isKeystoreWallet;
 - (BOOL)isMnemonicWallet;
+- (BOOL)isWatchWallet;
 /**
  * Deprecated: Sign is deprecated. Please use wallet.PolkaAccount(network).Sign() instead
  */
@@ -149,23 +154,28 @@
 - (NSData* _Nullable)signFromHex:(NSString* _Nullable)messageHex password:(NSString* _Nullable)password error:(NSError* _Nullable* _Nullable)error;
 @end
 
-FOUNDATION_EXPORT NSString* _Nonnull const WalletChainTypeAptos;
+@interface WalletWatchAccount : NSObject <goSeqRefInterface, BaseAccount> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nonnull instancetype)init;
+- (NSString* _Nonnull)address;
+- (NSData* _Nullable)privateKey:(NSError* _Nullable* _Nullable)error;
+- (NSString* _Nonnull)privateKeyHex:(NSError* _Nullable* _Nullable)error;
+- (NSData* _Nullable)publicKey;
+- (NSString* _Nonnull)publicKeyHex;
+- (NSData* _Nullable)sign:(NSData* _Nullable)message password:(NSString* _Nullable)password error:(NSError* _Nullable* _Nullable)error;
+- (BaseOptionalString* _Nullable)signHex:(NSString* _Nullable)messageHex password:(NSString* _Nullable)password error:(NSError* _Nullable* _Nullable)error;
+@end
+
 FOUNDATION_EXPORT NSString* _Nonnull const WalletChainTypeBitcoin;
 FOUNDATION_EXPORT NSString* _Nonnull const WalletChainTypeCosmos;
-FOUNDATION_EXPORT NSString* _Nonnull const WalletChainTypeDoge;
 /**
  * contains ethereum, bsc, chainx_eth, polygon...
  */
 FOUNDATION_EXPORT NSString* _Nonnull const WalletChainTypeEthereum;
-/**
- * contains chainx, minix, sherpax, polkadot...
- */
-FOUNDATION_EXPORT NSString* _Nonnull const WalletChainTypePolka;
-FOUNDATION_EXPORT NSString* _Nonnull const WalletChainTypeSignet;
 FOUNDATION_EXPORT NSString* _Nonnull const WalletChainTypeSolana;
-FOUNDATION_EXPORT NSString* _Nonnull const WalletChainTypeStarcoin;
-FOUNDATION_EXPORT NSString* _Nonnull const WalletChainTypeSui;
-FOUNDATION_EXPORT NSString* _Nonnull const WalletChainTypeTerra;
 
 @interface Wallet : NSObject
 + (NSError* _Nullable) errInvalidMnemonic;
@@ -191,5 +201,7 @@ FOUNDATION_EXPORT WalletAccountCache* _Nullable WalletNewAccountCache(void);
 FOUNDATION_EXPORT WalletWallet* _Nullable WalletNewWalletWithKeyStore(NSString* _Nullable keyStoreJson, NSString* _Nullable password, NSError* _Nullable* _Nullable error);
 
 FOUNDATION_EXPORT WalletWallet* _Nullable WalletNewWalletWithMnemonic(NSString* _Nullable mnemonic, NSError* _Nullable* _Nullable error);
+
+FOUNDATION_EXPORT WalletWallet* _Nullable WalletNewWalletWithWatchAddress(NSString* _Nullable address, NSError* _Nullable* _Nullable error);
 
 #endif
