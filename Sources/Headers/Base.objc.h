@@ -17,6 +17,7 @@
 @class BaseOptionalString;
 @class BaseReachMonitor;
 @class BaseRpcLatency;
+@class BaseStringArray;
 @class BaseTokenInfo;
 @class BaseTransaction;
 @class BaseTransactionDetail;
@@ -239,6 +240,22 @@ which can only be passed as strings separated by ","
 @property (nonatomic) NSString* _Nonnull rpcUrl;
 @property (nonatomic) int64_t latency;
 @property (nonatomic) int64_t height;
+@end
+
+@interface BaseStringArray : NSObject <goSeqRefInterface> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nonnull instancetype)init;
+// skipped field StringArray.Values with unsupported type: []string
+
+- (void)append:(NSString* _Nullable)value;
+- (long)count;
+- (void)remove:(long)index;
+- (void)setValue:(NSString* _Nullable)value index:(long)index;
+- (NSString* _Nonnull)string;
+- (NSString* _Nonnull)valueOf:(long)index;
 @end
 
 @interface BaseTokenInfo : NSObject <goSeqRefInterface> {

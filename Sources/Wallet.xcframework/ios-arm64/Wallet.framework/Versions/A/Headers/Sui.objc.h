@@ -16,6 +16,7 @@
 @class SuiChain;
 @class SuiPickedCoins;
 @class SuiToken;
+@class SuiTransaction;
 @class SuiUtil;
 
 @interface SuiAccount : NSObject <goSeqRefInterface, BaseAccount, BaseAddressUtil> {
@@ -67,9 +68,6 @@
 - (NSString* _Nonnull)batchFetchTransactionStatus:(NSString* _Nullable)hashListString;
 // skipped method Chain.FetchNFTs with unsupported parameter or return types
 
-/**
- * Only support devnet now.
- */
 - (BaseOptionalString* _Nullable)fetchNFTsJsonString:(NSString* _Nullable)owner error:(NSError* _Nullable* _Nullable)error;
 /**
  * Fetch transaction details through transaction hash
@@ -78,10 +76,23 @@
 - (long)fetchTransactionStatus:(NSString* _Nullable)hash;
 - (id<BaseToken> _Nullable)mainToken;
 /**
+ * @param gasId gas object to be used in this transaction, the gateway will pick one from the signer's possession if not provided
+ */
+- (SuiTransaction* _Nullable)mintNFT:(NSString* _Nullable)creator name:(NSString* _Nullable)name description:(NSString* _Nullable)description uri:(NSString* _Nullable)uri gasId:(NSString* _Nullable)gasId gasBudget:(int64_t)gasBudget error:(NSError* _Nullable* _Nullable)error;
+/**
  * Send the raw transaction on-chain
 @return the hex hash string
  */
 - (NSString* _Nonnull)sendRawTransaction:(NSString* _Nullable)signedTx error:(NSError* _Nullable* _Nullable)error;
+/**
+ * Just encapsulation and callbacks to method `TransferObject`.
+@param gasId gas object to be used in this transaction, the gateway will pick one from the signer's possession if not provided
+ */
+- (SuiTransaction* _Nullable)transferNFT:(NSString* _Nullable)sender receiver:(NSString* _Nullable)receiver nftId:(NSString* _Nullable)nftId gasId:(NSString* _Nullable)gasId gasBudget:(int64_t)gasBudget error:(NSError* _Nullable* _Nullable)error;
+/**
+ * @param gasId gas object to be used in this transaction, the gateway will pick one from the signer's possession if not provided
+ */
+- (SuiTransaction* _Nullable)transferObject:(NSString* _Nullable)sender receiver:(NSString* _Nullable)receiver objectId:(NSString* _Nullable)objectId gasId:(NSString* _Nullable)gasId gasBudget:(int64_t)gasBudget error:(NSError* _Nullable* _Nullable)error;
 @end
 
 @interface SuiPickedCoins : NSObject <goSeqRefInterface> {
@@ -118,6 +129,17 @@
 - (BaseTokenInfo* _Nullable)tokenInfo:(NSError* _Nullable* _Nullable)error;
 @end
 
+@interface SuiTransaction : NSObject <goSeqRefInterface> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nonnull instancetype)init;
+// skipped field Transaction.Txn with unsupported type: invalid type
+
+- (BaseOptionalString* _Nullable)signWithAccount:(SuiAccount* _Nullable)account error:(NSError* _Nullable* _Nullable)error;
+@end
+
 @interface SuiUtil : NSObject <goSeqRefInterface, BaseAddressUtil> {
 }
 @property(strong, readonly) _Nonnull id _ref;
@@ -135,6 +157,7 @@
 - (BOOL)isValidAddress:(NSString* _Nullable)address;
 @end
 
+FOUNDATION_EXPORT NSString* _Nonnull const SuiFaucetUrlTestnet;
 FOUNDATION_EXPORT const int64_t SuiMaxGasBudget;
 FOUNDATION_EXPORT const int64_t SuiMaxGasForMerge;
 FOUNDATION_EXPORT const int64_t SuiMaxGasForTransfer;
@@ -154,6 +177,14 @@ FOUNDATION_EXPORT NSString* _Nonnull SuiDecodeAddressToPublicKey(NSString* _Null
  * @param publicKey can start with 0x or not.
  */
 FOUNDATION_EXPORT NSString* _Nonnull SuiEncodePublicKeyToAddress(NSString* _Nullable publicKey, NSError* _Nullable* _Nullable error);
+
+/**
+ * *
+ * @param address Hex-encoded 16 bytes Sui account address wich mints tokens
+ * @param faucetUrl default https://faucet.testnet.sui.io/gas
+ * @return digest of transfer transaction.
+ */
+FOUNDATION_EXPORT BaseOptionalString* _Nullable SuiFaucetFundAccount(NSString* _Nullable address, NSString* _Nullable faucetUrl, NSError* _Nullable* _Nullable error);
 
 /**
  * @param chainnet chain name

@@ -149,6 +149,24 @@
 - (NSData* _Nullable)signFromHex:(NSString* _Nullable)messageHex password:(NSString* _Nullable)password error:(NSError* _Nullable* _Nullable)error;
 @end
 
+FOUNDATION_EXPORT NSString* _Nonnull const WalletChainTypeAptos;
+FOUNDATION_EXPORT NSString* _Nonnull const WalletChainTypeBitcoin;
+FOUNDATION_EXPORT NSString* _Nonnull const WalletChainTypeCosmos;
+FOUNDATION_EXPORT NSString* _Nonnull const WalletChainTypeDoge;
+/**
+ * contains ethereum, bsc, chainx_eth, polygon...
+ */
+FOUNDATION_EXPORT NSString* _Nonnull const WalletChainTypeEthereum;
+/**
+ * contains chainx, minix, sherpax, polkadot...
+ */
+FOUNDATION_EXPORT NSString* _Nonnull const WalletChainTypePolka;
+FOUNDATION_EXPORT NSString* _Nonnull const WalletChainTypeSignet;
+FOUNDATION_EXPORT NSString* _Nonnull const WalletChainTypeSolana;
+FOUNDATION_EXPORT NSString* _Nonnull const WalletChainTypeStarcoin;
+FOUNDATION_EXPORT NSString* _Nonnull const WalletChainTypeSui;
+FOUNDATION_EXPORT NSString* _Nonnull const WalletChainTypeTerra;
+
 @interface Wallet : NSObject
 + (NSError* _Nullable) errInvalidMnemonic;
 + (void) setErrInvalidMnemonic:(NSError* _Nullable)v;
@@ -156,6 +174,8 @@
 @end
 
 FOUNDATION_EXPORT NSString* _Nonnull WalletByteToHex(NSData* _Nullable data);
+
+FOUNDATION_EXPORT BaseStringArray* _Nullable WalletChainTypeFrom(NSString* _Nullable address);
 
 FOUNDATION_EXPORT NSString* _Nonnull WalletGenMnemonic(NSError* _Nullable* _Nullable error);
 
