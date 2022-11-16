@@ -79,10 +79,9 @@
  */
 - (nullable instancetype)initWithKeyStore:(NSString* _Nullable)keyStoreJson password:(NSString* _Nullable)password;
 - (nullable instancetype)initWithMnemonic:(NSString* _Nullable)mnemonic;
-- (nullable instancetype)initWithWatchAddress:(NSString* _Nullable)address;
 @property (nonatomic) NSString* _Nonnull mnemonic;
 @property (nonatomic) NSString* _Nonnull keystore;
-@property (nonatomic) NSString* _Nonnull address;
+@property (nonatomic) NSString* _Nonnull watchAddress;
 /**
  * check keystore password
  */
@@ -202,6 +201,6 @@ FOUNDATION_EXPORT WalletWallet* _Nullable WalletNewWalletWithKeyStore(NSString* 
 
 FOUNDATION_EXPORT WalletWallet* _Nullable WalletNewWalletWithMnemonic(NSString* _Nullable mnemonic, NSError* _Nullable* _Nullable error);
 
-FOUNDATION_EXPORT WalletWallet* _Nullable WalletNewWalletWithWatchAddress(NSString* _Nullable address, NSError* _Nullable* _Nullable error);
+FOUNDATION_EXPORT WalletWallet* _Nullable WalletWatchWallet(NSString* _Nullable address, NSError* _Nullable* _Nullable error);
 
 #endif

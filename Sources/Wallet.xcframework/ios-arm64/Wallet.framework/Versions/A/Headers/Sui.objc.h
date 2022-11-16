@@ -107,9 +107,11 @@
 
 // skipped field PickedCoins.Amount with unsupported type: *math/big.Int
 
-// skipped method PickedCoins.EstimateGas with unsupported parameter or return types
+// skipped method PickedCoins.CoinIds with unsupported parameter or return types
 
-// skipped method PickedCoins.LastCoin with unsupported parameter or return types
+// skipped method PickedCoins.EstimateMergeGas with unsupported parameter or return types
+
+// skipped method PickedCoins.EstimateTotalGas with unsupported parameter or return types
 
 @end
 
@@ -160,6 +162,7 @@
 FOUNDATION_EXPORT NSString* _Nonnull const SuiFaucetUrlTestnet;
 FOUNDATION_EXPORT const int64_t SuiMaxGasBudget;
 FOUNDATION_EXPORT const int64_t SuiMaxGasForMerge;
+FOUNDATION_EXPORT const int64_t SuiMaxGasForPay;
 FOUNDATION_EXPORT const int64_t SuiMaxGasForTransfer;
 FOUNDATION_EXPORT const int64_t SuiSuiDecimal;
 FOUNDATION_EXPORT NSString* _Nonnull const SuiSuiName;
