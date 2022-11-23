@@ -882,6 +882,8 @@ FOUNDATION_EXPORT NSString* _Nonnull const EthRPAMethodOpen;
 FOUNDATION_EXPORT NSString* _Nonnull const EthRedPacketABI;
 FOUNDATION_EXPORT NSString* _Nonnull const EthTagCollectible;
 
+FOUNDATION_EXPORT EthAccount* _Nullable EthAccountWithPrivateKey(NSString* _Nullable privatekey, NSError* _Nullable* _Nullable error);
+
 /**
  * Warning: eth cannot support decode address to public key
  */

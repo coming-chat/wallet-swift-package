@@ -145,6 +145,8 @@ FOUNDATION_EXPORT NSString* _Nonnull const BtcChainSignet;
 
 @end
 
+FOUNDATION_EXPORT BtcAccount* _Nullable BtcAccountWithPrivateKey(NSString* _Nullable prikey, NSString* _Nullable chainnet, NSError* _Nullable* _Nullable error);
+
 FOUNDATION_EXPORT NSString* _Nonnull BtcEncodePublicDataToAddress(NSData* _Nullable public, NSString* _Nullable chainnet, NSError* _Nullable* _Nullable error);
 
 /**

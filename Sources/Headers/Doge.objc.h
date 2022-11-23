@@ -234,6 +234,8 @@ FOUNDATION_EXPORT NSString* _Nonnull const DogeChainTestnet;
 
 @end
 
+FOUNDATION_EXPORT DogeAccount* _Nullable DogeAccountWithPrivateKey(NSString* _Nullable prikey, NSString* _Nullable chainnet, NSError* _Nullable* _Nullable error);
+
 FOUNDATION_EXPORT NSString* _Nonnull DogeEncodePublicDataToAddress(NSData* _Nullable public, NSString* _Nullable chainnet, NSError* _Nullable* _Nullable error);
 
 /**

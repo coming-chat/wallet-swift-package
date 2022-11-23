@@ -269,6 +269,8 @@ FOUNDATION_EXPORT NSString* _Nonnull const CosmosTerraUSTDenom;
 // skipped function AccAddressFromBech32 with unsupported parameter or return types
 
 
+FOUNDATION_EXPORT CosmosAccount* _Nullable CosmosAccountWithPrivateKey(NSString* _Nullable privatekey, int64_t cointype, NSString* _Nullable addressPrefix, NSError* _Nullable* _Nullable error);
+
 FOUNDATION_EXPORT NSString* _Nonnull CosmosBech32FromAccAddress(NSData* _Nullable address, NSString* _Nullable addressPrefix, NSError* _Nullable* _Nullable error);
 
 /**
