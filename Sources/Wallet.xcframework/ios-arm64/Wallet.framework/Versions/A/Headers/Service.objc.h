@@ -44,6 +44,10 @@
  */
 - (TypesQuoteRes* _Nullable)getQuote:(TypesQuoteReq* _Nullable)quoteReq error:(NSError* _Nullable* _Nullable)error;
 /**
+ * GetQuote get swap staps & estimate result
+ */
+- (TypesQuoteListRes* _Nullable)getQuoteList:(TypesQuoteReq* _Nullable)quoteReq error:(NSError* _Nullable* _Nullable)error;
+/**
  * GetStatus query cross swap status by fromChain & txHash
 Deprecated: use GetStatusBySwapId
  */

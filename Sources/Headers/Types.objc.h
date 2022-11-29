@@ -26,6 +26,7 @@
 @class TypesEstimateGasReq;
 @class TypesEstimateGasRes;
 @class TypesGetChainTokensReq;
+@class TypesQuoteListRes;
 @class TypesQuoteReq;
 @class TypesQuoteRes;
 @class TypesReportSwapReq;
@@ -226,6 +227,7 @@ connections struct like ["chainA":{"tokens": [tokenAA, tokenAB]}, "chainB": {"to
 @property (nonatomic) long executionDuration;
 // skipped field Estimate.Costs with unsupported type: []github.com/coming-chat/go-defi-sdk/core/crossswap/types.Cost
 
+@property (nonatomic) float swapRate;
 - (TypesCost* _Nullable)indexCost:(long)i;
 - (long)sizeCosts;
 @end
@@ -264,6 +266,18 @@ connections struct like ["chainA":{"tokens": [tokenAA, tokenAB]}, "chainB": {"to
 @property (nonatomic) long pageSize;
 @end
 
+@interface TypesQuoteListRes : NSObject <goSeqRefInterface> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nonnull instancetype)init;
+// skipped field QuoteListRes.QuoteList with unsupported type: []github.com/coming-chat/go-defi-sdk/core/crossswap/types.QuoteRes
+
+- (TypesQuoteRes* _Nullable)index:(long)i;
+- (long)size;
+@end
+
 @interface TypesQuoteReq : NSObject <goSeqRefInterface> {
 }
 @property(strong, readonly) _Nonnull id _ref;
@@ -280,6 +294,8 @@ connections struct like ["chainA":{"tokens": [tokenAA, tokenAB]}, "chainB": {"to
 @property (nonatomic) NSString* _Nonnull fromAmount;
 @property (nonatomic) NSString* _Nonnull toAddress;
 @property (nonatomic) float slippage;
+@property (nonatomic) NSString* _Nonnull publicKey;
+@property (nonatomic) NSString* _Nonnull platform;
 @end
 
 @interface TypesQuoteRes : NSObject <goSeqRefInterface> {
