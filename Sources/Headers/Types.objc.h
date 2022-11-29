@@ -22,10 +22,12 @@
 @class TypesConnectionsRes;
 @class TypesCost;
 @class TypesCurrencyBaseInfo;
+@class TypesDeviceInfo;
 @class TypesEstimate;
 @class TypesEstimateGasReq;
 @class TypesEstimateGasRes;
 @class TypesGetChainTokensReq;
+@class TypesGetDynamicTxDataReq;
 @class TypesQuoteListRes;
 @class TypesQuoteReq;
 @class TypesQuoteRes;
@@ -215,6 +217,16 @@ connections struct like ["chainA":{"tokens": [tokenAA, tokenAB]}, "chainB": {"to
 @property (nonatomic) long decimals;
 @end
 
+@interface TypesDeviceInfo : NSObject <goSeqRefInterface> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nonnull instancetype)init;
+@property (nonatomic) NSString* _Nonnull platform;
+@property (nonatomic) NSString* _Nonnull userAgent;
+@end
+
 @interface TypesEstimate : NSObject <goSeqRefInterface> {
 }
 @property(strong, readonly) _Nonnull id _ref;
@@ -264,6 +276,17 @@ connections struct like ["chainA":{"tokens": [tokenAA, tokenAB]}, "chainB": {"to
 @property (nonatomic) NSString* _Nonnull chainName;
 @property (nonatomic) long page;
 @property (nonatomic) long pageSize;
+@end
+
+@interface TypesGetDynamicTxDataReq : NSObject <goSeqRefInterface> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nonnull instancetype)init;
+@property (nonatomic) NSString* _Nonnull swapId;
+// skipped field GetDynamicTxDataReq.Action with unsupported type: github.com/coming-chat/go-defi-sdk/core/crossswap/types.Action
+
 @end
 
 @interface TypesQuoteListRes : NSObject <goSeqRefInterface> {
@@ -421,6 +444,7 @@ user should follow steps, sign and send transaction
 @property (nonatomic) TypesAction* _Nullable action;
 @property (nonatomic) TypesEstimate* _Nullable estimate;
 @property (nonatomic) TypesTxData* _Nullable txData;
+@property (nonatomic) BOOL isDynamic;
 @end
 
 @interface TypesStepPath : NSObject <goSeqRefInterface> {
@@ -563,6 +587,7 @@ user should follow steps, sign and send transaction
 FOUNDATION_EXPORT NSString* _Nonnull const TypesChainTypeAptos;
 FOUNDATION_EXPORT NSString* _Nonnull const TypesChainTypeEvm;
 FOUNDATION_EXPORT NSString* _Nonnull const TypesChainTypePolka;
+FOUNDATION_EXPORT NSString* _Nonnull const TypesChainTypeSui;
 FOUNDATION_EXPORT NSString* _Nonnull const TypesCostTypeCrossFee;
 FOUNDATION_EXPORT NSString* _Nonnull const TypesCostTypeGasFee;
 FOUNDATION_EXPORT NSString* _Nonnull const TypesCostTypePolkaFee;
@@ -580,9 +605,11 @@ FOUNDATION_EXPORT NSString* _Nonnull const TypesStepPathTypeSwap;
 FOUNDATION_EXPORT NSString* _Nonnull const TypesStepTypeApprove;
 FOUNDATION_EXPORT NSString* _Nonnull const TypesStepTypeCrossSwap;
 FOUNDATION_EXPORT NSString* _Nonnull const TypesStepTypeLocalSwap;
+FOUNDATION_EXPORT NSString* _Nonnull const TypesStepTypeProcessCoins;
 FOUNDATION_EXPORT NSString* _Nonnull const TypesStepTypeRegister;
 FOUNDATION_EXPORT NSString* _Nonnull const TypesToolCCSwap;
 FOUNDATION_EXPORT NSString* _Nonnull const TypesToolLiquidSwap;
 FOUNDATION_EXPORT NSString* _Nonnull const TypesToolSoDiamond;
+FOUNDATION_EXPORT NSString* _Nonnull const TypesToolSuiSwap;
 
 #endif
