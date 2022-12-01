@@ -39,15 +39,10 @@
  * GetConnections get tokens that req token can swap to
  */
 - (TypesChainListRes* _Nullable)getConnections:(NSString* _Nullable)fromChain fromToken:(NSString* _Nullable)fromToken fromTokenAddress:(NSString* _Nullable)fromTokenAddress toChain:(NSString* _Nullable)toChain error:(NSError* _Nullable* _Nullable)error;
-- (TypesStep* _Nullable)getDynamicTxData:(TypesGetDynamicTxDataReq* _Nullable)actionInfo error:(NSError* _Nullable* _Nullable)error;
 /**
  * GetQuote get swap staps & estimate result
  */
 - (TypesQuoteRes* _Nullable)getQuote:(TypesQuoteReq* _Nullable)quoteReq error:(NSError* _Nullable* _Nullable)error;
-/**
- * GetQuote get swap staps & estimate result
- */
-- (TypesQuoteListRes* _Nullable)getQuoteList:(TypesQuoteReq* _Nullable)quoteReq error:(NSError* _Nullable* _Nullable)error;
 /**
  * GetStatus query cross swap status by fromChain & txHash
 Deprecated: use GetStatusBySwapId
@@ -104,7 +99,6 @@ so we use generated swapId to represent the swap
  * UpdateConfig assign not empty field from input config
  */
 - (TypesConfig* _Nullable)updateConfig:(TypesConfig* _Nullable)config;
-- (TypesDeviceInfo* _Nullable)updateDeviceInfo:(TypesDeviceInfo* _Nullable)device;
 - (void)useDefaultApi;
 - (void)useLocalApi;
 - (void)useTestApi;
