@@ -884,6 +884,8 @@ FOUNDATION_EXPORT NSString* _Nonnull const EthTagCollectible;
 
 FOUNDATION_EXPORT EthAccount* _Nullable EthAccountWithPrivateKey(NSString* _Nullable privatekey, NSError* _Nullable* _Nullable error);
 
+FOUNDATION_EXPORT EthAccount* _Nullable EthAsEthereumAccount(id<BaseAccount> _Nullable account);
+
 /**
  * Warning: eth cannot support decode address to public key
  */

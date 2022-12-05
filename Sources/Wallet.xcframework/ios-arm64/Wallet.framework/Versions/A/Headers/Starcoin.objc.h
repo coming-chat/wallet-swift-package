@@ -128,6 +128,8 @@
 
 FOUNDATION_EXPORT StarcoinAccount* _Nullable StarcoinAccountWithPrivateKey(NSString* _Nullable privateKey, NSError* _Nullable* _Nullable error);
 
+FOUNDATION_EXPORT StarcoinAccount* _Nullable StarcoinAsStarcoinAccount(id<BaseAccount> _Nullable account);
+
 FOUNDATION_EXPORT NSString* _Nonnull StarcoinDecodeAddressToPublicKey(NSString* _Nullable address, NSError* _Nullable* _Nullable error);
 
 /**

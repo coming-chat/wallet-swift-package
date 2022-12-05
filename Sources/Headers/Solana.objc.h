@@ -140,6 +140,8 @@ Android cant support both NewAccountWithMnemonic(string) and NewAccountWithPriva
  */
 FOUNDATION_EXPORT SolanaAccount* _Nullable SolanaAccountWithPrivateKey(NSString* _Nullable prikey, NSError* _Nullable* _Nullable error);
 
+FOUNDATION_EXPORT SolanaAccount* _Nullable SolanaAsSolanaAccount(id<BaseAccount> _Nullable account);
+
 FOUNDATION_EXPORT NSString* _Nonnull SolanaDecodeAddressToPublicKey(NSString* _Nullable address, NSError* _Nullable* _Nullable error);
 
 FOUNDATION_EXPORT NSString* _Nonnull SolanaEncodePublicKeyToAddress(NSString* _Nullable publicKey, NSError* _Nullable* _Nullable error);

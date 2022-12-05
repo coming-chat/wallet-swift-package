@@ -325,6 +325,8 @@ Android cant support both NewAccountWithMnemonic(string) and NewAccountWithPriva
  */
 FOUNDATION_EXPORT AptosAccount* _Nullable AptosAccountWithPrivateKey(NSString* _Nullable prikey, NSError* _Nullable* _Nullable error);
 
+FOUNDATION_EXPORT AptosAccount* _Nullable AptosAsAptosAccount(id<BaseAccount> _Nullable account);
+
 FOUNDATION_EXPORT NSString* _Nonnull AptosDecodeAddressToPublicKey(NSString* _Nullable address, NSError* _Nullable* _Nullable error);
 
 /**

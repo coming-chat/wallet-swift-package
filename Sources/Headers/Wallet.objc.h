@@ -70,12 +70,6 @@
     var privateKey = accountInfo.PrivateKeyHex()
     var publicKey = accountInfo.PublickKeyHex()
     var address = accountInfo.Address()
-
-其他：
-
-	获取钱包类型
-	var walletType = wallet.WalletType()
-	枚举值见 `WalletType` (Mnemonic / Keystore / PrivateKey / Watch / Error)
  */
 @interface WalletCacheWallet : NSObject <goSeqRefInterface> {
 }
@@ -93,6 +87,10 @@
 - (WalletAccountInfo* _Nullable)solanaAccountInfo;
 - (WalletAccountInfo* _Nullable)starcoinAccountInfo;
 - (WalletAccountInfo* _Nullable)suiAccountInfo;
+/**
+ * 获取钱包类型
+枚举值见 `WalletType` (Mnemonic / Keystore / PrivateKey / Watch / Error)
+ */
 - (long)walletType;
 @end
 
@@ -252,6 +250,9 @@ FOUNDATION_EXPORT WalletWallet* _Nullable WalletNewWalletWithKeyStore(NSString* 
 
 FOUNDATION_EXPORT WalletWallet* _Nullable WalletNewWalletWithMnemonic(NSString* _Nullable mnemonic, NSError* _Nullable* _Nullable error);
 
+/**
+ * Create a watch wallet
+ */
 FOUNDATION_EXPORT WalletCacheWallet* _Nullable WalletNewWatchWallet(NSString* _Nullable address, NSError* _Nullable* _Nullable error);
 
 FOUNDATION_EXPORT void WalletSaveAccountInfo(NSString* _Nullable walletId, WalletAccountInfo* _Nullable info);

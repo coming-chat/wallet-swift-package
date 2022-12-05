@@ -298,6 +298,8 @@ This will save a lot of network traffic to download metadata from rpcUrl.
 
 FOUNDATION_EXPORT PolkaAccount* _Nullable PolkaAccountWithPrivateKey(NSString* _Nullable prikey, long network, NSError* _Nullable* _Nullable error);
 
+FOUNDATION_EXPORT PolkaAccount* _Nullable PolkaAsPolkaAccount(id<BaseAccount> _Nullable account);
+
 FOUNDATION_EXPORT NSString* _Nonnull PolkaByteToHex(NSData* _Nullable data);
 
 FOUNDATION_EXPORT BOOL PolkaCheckKeystorePassword(NSString* _Nullable keystoreJson, NSString* _Nullable password, NSError* _Nullable* _Nullable error);
