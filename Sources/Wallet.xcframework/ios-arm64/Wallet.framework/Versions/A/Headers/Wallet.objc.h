@@ -25,15 +25,34 @@
 @class WalletCacheWallet;
 @class WalletWallet;
 @class WalletWatchAccount;
-@protocol WalletWalletInfoProvider;
-@class WalletWalletInfoProvider;
+@protocol WalletSDKWalletSecretInfo;
+@class WalletSDKWalletSecretInfo;
 
-@protocol WalletWalletInfoProvider <NSObject>
-- (NSString* _Nonnull)keystore:(NSString* _Nullable)walletId;
-- (NSString* _Nonnull)mnemonic:(NSString* _Nullable)walletId;
-- (NSString* _Nonnull)password:(NSString* _Nullable)walletId;
-- (NSString* _Nonnull)privateKey:(NSString* _Nullable)walletId;
-- (NSString* _Nonnull)watchAddress:(NSString* _Nullable)walletId;
+@protocol WalletSDKWalletSecretInfo <NSObject>
+/**
+ * 需要提供一个 key, 可以缓存钱包地址公钥信息
+ */
+- (NSString* _Nonnull)sdkCacheKey;
+/**
+ * 如果是一个 keystore 钱包，返回 keystore
+ */
+- (NSString* _Nonnull)sdkKeystore;
+/**
+ * 如果是一个助记词钱包，返回助记词
+ */
+- (NSString* _Nonnull)sdkMnemonic;
+/**
+ * 如果是一个 keystore 钱包，返回密码
+ */
+- (NSString* _Nonnull)sdkPassword;
+/**
+ * 如果是一个私钥钱包，返回私钥
+ */
+- (NSString* _Nonnull)sdkPrivateKey;
+/**
+ * 如果是一个观察者钱包，返回观察地址
+ */
+- (NSString* _Nonnull)sdkWatchAddress;
 @end
 
 @interface WalletAccountInfo : NSObject <goSeqRefInterface> {
@@ -42,9 +61,22 @@
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
 - (nonnull instancetype)init;
+@property (nonatomic) WalletCacheWallet* _Nullable wallet;
+/**
+ * 获取账号对象，该对象可以用来签名. 账号不会缓存，每次都会重新生成
+ */
 - (id<BaseAccount> _Nullable)account:(NSError* _Nullable* _Nullable)error;
+/**
+ * 获取地址，该方法会优先读取缓存
+ */
 - (BaseOptionalString* _Nullable)address:(NSError* _Nullable* _Nullable)error;
+/**
+ * 获取账号私钥，私钥不会缓存，每次都会重新生成
+ */
 - (BaseOptionalString* _Nullable)privateKeyHex:(NSError* _Nullable* _Nullable)error;
+/**
+ * 获取公钥，该方法会优先读取缓存
+ */
 - (BaseOptionalString* _Nullable)publicKeyHex:(NSError* _Nullable* _Nullable)error;
 @end
 
@@ -54,30 +86,14 @@
 
 考虑到每次都导入助记词生成账号，而仅仅是为了获取账号地址或者公钥，可能会影响钱包的性能和体验
 因此新提供了这个可以缓存 *账号地址* 和 *公钥* 这种不敏感信息的钱包
-
-使用方法：
- 1. 先提供一个遵循 `WalletInfoProvider` 协议的对象, sdk会在需要的时候从该对象读取 **助记词/keystore/私钥** 等信息
-    InfoProvider = `your wallet info provider`
- 2. 通过 walletId 创建钱包
-    var	wallet = NewCacheWallet("wallet1")
- 3. 调用相应链的账号方法，获取账号信息
-    var accountInfo = wallet.PolkaAccountInfo(0)
-    var accountInfo = wallet.EthereumAccountInfo()
-    var accountInfo = wallet.SolanaAccountInfo()
-    var accountInfo = ...
- 4. 通过账号信息获取 账号对象/私钥(每次都会取助记词等信息，用完销毁)、公钥/地址(如果有缓存，会直接读取缓存)
-    var account = accountInfo.Account()
-    var privateKey = accountInfo.PrivateKeyHex()
-    var publicKey = accountInfo.PublickKeyHex()
-    var address = accountInfo.Address()
  */
 @interface WalletCacheWallet : NSObject <goSeqRefInterface> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
-- (nullable instancetype)init:(NSString* _Nullable)walletId;
-@property (nonatomic) NSString* _Nonnull walletId;
+- (nullable instancetype)init:(id<WalletSDKWalletSecretInfo> _Nullable)info;
+@property (nonatomic) id<WalletSDKWalletSecretInfo> _Nullable walletInfo;
 - (WalletAccountInfo* _Nullable)aptosAccountInfo;
 - (WalletAccountInfo* _Nullable)bitcoinAccountInfo:(NSString* _Nullable)chainnet;
 - (WalletAccountInfo* _Nullable)cosmosAccountInfo:(int64_t)cointype prefix:(NSString* _Nullable)prefix;
@@ -222,9 +238,6 @@ FOUNDATION_EXPORT const long WalletWalletTypeWatch;
 + (NSError* _Nullable) errWalletInfoUnspecified;
 + (void) setErrWalletInfoUnspecified:(NSError* _Nullable)v;
 
-+ (id<WalletWalletInfoProvider> _Nullable) infoProvider;
-+ (void) setInfoProvider:(id<WalletWalletInfoProvider> _Nullable)v;
-
 @end
 
 FOUNDATION_EXPORT NSString* _Nonnull WalletByteToHex(NSData* _Nullable data);
@@ -233,15 +246,11 @@ FOUNDATION_EXPORT BaseStringArray* _Nullable WalletChainTypeFrom(NSString* _Null
 
 FOUNDATION_EXPORT NSString* _Nonnull WalletGenMnemonic(NSError* _Nullable* _Nullable error);
 
-FOUNDATION_EXPORT WalletAccountInfo* _Nullable WalletGetAccountInfo(NSString* _Nullable walletId, NSString* _Nullable cacheKey);
-
-FOUNDATION_EXPORT WalletCacheWallet* _Nullable WalletGetWallet(NSString* _Nullable walletId);
-
 FOUNDATION_EXPORT NSData* _Nullable WalletHexToByte(NSString* _Nullable hex, NSError* _Nullable* _Nullable error);
 
 FOUNDATION_EXPORT BOOL WalletIsValidMnemonic(NSString* _Nullable mnemonic);
 
-FOUNDATION_EXPORT WalletCacheWallet* _Nullable WalletNewCacheWallet(NSString* _Nullable walletId);
+FOUNDATION_EXPORT WalletCacheWallet* _Nullable WalletNewCacheWallet(id<WalletSDKWalletSecretInfo> _Nullable info);
 
 /**
  * Only support Polka keystore.
@@ -255,24 +264,43 @@ FOUNDATION_EXPORT WalletWallet* _Nullable WalletNewWalletWithMnemonic(NSString* 
  */
 FOUNDATION_EXPORT WalletCacheWallet* _Nullable WalletNewWatchWallet(NSString* _Nullable address, NSError* _Nullable* _Nullable error);
 
-FOUNDATION_EXPORT void WalletSaveAccountInfo(NSString* _Nullable walletId, WalletAccountInfo* _Nullable info);
-
-FOUNDATION_EXPORT void WalletSaveWallet(WalletCacheWallet* _Nullable wallet);
-
 FOUNDATION_EXPORT WalletWallet* _Nullable WalletWatchWallet(NSString* _Nullable address, NSError* _Nullable* _Nullable error);
 
-@class WalletWalletInfoProvider;
+@class WalletSDKWalletSecretInfo;
 
-@interface WalletWalletInfoProvider : NSObject <goSeqRefInterface, WalletWalletInfoProvider> {
+/**
+ * 任意一个类可以遵循这个协议, 通过创建一个 `CacheWallet` 来计算钱包公钥、地址
+SDK 会在需要的时候从该对象读取 **助记词/keystore/私钥** 等信息
+ */
+@interface WalletSDKWalletSecretInfo : NSObject <goSeqRefInterface, WalletSDKWalletSecretInfo> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
-- (NSString* _Nonnull)keystore:(NSString* _Nullable)walletId;
-- (NSString* _Nonnull)mnemonic:(NSString* _Nullable)walletId;
-- (NSString* _Nonnull)password:(NSString* _Nullable)walletId;
-- (NSString* _Nonnull)privateKey:(NSString* _Nullable)walletId;
-- (NSString* _Nonnull)watchAddress:(NSString* _Nullable)walletId;
+/**
+ * 需要提供一个 key, 可以缓存钱包地址公钥信息
+ */
+- (NSString* _Nonnull)sdkCacheKey;
+/**
+ * 如果是一个 keystore 钱包，返回 keystore
+ */
+- (NSString* _Nonnull)sdkKeystore;
+/**
+ * 如果是一个助记词钱包，返回助记词
+ */
+- (NSString* _Nonnull)sdkMnemonic;
+/**
+ * 如果是一个 keystore 钱包，返回密码
+ */
+- (NSString* _Nonnull)sdkPassword;
+/**
+ * 如果是一个私钥钱包，返回私钥
+ */
+- (NSString* _Nonnull)sdkPrivateKey;
+/**
+ * 如果是一个观察者钱包，返回观察地址
+ */
+- (NSString* _Nonnull)sdkWatchAddress;
 @end
 
 #endif
