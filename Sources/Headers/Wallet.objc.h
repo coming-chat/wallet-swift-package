@@ -244,6 +244,8 @@ FOUNDATION_EXPORT NSString* _Nonnull WalletByteToHex(NSData* _Nullable data);
 
 FOUNDATION_EXPORT BaseStringArray* _Nullable WalletChainTypeFrom(NSString* _Nullable address);
 
+FOUNDATION_EXPORT void WalletCleanCachedAccountInfo(void);
+
 FOUNDATION_EXPORT NSString* _Nonnull WalletGenMnemonic(NSError* _Nullable* _Nullable error);
 
 FOUNDATION_EXPORT NSData* _Nullable WalletHexToByte(NSString* _Nullable hex, NSError* _Nullable* _Nullable error);
