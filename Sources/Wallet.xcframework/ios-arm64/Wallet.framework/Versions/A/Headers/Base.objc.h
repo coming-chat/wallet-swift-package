@@ -251,7 +251,12 @@ which can only be passed as strings separated by ","
 // skipped field StringArray.Values with unsupported type: []string
 
 - (void)append:(NSString* _Nullable)value;
+- (BOOL)contains:(NSString* _Nullable)value;
 - (long)count;
+/**
+ * return -1 if not found
+ */
+- (long)indexOf:(NSString* _Nullable)value;
 - (void)remove:(long)index;
 - (void)setValue:(NSString* _Nullable)value index:(long)index;
 - (NSString* _Nonnull)string;
