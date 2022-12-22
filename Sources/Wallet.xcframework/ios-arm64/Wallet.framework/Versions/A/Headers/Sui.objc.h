@@ -120,6 +120,10 @@
 @property(strong, readonly) _Nonnull id _ref;
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+/**
+ * @param tag format `address::module_name::name`, e.g. "0x2::sui::SUI"
+ */
+- (nullable instancetype)init:(SuiChain* _Nullable)chain tag:(NSString* _Nullable)tag;
 - (nullable instancetype)initMain:(SuiChain* _Nullable)chain;
 - (BaseBalance* _Nullable)balanceOfAccount:(id<BaseAccount> _Nullable)account error:(NSError* _Nullable* _Nullable)error;
 - (BaseBalance* _Nullable)balanceOfAddress:(NSString* _Nullable)address error:(NSError* _Nullable* _Nullable)error;
@@ -199,6 +203,11 @@ FOUNDATION_EXPORT BOOL SuiIsValidAddress(NSString* _Nullable address);
 FOUNDATION_EXPORT SuiAccount* _Nullable SuiNewAccountWithMnemonic(NSString* _Nullable mnemonic, NSError* _Nullable* _Nullable error);
 
 FOUNDATION_EXPORT SuiChain* _Nullable SuiNewChainWithRpcUrl(NSString* _Nullable rpcUrl);
+
+/**
+ * @param tag format `address::module_name::name`, e.g. "0x2::sui::SUI"
+ */
+FOUNDATION_EXPORT SuiToken* _Nullable SuiNewToken(SuiChain* _Nullable chain, NSString* _Nullable tag, NSError* _Nullable* _Nullable error);
 
 FOUNDATION_EXPORT SuiToken* _Nullable SuiNewTokenMain(SuiChain* _Nullable chain);
 
