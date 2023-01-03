@@ -11,7 +11,12 @@
 #include "Universe.objc.h"
 
 
+@class BaseAny;
+@class BaseAnyArray;
+@class BaseAnyMap;
 @class BaseBalance;
+@class BaseBigInt;
+@class BaseBigInts;
 @class BaseNFT;
 @class BaseOptionalBool;
 @class BaseOptionalString;
@@ -25,6 +30,8 @@
 @class BaseAccount;
 @protocol BaseAddressUtil;
 @class BaseAddressUtil;
+@protocol BaseAniable;
+@class BaseAniable;
 @protocol BaseChain;
 @class BaseChain;
 @protocol BaseNFTFetcher;
@@ -71,6 +78,10 @@
  */
 - (NSString* _Nonnull)encodePublicKeyToAddress:(NSString* _Nullable)publicKey error:(NSError* _Nullable* _Nullable)error;
 - (BOOL)isValidAddress:(NSString* _Nullable)address;
+@end
+
+@protocol BaseAniable <NSObject>
+- (BaseAny* _Nullable)asAny;
 @end
 
 @protocol BaseChain <NSObject>
@@ -139,6 +150,80 @@ which can only be passed as strings separated by ","
 - (BaseTokenInfo* _Nullable)tokenInfo:(NSError* _Nullable* _Nullable)error;
 @end
 
+/**
+ * 如果需要自定义类型支持 Any, 需要遵循协议 Aniable
+ */
+@interface BaseAny : NSObject <goSeqRefInterface> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nullable instancetype)init;
+// skipped field Any.Value with unsupported type: any
+
+- (BOOL)getBool;
+- (long)getInt;
+- (NSString* _Nonnull)getInt128;
+- (int16_t)getInt16;
+- (NSString* _Nonnull)getInt256;
+- (int32_t)getInt32;
+- (int64_t)getInt64;
+- (int8_t)getInt8;
+- (NSString* _Nonnull)getString;
+- (NSString* _Nonnull)getUint128;
+- (NSString* _Nonnull)getUint256;
+- (void)setBool:(BOOL)v;
+- (void)setInt:(long)v;
+- (void)setInt128:(BaseBigInt* _Nullable)v;
+- (void)setInt16:(int16_t)v;
+- (void)setInt256:(BaseBigInt* _Nullable)v;
+- (void)setInt32:(int32_t)v;
+- (void)setInt64:(int64_t)v;
+- (void)setInt8:(int8_t)v;
+- (void)setString:(NSString* _Nullable)v;
+- (void)setUint128:(BaseBigInt* _Nullable)v;
+- (void)setUint256:(BaseBigInt* _Nullable)v;
+@end
+
+@interface BaseAnyArray : NSObject <goSeqRefInterface, BaseAniable> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nullable instancetype)init;
+// skipped field AnyArray.Values with unsupported type: []any
+
+- (void)append:(BaseAny* _Nullable)any;
+- (BaseAny* _Nullable)asAny;
+- (BOOL)contains:(BaseAny* _Nullable)any;
+- (long)count;
+/**
+ * return -1 if not found
+ */
+- (long)indexOf:(BaseAny* _Nullable)any;
+- (void)remove:(long)index;
+- (void)setValue:(BaseAny* _Nullable)value index:(long)index;
+- (NSString* _Nonnull)string;
+- (BaseAny* _Nullable)valueOf:(long)index;
+@end
+
+@interface BaseAnyMap : NSObject <goSeqRefInterface, BaseAniable> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nullable instancetype)init;
+// skipped field AnyMap.Values with unsupported type: map[string]any
+
+- (BaseAny* _Nullable)asAny;
+- (BOOL)hasKey:(NSString* _Nullable)key;
+- (BaseStringArray* _Nullable)keys;
+- (BaseAny* _Nullable)remove:(NSString* _Nullable)key;
+- (void)setValue:(BaseAny* _Nullable)value key:(NSString* _Nullable)key;
+- (NSString* _Nonnull)string;
+- (BaseAny* _Nullable)valueOf:(NSString* _Nullable)key;
+@end
+
 @interface BaseBalance : NSObject <goSeqRefInterface> {
 }
 @property(strong, readonly) _Nonnull id _ref;
@@ -147,6 +232,93 @@ which can only be passed as strings separated by ","
 - (nonnull instancetype)init;
 @property (nonatomic) NSString* _Nonnull total;
 @property (nonatomic) NSString* _Nonnull usable;
+@end
+
+/**
+ * A BigInt represents a signed multi-precision integer.
+ */
+@interface BaseBigInt : NSObject <goSeqRefInterface> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+/**
+ * NewBigInt allocates and returns a new BigInt set to x.
+ */
+- (nullable instancetype)init:(int64_t)x;
+/**
+ * NewBigIntFromString allocates and returns a new BigInt set to x
+interpreted in the provided base.
+ */
+- (nullable instancetype)initFromString:(NSString* _Nullable)x base:(long)base;
+/**
+ * GetBytes returns the absolute value of x as a big-endian byte slice.
+ */
+- (NSData* _Nullable)getBytes;
+/**
+ * GetInt64 returns the int64 representation of x. If x cannot be represented in
+an int64, the result is undefined.
+ */
+- (int64_t)getInt64;
+/**
+ * GetString returns the value of x as a formatted string in some number base.
+ */
+- (NSString* _Nonnull)getString:(long)base;
+/**
+ * SetBytes interprets buf as the bytes of a big-endian unsigned integer and sets
+the big int to that value.
+ */
+- (void)setBytes:(NSData* _Nullable)buf;
+/**
+ * SetInt64 sets the big int to x.
+ */
+- (void)setInt64:(int64_t)x;
+/**
+ * SetString sets the big int to x.
+
+The string prefix determines the actual conversion base. A prefix of "0x" or
+"0X" selects base 16; the "0" prefix selects base 8, and a "0b" or "0B" prefix
+selects base 2. Otherwise the selected base is 10.
+ */
+- (void)setString:(NSString* _Nullable)x base:(long)base;
+/**
+ * Sign returns:
+
+	-1 if x <  0
+	 0 if x == 0
+	+1 if x >  0
+ */
+- (long)sign;
+/**
+ * String returns the value of x as a formatted decimal string.
+ */
+- (NSString* _Nonnull)string;
+@end
+
+/**
+ * BigInts represents a slice of big ints.
+ */
+@interface BaseBigInts : NSObject <goSeqRefInterface> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+/**
+ * NewBigInts creates a slice of uninitialized big numbers.
+ */
+- (nullable instancetype)init:(long)size;
+/**
+ * Get returns the bigint at the given index from the slice.
+ */
+- (BaseBigInt* _Nullable)get:(long)index error:(NSError* _Nullable* _Nullable)error;
+/**
+ * Set sets the big int at the given index in the slice.
+ */
+- (BOOL)set:(long)index bigint:(BaseBigInt* _Nullable)bigint error:(NSError* _Nullable* _Nullable)error;
+/**
+ * Size returns the number of big ints in the slice.
+ */
+- (long)size;
 @end
 
 @interface BaseNFT : NSObject <goSeqRefInterface> {
@@ -347,6 +519,10 @@ FOUNDATION_EXPORT const long BaseTransactionStatusSuccess;
 
 @end
 
+FOUNDATION_EXPORT BaseAnyArray* _Nullable BaseAsAnyArray(BaseAny* _Nullable a);
+
+FOUNDATION_EXPORT BaseAnyMap* _Nullable BaseAsAnyMap(BaseAny* _Nullable a);
+
 // skipped function CatchPanicAndMapToBasicError with unsupported parameter or return types
 
 
@@ -377,11 +553,35 @@ FOUNDATION_EXPORT BaseOptionalString* _Nullable BaseExtractNFTImageUrl(NSString*
 // skipped function Min with unsupported parameter or return types
 
 
+FOUNDATION_EXPORT BaseAny* _Nullable BaseNewAny(void);
+
+FOUNDATION_EXPORT BaseAnyArray* _Nullable BaseNewAnyArray(void);
+
+FOUNDATION_EXPORT BaseAnyMap* _Nullable BaseNewAnyMap(void);
+
+/**
+ * NewBigInt allocates and returns a new BigInt set to x.
+ */
+FOUNDATION_EXPORT BaseBigInt* _Nullable BaseNewBigInt(int64_t x);
+
+/**
+ * NewBigIntFromString allocates and returns a new BigInt set to x
+interpreted in the provided base.
+ */
+FOUNDATION_EXPORT BaseBigInt* _Nullable BaseNewBigIntFromString(NSString* _Nullable x, long base);
+
+/**
+ * NewBigInts creates a slice of uninitialized big numbers.
+ */
+FOUNDATION_EXPORT BaseBigInts* _Nullable BaseNewBigInts(long size);
+
 FOUNDATION_EXPORT BaseReachMonitor* _Nullable BaseNewReachMonitorWithReachability(id<BaseRpcReachability> _Nullable reachability);
 
 @class BaseAccount;
 
 @class BaseAddressUtil;
+
+@class BaseAniable;
 
 @class BaseChain;
 
@@ -436,6 +636,17 @@ FOUNDATION_EXPORT BaseReachMonitor* _Nullable BaseNewReachMonitorWithReachabilit
  */
 - (NSString* _Nonnull)encodePublicKeyToAddress:(NSString* _Nullable)publicKey error:(NSError* _Nullable* _Nullable)error;
 - (BOOL)isValidAddress:(NSString* _Nullable)address;
+@end
+
+/**
+ * exchange `Aniable Object` & `Any`
+ */
+@interface BaseAniable : NSObject <goSeqRefInterface, BaseAniable> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (BaseAny* _Nullable)asAny;
 @end
 
 @interface BaseChain : NSObject <goSeqRefInterface, BaseChain> {

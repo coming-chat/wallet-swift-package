@@ -48,7 +48,7 @@
 @property (nonatomic) BOOL isMainNet;
 @end
 
-@interface DmensNote : NSObject <goSeqRefInterface, DmensJsonable> {
+@interface DmensNote : NSObject <goSeqRefInterface, BaseAniable, DmensJsonable> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -60,6 +60,7 @@
 @property (nonatomic) NSString* _Nonnull text;
 @property (nonatomic) NSString* _Nonnull poster;
 @property (nonatomic) NSString* _Nonnull refId;
+- (BaseAny* _Nullable)asAny;
 - (NSString* _Nonnull)jsonString:(NSError* _Nullable* _Nullable)error;
 @end
 
@@ -75,6 +76,7 @@
 @property (nonatomic) long currentCount;
 @property (nonatomic) long totalCount;
 - (NSString* _Nonnull)jsonString:(NSError* _Nullable* _Nullable)error;
+- (BaseAnyArray* _Nullable)noteArray;
 @end
 
 @interface DmensNoteStatus : NSObject <goSeqRefInterface> {
@@ -208,7 +210,7 @@ cursor 为空时，表示 null
 - (NSString* _Nonnull)jsonString:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface DmensUserInfo : NSObject <goSeqRefInterface, DmensJsonable> {
+@interface DmensUserInfo : NSObject <goSeqRefInterface, BaseAniable, DmensJsonable> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -219,6 +221,7 @@ cursor 为空时，表示 null
 @property (nonatomic) NSString* _Nonnull bio;
 @property (nonatomic) NSString* _Nonnull name;
 @property (nonatomic) NSString* _Nonnull nodeId;
+- (BaseAny* _Nullable)asAny;
 - (NSString* _Nonnull)jsonString:(NSError* _Nullable* _Nullable)error;
 @end
 
@@ -235,6 +238,7 @@ cursor 为空时，表示 null
 @property (nonatomic) long totalCount;
 - (DmensUserInfo* _Nullable)firstObject;
 - (NSString* _Nonnull)jsonString:(NSError* _Nullable* _Nullable)error;
+- (BaseAnyArray* _Nullable)userArray;
 @end
 
 FOUNDATION_EXPORT const long DmensACTION_LIKE;
@@ -262,6 +266,10 @@ FOUNDATION_EXPORT NSString* _Nonnull const DmensFunctionRegister;
 + (void) setTestnetConfig:(DmensConfiguration* _Nullable)v;
 
 @end
+
+FOUNDATION_EXPORT DmensNote* _Nullable DmensAsNote(BaseAny* _Nullable any);
+
+FOUNDATION_EXPORT DmensUserInfo* _Nullable DmensAsUserInfo(BaseAny* _Nullable a);
 
 // skipped function JsonString with unsupported parameter or return types
 
