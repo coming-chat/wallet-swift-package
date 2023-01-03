@@ -18,6 +18,7 @@ framework module "Wallet" {
     header "Types.objc.h"
     header "Aptosclient.objc.h"
     header "Redpacket.objc.h"
+    header "Dmens.objc.h"
     header "Universe.objc.h"
     header "Wallet.h"
 

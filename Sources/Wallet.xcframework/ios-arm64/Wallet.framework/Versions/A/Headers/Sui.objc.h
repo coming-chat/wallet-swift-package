@@ -65,6 +65,8 @@
 - (BaseBalance* _Nullable)balanceOfAccount:(id<BaseAccount> _Nullable)account error:(NSError* _Nullable* _Nullable)error;
 - (BaseBalance* _Nullable)balanceOfAddress:(NSString* _Nullable)address error:(NSError* _Nullable* _Nullable)error;
 - (BaseBalance* _Nullable)balanceOfPublicKey:(NSString* _Nullable)publicKey error:(NSError* _Nullable* _Nullable)error;
+// skipped method Chain.BaseMoveCall with unsupported parameter or return types
+
 - (NSString* _Nonnull)batchFetchTransactionStatus:(NSString* _Nullable)hashListString;
 // skipped method Chain.FetchNFTs with unsupported parameter or return types
 
@@ -101,7 +103,7 @@
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
 - (nonnull instancetype)init;
-// skipped field PickedCoins.Coins with unsupported type: invalid type
+// skipped field PickedCoins.Coins with unsupported type: github.com/coming-chat/go-sui/types.Coins
 
 // skipped field PickedCoins.Total with unsupported type: *math/big.Int
 
@@ -141,7 +143,7 @@
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
 - (nonnull instancetype)init;
-// skipped field Transaction.Txn with unsupported type: invalid type
+// skipped field Transaction.Txn with unsupported type: github.com/coming-chat/go-sui/types.TransactionBytes
 
 - (BaseOptionalString* _Nullable)signWithAccount:(SuiAccount* _Nullable)account error:(NSError* _Nullable* _Nullable)error;
 @end
@@ -168,6 +170,7 @@ FOUNDATION_EXPORT const int64_t SuiMaxGasBudget;
 FOUNDATION_EXPORT const int64_t SuiMaxGasForMerge;
 FOUNDATION_EXPORT const int64_t SuiMaxGasForPay;
 FOUNDATION_EXPORT const int64_t SuiMaxGasForTransfer;
+FOUNDATION_EXPORT NSString* _Nonnull const SuiSuiCoinType;
 FOUNDATION_EXPORT const int64_t SuiSuiDecimal;
 FOUNDATION_EXPORT NSString* _Nonnull const SuiSuiName;
 FOUNDATION_EXPORT NSString* _Nonnull const SuiSuiSymbol;
