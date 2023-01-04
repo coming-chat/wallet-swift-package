@@ -161,28 +161,30 @@ which can only be passed as strings separated by ","
 - (nullable instancetype)init;
 // skipped field Any.Value with unsupported type: any
 
+- (BaseBigInt* _Nullable)getBigInt;
 - (BOOL)getBool;
 - (long)getInt;
-- (NSString* _Nonnull)getInt128;
 - (int16_t)getInt16;
-- (NSString* _Nonnull)getInt256;
 - (int32_t)getInt32;
 - (int64_t)getInt64;
 - (int8_t)getInt8;
 - (NSString* _Nonnull)getString;
-- (NSString* _Nonnull)getUint128;
-- (NSString* _Nonnull)getUint256;
+- (BaseBigInt* _Nullable)getUInt16;
+- (BaseBigInt* _Nullable)getUInt32;
+- (BaseBigInt* _Nullable)getUInt64;
+- (BaseBigInt* _Nullable)getUInt8;
+- (void)setBigInt:(BaseBigInt* _Nullable)v;
 - (void)setBool:(BOOL)v;
 - (void)setInt:(long)v;
-- (void)setInt128:(BaseBigInt* _Nullable)v;
 - (void)setInt16:(int16_t)v;
-- (void)setInt256:(BaseBigInt* _Nullable)v;
 - (void)setInt32:(int32_t)v;
 - (void)setInt64:(int64_t)v;
 - (void)setInt8:(int8_t)v;
 - (void)setString:(NSString* _Nullable)v;
-- (void)setUint128:(BaseBigInt* _Nullable)v;
-- (void)setUint256:(BaseBigInt* _Nullable)v;
+- (void)setUInt16:(BaseBigInt* _Nullable)v;
+- (void)setUInt32:(BaseBigInt* _Nullable)v;
+- (void)setUInt64:(BaseBigInt* _Nullable)v;
+- (void)setUInt8:(BaseBigInt* _Nullable)v;
 @end
 
 @interface BaseAnyArray : NSObject <goSeqRefInterface, BaseAniable> {

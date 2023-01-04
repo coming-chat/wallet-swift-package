@@ -54,12 +54,13 @@
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
 - (nonnull instancetype)init;
-@property (nonatomic) NSString* _Nonnull createTime;
+@property (nonatomic) int64_t createTime;
 @property (nonatomic) NSString* _Nonnull noteId;
 @property (nonatomic) long action;
 @property (nonatomic) NSString* _Nonnull text;
 @property (nonatomic) NSString* _Nonnull poster;
 @property (nonatomic) NSString* _Nonnull refId;
+@property (nonatomic) DmensNoteStatus* _Nullable status;
 - (BaseAny* _Nullable)asAny;
 - (NSString* _Nonnull)jsonString:(NSError* _Nullable* _Nullable)error;
 @end
@@ -70,7 +71,7 @@
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
 - (nonnull instancetype)init;
-// skipped field NotePage.Notes with unsupported type: []github.com/coming-chat/go-dmens-sdk/dmens.Note
+// skipped field NotePage.Notes with unsupported type: []*github.com/coming-chat/go-dmens-sdk/dmens.Note
 
 @property (nonatomic) NSString* _Nonnull currentCursor;
 @property (nonatomic) long currentCount;
@@ -108,6 +109,11 @@
 - (nullable instancetype)init:(DmensPosterConfig* _Nullable)posterConfig configuration:(DmensConfiguration* _Nullable)configuration;
 @property (nonatomic) DmensConfiguration* _Nullable configuration;
 @property (nonatomic) DmensPosterConfig* _Nullable posterConfig;
+/**
+ * 批量查询 page 中所有 note 的状态，数据会直接同步到 page 中每一个 note 对象中
+@param viewer the note's viewer, if the viewer is empty, the poster's address will be queried.
+ */
+- (BOOL)batchQueryNoteStatus:(DmensNotePage* _Nullable)page viewer:(NSString* _Nullable)viewer error:(NSError* _Nullable* _Nullable)error;
 - (SuiTransaction* _Nullable)dmensFollow:(BaseStringArray* _Nullable)addresses error:(NSError* _Nullable* _Nullable)error;
 - (SuiTransaction* _Nullable)dmensPost:(NSString* _Nullable)text error:(NSError* _Nullable* _Nullable)error;
 - (SuiTransaction* _Nullable)dmensPostWithRef:(long)action text:(NSString* _Nullable)text refIdentifier:(NSString* _Nullable)refIdentifier error:(NSError* _Nullable* _Nullable)error;
@@ -164,7 +170,7 @@ this func should be recalled again to fetch the registered dmens object id
 @property(strong, readonly) _Nonnull id _ref;
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
-- (nonnull instancetype)init;
+- (nullable instancetype)init:(NSString* _Nullable)address;
 @property (nonatomic) NSString* _Nonnull address;
 @property (nonatomic) NSString* _Nonnull dmensNftId;
 @end
@@ -275,6 +281,8 @@ FOUNDATION_EXPORT DmensUserInfo* _Nullable DmensAsUserInfo(BaseAny* _Nullable a)
 
 
 FOUNDATION_EXPORT DmensPoster* _Nullable DmensNewPoster(DmensPosterConfig* _Nullable posterConfig, DmensConfiguration* _Nullable configuration, NSError* _Nullable* _Nullable error);
+
+FOUNDATION_EXPORT DmensPosterConfig* _Nullable DmensNewPosterConfig(NSString* _Nullable address);
 
 @class DmensJsonable;
 
