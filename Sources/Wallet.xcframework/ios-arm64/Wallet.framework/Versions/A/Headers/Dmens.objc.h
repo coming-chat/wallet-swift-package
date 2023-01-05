@@ -42,9 +42,7 @@
 @property (nonatomic) NSString* _Nonnull graphqlUrl;
 @property (nonatomic) NSString* _Nonnull contractAddress;
 @property (nonatomic) NSString* _Nonnull globalProfileId;
-/**
- * ProfileTableId string
- */
+@property (nonatomic) NSString* _Nonnull globalProfileTableId;
 @property (nonatomic) BOOL isMainNet;
 @end
 
@@ -107,6 +105,7 @@
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
 - (nullable instancetype)init:(DmensPosterConfig* _Nullable)posterConfig configuration:(DmensConfiguration* _Nullable)configuration;
+- (nullable instancetype)initWithAddress:(NSString* _Nullable)posterAddress configuration:(DmensConfiguration* _Nullable)configuration;
 @property (nonatomic) DmensConfiguration* _Nullable configuration;
 @property (nonatomic) DmensPosterConfig* _Nullable posterConfig;
 /**
@@ -118,6 +117,7 @@
 - (SuiTransaction* _Nullable)dmensPost:(NSString* _Nullable)text error:(NSError* _Nullable* _Nullable)error;
 - (SuiTransaction* _Nullable)dmensPostWithRef:(long)action text:(NSString* _Nullable)text refIdentifier:(NSString* _Nullable)refIdentifier error:(NSError* _Nullable* _Nullable)error;
 - (SuiTransaction* _Nullable)dmensUnfollow:(BaseStringArray* _Nullable)addresses error:(NSError* _Nullable* _Nullable)error;
+- (BOOL)fetchDmensGlobalConfig:(NSError* _Nullable* _Nullable)error;
 /**
  * FetchDmensObjecId After ios or android call profileRegister and send that transaction,
 this func should be recalled again to fetch the registered dmens object id
@@ -130,6 +130,7 @@ this func should be recalled again to fetch the registered dmens object id
 @param afterCursor Each page has a cursor, and you need to specify the cursor to get the next page of content, If you want to get the first page of content, pass in empty.
  */
 - (DmensNotePage* _Nullable)queryAllNoteList:(long)pageSize afterCursor:(NSString* _Nullable)afterCursor error:(NSError* _Nullable* _Nullable)error;
+- (DmensQuery* _Nullable)queryDmensGlobalConfig;
 - (DmensQuery* _Nullable)queryDmensObjectId;
 - (DmensNote* _Nullable)queryNoteById:(NSString* _Nullable)noteId error:(NSError* _Nullable* _Nullable)error;
 /**
@@ -262,6 +263,9 @@ FOUNDATION_EXPORT NSString* _Nonnull const DmensFunctionRegister;
 + (DmensConfiguration* _Nullable) devnetConfig;
 + (void) setDevnetConfig:(DmensConfiguration* _Nullable)v;
 
++ (NSError* _Nullable) errGetNullConfiguration;
++ (void) setErrGetNullConfiguration:(NSError* _Nullable)v;
+
 + (NSError* _Nullable) errUserNotRegistered;
 + (void) setErrUserNotRegistered:(NSError* _Nullable)v;
 
@@ -283,6 +287,8 @@ FOUNDATION_EXPORT DmensUserInfo* _Nullable DmensAsUserInfo(BaseAny* _Nullable a)
 FOUNDATION_EXPORT DmensPoster* _Nullable DmensNewPoster(DmensPosterConfig* _Nullable posterConfig, DmensConfiguration* _Nullable configuration, NSError* _Nullable* _Nullable error);
 
 FOUNDATION_EXPORT DmensPosterConfig* _Nullable DmensNewPosterConfig(NSString* _Nullable address);
+
+FOUNDATION_EXPORT DmensPoster* _Nullable DmensNewPosterWithAddress(NSString* _Nullable posterAddress, DmensConfiguration* _Nullable configuration, NSError* _Nullable* _Nullable error);
 
 @class DmensJsonable;
 
