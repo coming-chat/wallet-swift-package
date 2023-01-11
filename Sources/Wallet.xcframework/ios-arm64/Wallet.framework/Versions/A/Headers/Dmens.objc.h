@@ -21,14 +21,39 @@
 @class DmensPosterConfig;
 @class DmensProfile;
 @class DmensQuery;
+@class DmensRepostNote;
+@class DmensRepostNotePage;
 @class DmensUserFollowCount;
 @class DmensUserInfo;
 @class DmensUserPage;
 @protocol DmensJsonable;
 @class DmensJsonable;
+@protocol DmensPageable;
+@class DmensPageable;
 
 @protocol DmensJsonable <NSObject>
 - (NSString* _Nonnull)jsonString:(NSError* _Nullable* _Nullable)error;
+@end
+
+@protocol DmensPageable <NSObject>
+/**
+ * The count of data in the current page.
+ */
+- (long)currentCount;
+/**
+ * The cursor of the current page.
+ */
+- (NSString* _Nonnull)currentCursor;
+/**
+ * Is there has next page.
+ */
+- (BOOL)hasNextPage;
+- (BaseAnyArray* _Nullable)itemArray;
+- (NSString* _Nonnull)jsonString:(NSError* _Nullable* _Nullable)error;
+/**
+ * The total count of all data in the remote server.
+ */
+- (long)totalCount;
 @end
 
 @interface DmensConfiguration : NSObject <goSeqRefInterface> {
@@ -63,19 +88,19 @@
 - (NSString* _Nonnull)jsonString:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface DmensNotePage : NSObject <goSeqRefInterface, DmensJsonable> {
+@interface DmensNotePage : NSObject <goSeqRefInterface, DmensJsonable, DmensPageable> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
 - (nonnull instancetype)init;
-// skipped field NotePage.Notes with unsupported type: []*github.com/coming-chat/go-dmens-sdk/dmens.Note
-
-@property (nonatomic) NSString* _Nonnull currentCursor;
-@property (nonatomic) long currentCount;
-@property (nonatomic) long totalCount;
+- (long)currentCount;
+- (NSString* _Nonnull)currentCursor;
+- (DmensNote* _Nullable)firstObject;
+- (BOOL)hasNextPage;
+- (BaseAnyArray* _Nullable)itemArray;
 - (NSString* _Nonnull)jsonString:(NSError* _Nullable* _Nullable)error;
-- (BaseAnyArray* _Nullable)noteArray;
+- (long)totalCount;
 @end
 
 @interface DmensNoteStatus : NSObject <goSeqRefInterface> {
@@ -108,8 +133,11 @@
 - (nullable instancetype)initWithAddress:(NSString* _Nullable)posterAddress configuration:(DmensConfiguration* _Nullable)configuration;
 @property (nonatomic) DmensConfiguration* _Nullable configuration;
 @property (nonatomic) DmensPosterConfig* _Nullable posterConfig;
+// skipped method Poster.BatchQueryNoteByIds with unsupported parameter or return types
+
 /**
- * 批量查询 page 中所有 note 的状态，数据会直接同步到 page 中每一个 note 对象中
+ * BatchQueryNoteStatus
+批量查询 page 中所有 note 的状态，数据会直接同步到 page 中每一个 note 对象中
 @param viewer the note's viewer, if the viewer is empty, the poster's address will be queried.
  */
 - (BOOL)batchQueryNoteStatus:(DmensNotePage* _Nullable)page viewer:(NSString* _Nullable)viewer error:(NSError* _Nullable* _Nullable)error;
@@ -123,10 +151,12 @@
 this func should be recalled again to fetch the registered dmens object id
  */
 - (BOOL)fetchDmensObjecId:(NSError* _Nullable* _Nullable)error;
+- (BOOL)isMyFollowing:(NSString* _Nullable)address ret0_:(BOOL* _Nullable)ret0_ error:(NSError* _Nullable* _Nullable)error;
 - (BOOL)isRegister;
 - (NSString* _Nonnull)makeQuery:(DmensQuery* _Nullable)q error:(NSError* _Nullable* _Nullable)error;
 /**
- * @param pageSize The number of notes per page.
+ * QueryAllNoteList
+@param pageSize The number of notes per page.
 @param afterCursor Each page has a cursor, and you need to specify the cursor to get the next page of content, If you want to get the first page of content, pass in empty.
  */
 - (DmensNotePage* _Nullable)queryAllNoteList:(long)pageSize afterCursor:(NSString* _Nullable)afterCursor error:(NSError* _Nullable* _Nullable)error;
@@ -134,7 +164,8 @@ this func should be recalled again to fetch the registered dmens object id
 - (DmensQuery* _Nullable)queryDmensObjectId;
 - (DmensNote* _Nullable)queryNoteById:(NSString* _Nullable)noteId error:(NSError* _Nullable* _Nullable)error;
 /**
- * @param noteId the note's id
+ * QueryNoteStatusById
+@param noteId the note's id
 @param viewer the note's viewer, if the viewer is empty, the poster's address will be queried.
  */
 - (DmensNoteStatus* _Nullable)queryNoteStatusById:(NSString* _Nullable)noteId viewer:(NSString* _Nullable)viewer error:(NSError* _Nullable* _Nullable)error;
@@ -143,25 +174,35 @@ this func should be recalled again to fetch the registered dmens object id
 - (DmensNotePage* _Nullable)queryTrendNoteList:(long)pageSize afterCursor:(NSString* _Nullable)afterCursor error:(NSError* _Nullable* _Nullable)error;
 - (DmensUserPage* _Nullable)queryTrendUserList:(long)pageSize error:(NSError* _Nullable* _Nullable)error;
 /**
- * @param user If the user is empty, the poster's address will be queried.
+ * QueryUserFollowCount
+@param user If the user is empty, the poster's address will be queried.
  */
 - (DmensUserFollowCount* _Nullable)queryUserFollowCount:(NSString* _Nullable)user error:(NSError* _Nullable* _Nullable)error;
 /**
- * @param user If the user is empty, the poster's address will be queried.
+ * QueryUserFollowers
+@param user If the user is empty, the poster's address will be queried.
  */
 - (DmensUserPage* _Nullable)queryUserFollowers:(NSString* _Nullable)user pageSize:(long)pageSize afterCursor:(NSString* _Nullable)afterCursor error:(NSError* _Nullable* _Nullable)error;
 /**
- * @param user If the user is empty, the poster's address will be queried.
+ * QueryUserFollowing
+@param user If the user is empty, the poster's address will be queried.
  */
 - (DmensUserPage* _Nullable)queryUserFollowing:(NSString* _Nullable)user pageSize:(long)pageSize afterCursor:(NSString* _Nullable)afterCursor error:(NSError* _Nullable* _Nullable)error;
 /**
- * @param address If the address is empty, the poster's address will be queried.
+ * QueryUserInfoByAddress
+@param address If the address is empty, the poster's address will be queried.
  */
 - (DmensUserInfo* _Nullable)queryUserInfoByAddress:(NSString* _Nullable)address error:(NSError* _Nullable* _Nullable)error;
 /**
- * @param user If the user is empty, the poster's address will be queried.
+ * QueryUserNoteList
+@param user If the user is empty, the poster's address will be queried.
  */
 - (DmensNotePage* _Nullable)queryUserNoteList:(NSString* _Nullable)user pageSize:(long)pageSize afterCursor:(NSString* _Nullable)afterCursor error:(NSError* _Nullable* _Nullable)error;
+/**
+ * QueryUserRepostList
+@param user If the user is empty, the poster's address will be queried.
+ */
+- (DmensRepostNotePage* _Nullable)queryUserRepostList:(NSString* _Nullable)user pageSize:(long)pageSize afterCursor:(NSString* _Nullable)afterCursor error:(NSError* _Nullable* _Nullable)error;
 - (DmensUserPage* _Nullable)queryUsersByName:(NSString* _Nullable)name pageSize:(long)pageSize afterCursor:(NSString* _Nullable)afterCursor error:(NSError* _Nullable* _Nullable)error;
 - (SuiTransaction* _Nullable)register:(DmensProfile* _Nullable)profile error:(NSError* _Nullable* _Nullable)error;
 @end
@@ -205,6 +246,33 @@ cursor 为空时，表示 null
 - (NSString* _Nonnull)actualQueryString;
 @end
 
+@interface DmensRepostNote : NSObject <goSeqRefInterface, BaseAniable, DmensJsonable> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nonnull instancetype)init;
+@property (nonatomic) DmensNote* _Nullable note;
+@property (nonatomic) DmensNote* _Nullable repost;
+- (BaseAny* _Nullable)asAny;
+- (NSString* _Nonnull)jsonString:(NSError* _Nullable* _Nullable)error;
+@end
+
+@interface DmensRepostNotePage : NSObject <goSeqRefInterface, DmensJsonable, DmensPageable> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nonnull instancetype)init;
+- (long)currentCount;
+- (NSString* _Nonnull)currentCursor;
+- (DmensRepostNote* _Nullable)firstObject;
+- (BOOL)hasNextPage;
+- (BaseAnyArray* _Nullable)itemArray;
+- (NSString* _Nonnull)jsonString:(NSError* _Nullable* _Nullable)error;
+- (long)totalCount;
+@end
+
 @interface DmensUserFollowCount : NSObject <goSeqRefInterface, DmensJsonable> {
 }
 @property(strong, readonly) _Nonnull id _ref;
@@ -232,20 +300,19 @@ cursor 为空时，表示 null
 - (NSString* _Nonnull)jsonString:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface DmensUserPage : NSObject <goSeqRefInterface, DmensJsonable> {
+@interface DmensUserPage : NSObject <goSeqRefInterface, DmensJsonable, DmensPageable> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
 - (nonnull instancetype)init;
-// skipped field UserPage.Users with unsupported type: []github.com/coming-chat/go-dmens-sdk/dmens.UserInfo
-
-@property (nonatomic) NSString* _Nonnull currentCursor;
-@property (nonatomic) long currentCount;
-@property (nonatomic) long totalCount;
+- (long)currentCount;
+- (NSString* _Nonnull)currentCursor;
 - (DmensUserInfo* _Nullable)firstObject;
+- (BOOL)hasNextPage;
+- (BaseAnyArray* _Nullable)itemArray;
 - (NSString* _Nonnull)jsonString:(NSError* _Nullable* _Nullable)error;
-- (BaseAnyArray* _Nullable)userArray;
+- (long)totalCount;
 @end
 
 FOUNDATION_EXPORT const long DmensACTION_LIKE;
@@ -279,6 +346,8 @@ FOUNDATION_EXPORT NSString* _Nonnull const DmensFunctionRegister;
 
 FOUNDATION_EXPORT DmensNote* _Nullable DmensAsNote(BaseAny* _Nullable any);
 
+FOUNDATION_EXPORT DmensRepostNote* _Nullable DmensAsRepostNote(BaseAny* _Nullable any);
+
 FOUNDATION_EXPORT DmensUserInfo* _Nullable DmensAsUserInfo(BaseAny* _Nullable a);
 
 // skipped function JsonString with unsupported parameter or return types
@@ -292,12 +361,39 @@ FOUNDATION_EXPORT DmensPoster* _Nullable DmensNewPosterWithAddress(NSString* _Nu
 
 @class DmensJsonable;
 
+@class DmensPageable;
+
 @interface DmensJsonable : NSObject <goSeqRefInterface, DmensJsonable> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
 - (NSString* _Nonnull)jsonString:(NSError* _Nullable* _Nullable)error;
+@end
+
+@interface DmensPageable : NSObject <goSeqRefInterface, DmensPageable> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+/**
+ * The count of data in the current page.
+ */
+- (long)currentCount;
+/**
+ * The cursor of the current page.
+ */
+- (NSString* _Nonnull)currentCursor;
+/**
+ * Is there has next page.
+ */
+- (BOOL)hasNextPage;
+- (BaseAnyArray* _Nullable)itemArray;
+- (NSString* _Nonnull)jsonString:(NSError* _Nullable* _Nullable)error;
+/**
+ * The total count of all data in the remote server.
+ */
+- (long)totalCount;
 @end
 
 #endif
