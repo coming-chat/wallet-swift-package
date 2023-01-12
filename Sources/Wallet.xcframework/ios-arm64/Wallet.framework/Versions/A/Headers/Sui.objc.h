@@ -68,6 +68,7 @@
 // skipped method Chain.BaseMoveCall with unsupported parameter or return types
 
 - (NSString* _Nonnull)batchFetchTransactionStatus:(NSString* _Nullable)hashListString;
+- (BaseOptionalString* _Nullable)estimateGasFee:(SuiTransaction* _Nullable)transaction error:(NSError* _Nullable* _Nullable)error;
 // skipped method Chain.FetchNFTs with unsupported parameter or return types
 
 - (BaseOptionalString* _Nullable)fetchNFTsJsonString:(NSString* _Nullable)owner error:(NSError* _Nullable* _Nullable)error;
@@ -130,6 +131,7 @@
 - (BaseBalance* _Nullable)balanceOfAccount:(id<BaseAccount> _Nullable)account error:(NSError* _Nullable* _Nullable)error;
 - (BaseBalance* _Nullable)balanceOfAddress:(NSString* _Nullable)address error:(NSError* _Nullable* _Nullable)error;
 - (BaseBalance* _Nullable)balanceOfPublicKey:(NSString* _Nullable)publicKey error:(NSError* _Nullable* _Nullable)error;
+- (SuiTransaction* _Nullable)buildTransferTransaction:(SuiAccount* _Nullable)account receiverAddress:(NSString* _Nullable)receiverAddress amount:(NSString* _Nullable)amount error:(NSError* _Nullable* _Nullable)error;
 - (BaseOptionalString* _Nullable)buildTransferTx:(NSString* _Nullable)privateKey receiverAddress:(NSString* _Nullable)receiverAddress amount:(NSString* _Nullable)amount error:(NSError* _Nullable* _Nullable)error;
 - (BaseOptionalString* _Nullable)buildTransferTxWithAccount:(SuiAccount* _Nullable)account receiverAddress:(NSString* _Nullable)receiverAddress amount:(NSString* _Nullable)amount error:(NSError* _Nullable* _Nullable)error;
 - (id<BaseChain> _Nullable)chain;

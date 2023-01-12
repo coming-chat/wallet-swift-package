@@ -141,6 +141,12 @@
 @param viewer the note's viewer, if the viewer is empty, the poster's address will be queried.
  */
 - (BOOL)batchQueryNoteStatus:(DmensNotePage* _Nullable)page viewer:(NSString* _Nullable)viewer error:(NSError* _Nullable* _Nullable)error;
+- (DmensUserPage* _Nullable)batchQueryUserByAddressArray:(BaseStringArray* _Nullable)array error:(NSError* _Nullable* _Nullable)error;
+/**
+ * BatchQueryUserByAddressJson
+@param jsonString address array's json string. e.g. `["0x1","0x2",   "0x3"]`
+ */
+- (DmensUserPage* _Nullable)batchQueryUserByAddressJson:(NSString* _Nullable)jsonString error:(NSError* _Nullable* _Nullable)error;
 - (SuiTransaction* _Nullable)dmensFollow:(BaseStringArray* _Nullable)addresses error:(NSError* _Nullable* _Nullable)error;
 - (SuiTransaction* _Nullable)dmensPost:(NSString* _Nullable)text error:(NSError* _Nullable* _Nullable)error;
 - (SuiTransaction* _Nullable)dmensPostWithRef:(long)action text:(NSString* _Nullable)text refIdentifier:(NSString* _Nullable)refIdentifier error:(NSError* _Nullable* _Nullable)error;
@@ -203,6 +209,11 @@ this func should be recalled again to fetch the registered dmens object id
 @param user If the user is empty, the poster's address will be queried.
  */
 - (DmensRepostNotePage* _Nullable)queryUserRepostList:(NSString* _Nullable)user pageSize:(long)pageSize afterCursor:(NSString* _Nullable)afterCursor error:(NSError* _Nullable* _Nullable)error;
+/**
+ * QueryUserRepostListAsNotePage
+@param user If the user is empty, the poster's address will be queried.
+ */
+- (DmensNotePage* _Nullable)queryUserRepostListAsNotePage:(NSString* _Nullable)user pageSize:(long)pageSize afterCursor:(NSString* _Nullable)afterCursor error:(NSError* _Nullable* _Nullable)error;
 - (DmensUserPage* _Nullable)queryUsersByName:(NSString* _Nullable)name pageSize:(long)pageSize afterCursor:(NSString* _Nullable)afterCursor error:(NSError* _Nullable* _Nullable)error;
 - (SuiTransaction* _Nullable)register:(DmensProfile* _Nullable)profile error:(NSError* _Nullable* _Nullable)error;
 @end
