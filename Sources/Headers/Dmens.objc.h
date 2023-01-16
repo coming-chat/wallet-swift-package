@@ -141,6 +141,8 @@
 @param viewer the note's viewer, if the viewer is empty, the poster's address will be queried.
  */
 - (BOOL)batchQueryNoteStatus:(DmensNotePage* _Nullable)page viewer:(NSString* _Nullable)viewer error:(NSError* _Nullable* _Nullable)error;
+// skipped method Poster.BatchQueryNoteStatusByIds with unsupported parameter or return types
+
 - (DmensUserPage* _Nullable)batchQueryUserByAddressArray:(BaseStringArray* _Nullable)array error:(NSError* _Nullable* _Nullable)error;
 /**
  * BatchQueryUserByAddressJson
@@ -157,7 +159,7 @@
 this func should be recalled again to fetch the registered dmens object id
  */
 - (BOOL)fetchDmensObjecId:(NSError* _Nullable* _Nullable)error;
-- (BOOL)isMyFollowing:(NSString* _Nullable)address ret0_:(BOOL* _Nullable)ret0_ error:(NSError* _Nullable* _Nullable)error;
+- (BaseOptionalBool* _Nullable)isMyFollowing:(NSString* _Nullable)address error:(NSError* _Nullable* _Nullable)error;
 - (BOOL)isRegister;
 - (NSString* _Nonnull)makeQuery:(DmensQuery* _Nullable)q error:(NSError* _Nullable* _Nullable)error;
 /**
