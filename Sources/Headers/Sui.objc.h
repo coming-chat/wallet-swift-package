@@ -147,6 +147,8 @@
 - (nonnull instancetype)init;
 // skipped field Transaction.Txn with unsupported type: github.com/coming-chat/go-sui/types.TransactionBytes
 
+@property (nonatomic) int64_t maxGasBudget;
+@property (nonatomic) int64_t estimateGasFee;
 - (BaseOptionalString* _Nullable)signWithAccount:(SuiAccount* _Nullable)account error:(NSError* _Nullable* _Nullable)error;
 @end
 
