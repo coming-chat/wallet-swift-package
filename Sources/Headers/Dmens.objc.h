@@ -111,9 +111,9 @@
 - (nonnull instancetype)init;
 @property (nonatomic) NSString* _Nonnull noteId;
 @property (nonatomic) NSString* _Nonnull viewer;
-@property (nonatomic) long replyCount;
-@property (nonatomic) long repostCount;
-@property (nonatomic) long likeCount;
+@property (nonatomic) int64_t replyCount;
+@property (nonatomic) int64_t repostCount;
+@property (nonatomic) int64_t likeCount;
 /**
  * Whether the viewer reposted it
  */
