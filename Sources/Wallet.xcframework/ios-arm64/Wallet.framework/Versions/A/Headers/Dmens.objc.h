@@ -26,6 +26,7 @@
 @class DmensUserFollowCount;
 @class DmensUserInfo;
 @class DmensUserPage;
+@class DmensValidProfile;
 @protocol DmensJsonable;
 @class DmensJsonable;
 @protocol DmensPageable;
@@ -68,6 +69,7 @@
 @property (nonatomic) NSString* _Nonnull contractAddress;
 @property (nonatomic) NSString* _Nonnull globalProfileId;
 @property (nonatomic) NSString* _Nonnull globalProfileTableId;
+@property (nonatomic) NSString* _Nonnull profileCheckUrl;
 @property (nonatomic) BOOL isMainNet;
 @end
 
@@ -149,6 +151,7 @@
 @param jsonString address array's json string. e.g. `["0x1","0x2",   "0x3"]`
  */
 - (DmensUserPage* _Nullable)batchQueryUserByAddressJson:(NSString* _Nullable)jsonString error:(NSError* _Nullable* _Nullable)error;
+- (DmensValidProfile* _Nullable)checkProfile:(DmensProfile* _Nullable)profile error:(NSError* _Nullable* _Nullable)error;
 - (SuiTransaction* _Nullable)dmensFollow:(BaseStringArray* _Nullable)addresses error:(NSError* _Nullable* _Nullable)error;
 - (SuiTransaction* _Nullable)dmensPost:(NSString* _Nullable)text error:(NSError* _Nullable* _Nullable)error;
 - (SuiTransaction* _Nullable)dmensPostWithRef:(long)action text:(NSString* _Nullable)text refIdentifier:(NSString* _Nullable)refIdentifier error:(NSError* _Nullable* _Nullable)error;
@@ -217,7 +220,7 @@ this func should be recalled again to fetch the registered dmens object id
  */
 - (DmensNotePage* _Nullable)queryUserRepostListAsNotePage:(NSString* _Nullable)user pageSize:(long)pageSize afterCursor:(NSString* _Nullable)afterCursor error:(NSError* _Nullable* _Nullable)error;
 - (DmensUserPage* _Nullable)queryUsersByName:(NSString* _Nullable)name pageSize:(long)pageSize afterCursor:(NSString* _Nullable)afterCursor error:(NSError* _Nullable* _Nullable)error;
-- (SuiTransaction* _Nullable)register:(DmensProfile* _Nullable)profile error:(NSError* _Nullable* _Nullable)error;
+- (SuiTransaction* _Nullable)register:(DmensValidProfile* _Nullable)validProfile error:(NSError* _Nullable* _Nullable)error;
 @end
 
 @interface DmensPosterConfig : NSObject <goSeqRefInterface> {
@@ -239,6 +242,9 @@ this func should be recalled again to fetch the registered dmens object id
 @property (nonatomic) NSString* _Nonnull name;
 @property (nonatomic) NSString* _Nonnull bio;
 @property (nonatomic) NSString* _Nonnull avatar;
+@property (nonatomic) NSString* _Nonnull background;
+@property (nonatomic) NSString* _Nonnull website;
+@property (nonatomic) NSString* _Nonnull identification;
 @end
 
 @interface DmensQuery : NSObject <goSeqRefInterface> {
@@ -328,6 +334,16 @@ cursor 为空时，表示 null
 - (long)totalCount;
 @end
 
+@interface DmensValidProfile : NSObject <goSeqRefInterface> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nonnull instancetype)init;
+@property (nonatomic) NSString* _Nonnull profile;
+@property (nonatomic) NSString* _Nonnull signature;
+@end
+
 FOUNDATION_EXPORT const long DmensACTION_LIKE;
 FOUNDATION_EXPORT const long DmensACTION_POST;
 FOUNDATION_EXPORT const long DmensACTION_QUOTE_POST;
@@ -345,6 +361,9 @@ FOUNDATION_EXPORT NSString* _Nonnull const DmensFunctionRegister;
 
 + (NSError* _Nullable) errGetNullConfiguration;
 + (void) setErrGetNullConfiguration:(NSError* _Nullable)v;
+
++ (NSError* _Nullable) errNotValidPorfile;
++ (void) setErrNotValidPorfile:(NSError* _Nullable)v;
 
 + (NSError* _Nullable) errUserNotRegistered;
 + (void) setErrUserNotRegistered:(NSError* _Nullable)v;
