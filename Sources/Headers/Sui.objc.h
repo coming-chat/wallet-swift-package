@@ -18,6 +18,7 @@
 @class SuiToken;
 @class SuiTransaction;
 @class SuiUtil;
+@class SuiValidator;
 
 @interface SuiAccount : NSObject <goSeqRefInterface, BaseAccount, BaseAddressUtil> {
 }
@@ -77,6 +78,8 @@
  */
 - (BaseTransactionDetail* _Nullable)fetchTransactionDetail:(NSString* _Nullable)hash error:(NSError* _Nullable* _Nullable)error;
 - (long)fetchTransactionStatus:(NSString* _Nullable)hash;
+// skipped method Chain.GetStakeList with unsupported parameter or return types
+
 - (id<BaseToken> _Nullable)mainToken;
 /**
  * @param gasId gas object to be used in this transaction, the gateway will pick one from the signer's possession if not provided
@@ -167,6 +170,22 @@
  */
 - (NSString* _Nonnull)encodePublicKeyToAddress:(NSString* _Nullable)publicKey error:(NSError* _Nullable* _Nullable)error;
 - (BOOL)isValidAddress:(NSString* _Nullable)address;
+@end
+
+@interface SuiValidator : NSObject <goSeqRefInterface> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nonnull instancetype)init;
+@property (nonatomic) NSString* _Nonnull address;
+@property (nonatomic) NSString* _Nonnull name;
+@property (nonatomic) NSString* _Nonnull desc;
+@property (nonatomic) NSString* _Nonnull imageUrl;
+@property (nonatomic) NSString* _Nonnull projectUrl;
+@property (nonatomic) double apy;
+@property (nonatomic) NSString* _Nonnull stakedSui;
+@property (nonatomic) int64_t epoch;
 @end
 
 FOUNDATION_EXPORT NSString* _Nonnull const SuiFaucetUrlTestnet;
