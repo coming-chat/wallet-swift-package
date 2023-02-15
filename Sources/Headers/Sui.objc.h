@@ -14,11 +14,13 @@
 
 @class SuiAccount;
 @class SuiChain;
+@class SuiDelegatedStake;
 @class SuiPickedCoins;
 @class SuiToken;
 @class SuiTransaction;
 @class SuiUtil;
 @class SuiValidator;
+@class SuiValidatorState;
 
 @interface SuiAccount : NSObject <goSeqRefInterface, BaseAccount, BaseAddressUtil> {
 }
@@ -63,6 +65,7 @@
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
 - (nullable instancetype)initWithRpcUrl:(NSString* _Nullable)rpcUrl;
 @property (nonatomic) NSString* _Nonnull rpcUrl;
+- (SuiTransaction* _Nullable)addDelegation:(NSString* _Nullable)owner amount:(NSString* _Nullable)amount validatorAddress:(NSString* _Nullable)validatorAddress error:(NSError* _Nullable* _Nullable)error;
 - (BaseBalance* _Nullable)balanceOfAccount:(id<BaseAccount> _Nullable)account error:(NSError* _Nullable* _Nullable)error;
 - (BaseBalance* _Nullable)balanceOfAddress:(NSString* _Nullable)address error:(NSError* _Nullable* _Nullable)error;
 - (BaseBalance* _Nullable)balanceOfPublicKey:(NSString* _Nullable)publicKey error:(NSError* _Nullable* _Nullable)error;
@@ -78,8 +81,9 @@
  */
 - (BaseTransactionDetail* _Nullable)fetchTransactionDetail:(NSString* _Nullable)hash error:(NSError* _Nullable* _Nullable)error;
 - (long)fetchTransactionStatus:(NSString* _Nullable)hash;
-// skipped method Chain.GetStakeList with unsupported parameter or return types
+// skipped method Chain.GetDelegatedStakes with unsupported parameter or return types
 
+- (SuiValidatorState* _Nullable)getValidatorState:(NSError* _Nullable* _Nullable)error;
 - (id<BaseToken> _Nullable)mainToken;
 /**
  * @param gasId gas object to be used in this transaction, the gateway will pick one from the signer's possession if not provided
@@ -99,6 +103,23 @@
  * @param gasId gas object to be used in this transaction, the gateway will pick one from the signer's possession if not provided
  */
 - (SuiTransaction* _Nullable)transferObject:(NSString* _Nullable)sender receiver:(NSString* _Nullable)receiver objectId:(NSString* _Nullable)objectId gasId:(NSString* _Nullable)gasId gasBudget:(int64_t)gasBudget error:(NSError* _Nullable* _Nullable)error;
+- (SuiTransaction* _Nullable)withdrawDelegation:(NSString* _Nullable)owner delegationId:(NSString* _Nullable)delegationId stakeId:(NSString* _Nullable)stakeId error:(NSError* _Nullable* _Nullable)error;
+@end
+
+@interface SuiDelegatedStake : NSObject <goSeqRefInterface> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nonnull instancetype)init;
+@property (nonatomic) NSString* _Nonnull stakeId;
+@property (nonatomic) NSString* _Nonnull validatorAddress;
+@property (nonatomic) NSString* _Nonnull principal;
+@property (nonatomic) int64_t requestEpoch;
+@property (nonatomic) long status;
+@property (nonatomic) NSString* _Nonnull delegationId;
+@property (nonatomic) NSString* _Nonnull earnedAmount;
+@property (nonatomic) SuiValidator* _Nullable validator;
 @end
 
 @interface SuiPickedCoins : NSObject <goSeqRefInterface> {
@@ -184,10 +205,39 @@
 @property (nonatomic) NSString* _Nonnull imageUrl;
 @property (nonatomic) NSString* _Nonnull projectUrl;
 @property (nonatomic) double apy;
-@property (nonatomic) NSString* _Nonnull stakedSui;
-@property (nonatomic) int64_t epoch;
+@property (nonatomic) int64_t commission;
+@property (nonatomic) NSString* _Nonnull totalStaked;
+@property (nonatomic) NSString* _Nonnull delegatedStaked;
+@property (nonatomic) NSString* _Nonnull selfStaked;
+@property (nonatomic) NSString* _Nonnull totalRewards;
+@property (nonatomic) int64_t gasPrice;
 @end
 
+@interface SuiValidatorState : NSObject <goSeqRefInterface> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nonnull instancetype)init;
+/**
+ * The current epoch in Sui. An epoch takes approximately 24 hours and runs in checkpoints.
+ */
+@property (nonatomic) int64_t epoch;
+// skipped field ValidatorState.Validators with unsupported type: []*github.com/coming-chat/wallet-SDK/core/sui.Validator
+
+/**
+ * The amount of all tokens staked in the Sui Network.
+ */
+@property (nonatomic) NSString* _Nonnull totalStaked;
+/**
+ * The amount of rewards won by all Sui validators in the last epoch.
+ */
+@property (nonatomic) NSString* _Nonnull totalRewards;
+@property (nonatomic) int64_t time;
+@end
+
+FOUNDATION_EXPORT const long SuiDelegationStatusActived;
+FOUNDATION_EXPORT const long SuiDelegationStatusPending;
 FOUNDATION_EXPORT NSString* _Nonnull const SuiFaucetUrlTestnet;
 FOUNDATION_EXPORT const int64_t SuiMaxGasBudget;
 FOUNDATION_EXPORT const int64_t SuiMaxGasForMerge;
