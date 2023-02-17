@@ -34,6 +34,8 @@
 @class BaseAniable;
 @protocol BaseChain;
 @class BaseChain;
+@protocol BaseJsonable;
+@class BaseJsonable;
 @protocol BaseNFTFetcher;
 @class BaseNFTFetcher;
 @protocol BaseReachMonitorDelegate;
@@ -111,6 +113,10 @@ which can only be passed as strings separated by ","
 - (NSString* _Nonnull)sendRawTransaction:(NSString* _Nullable)signedTx error:(NSError* _Nullable* _Nullable)error;
 @end
 
+@protocol BaseJsonable <NSObject>
+- (BaseOptionalString* _Nullable)jsonString:(NSError* _Nullable* _Nullable)error;
+@end
+
 @protocol BaseNFTFetcher <NSObject>
 // skipped method NFTFetcher.FetchNFTs with unsupported parameter or return types
 
@@ -153,7 +159,7 @@ which can only be passed as strings separated by ","
 /**
  * 如果需要自定义类型支持 Any, 需要遵循协议 Aniable
  */
-@interface BaseAny : NSObject <goSeqRefInterface> {
+@interface BaseAny : NSObject <goSeqRefInterface, BaseJsonable> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -173,6 +179,11 @@ which can only be passed as strings separated by ","
 - (BaseBigInt* _Nullable)getUInt32;
 - (BaseBigInt* _Nullable)getUInt64;
 - (BaseBigInt* _Nullable)getUInt8;
+- (BaseOptionalString* _Nullable)jsonString:(NSError* _Nullable* _Nullable)error;
+/**
+ * `Any` only support Marshal
+ */
+- (NSData* _Nullable)marshalJSON:(NSError* _Nullable* _Nullable)error;
 - (void)setBigInt:(BaseBigInt* _Nullable)v;
 - (void)setBool:(BOOL)v;
 - (void)setInt:(long)v;
@@ -187,7 +198,7 @@ which can only be passed as strings separated by ","
 - (void)setUInt8:(BaseBigInt* _Nullable)v;
 @end
 
-@interface BaseAnyArray : NSObject <goSeqRefInterface, BaseAniable> {
+@interface BaseAnyArray : NSObject <goSeqRefInterface, BaseAniable, BaseJsonable> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -203,13 +214,18 @@ which can only be passed as strings separated by ","
  * return -1 if not found
  */
 - (long)indexOf:(BaseAny* _Nullable)any;
+- (BaseOptionalString* _Nullable)jsonString:(NSError* _Nullable* _Nullable)error;
+/**
+ * `AnyArray` only support Marshal
+ */
+- (NSData* _Nullable)marshalJSON:(NSError* _Nullable* _Nullable)error;
 - (void)remove:(long)index;
 - (void)setValue:(BaseAny* _Nullable)value index:(long)index;
 - (NSString* _Nonnull)string;
 - (BaseAny* _Nullable)valueOf:(long)index;
 @end
 
-@interface BaseAnyMap : NSObject <goSeqRefInterface, BaseAniable> {
+@interface BaseAnyMap : NSObject <goSeqRefInterface, BaseAniable, BaseJsonable> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -219,7 +235,12 @@ which can only be passed as strings separated by ","
 
 - (BaseAny* _Nullable)asAny;
 - (BOOL)hasKey:(NSString* _Nullable)key;
+- (BaseOptionalString* _Nullable)jsonString:(NSError* _Nullable* _Nullable)error;
 - (BaseStringArray* _Nullable)keys;
+/**
+ * `AnyMap` only support Marshal
+ */
+- (NSData* _Nullable)marshalJSON:(NSError* _Nullable* _Nullable)error;
 - (BaseAny* _Nullable)remove:(NSString* _Nullable)key;
 - (void)setValue:(BaseAny* _Nullable)value key:(NSString* _Nullable)key;
 - (NSString* _Nonnull)string;
@@ -537,6 +558,12 @@ If the content type of the given url is JSON, it's will return the `image` field
  */
 FOUNDATION_EXPORT BaseOptionalString* _Nullable BaseExtractNFTImageUrl(NSString* _Nullable url, NSError* _Nullable* _Nullable error);
 
+// skipped function FromJsonString with unsupported parameter or return types
+
+
+// skipped function JsonString with unsupported parameter or return types
+
+
 // skipped function MapAnyToBasicError with unsupported parameter or return types
 
 
@@ -586,6 +613,8 @@ FOUNDATION_EXPORT BaseReachMonitor* _Nullable BaseNewReachMonitorWithReachabilit
 @class BaseAniable;
 
 @class BaseChain;
+
+@class BaseJsonable;
 
 @class BaseNFTFetcher;
 
@@ -680,6 +709,14 @@ which can only be passed as strings separated by ","
 @return the hex hash string
  */
 - (NSString* _Nonnull)sendRawTransaction:(NSString* _Nullable)signedTx error:(NSError* _Nullable* _Nullable)error;
+@end
+
+@interface BaseJsonable : NSObject <goSeqRefInterface, BaseJsonable> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (BaseOptionalString* _Nullable)jsonString:(NSError* _Nullable* _Nullable)error;
 @end
 
 @interface BaseNFTFetcher : NSObject <goSeqRefInterface, BaseNFTFetcher> {

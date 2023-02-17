@@ -81,8 +81,10 @@
  */
 - (BaseTransactionDetail* _Nullable)fetchTransactionDetail:(NSString* _Nullable)hash error:(NSError* _Nullable* _Nullable)error;
 - (long)fetchTransactionStatus:(NSString* _Nullable)hash;
-// skipped method Chain.GetDelegatedStakes with unsupported parameter or return types
-
+/**
+ * @return Array of `DelegatedStake` elements
+ */
+- (BaseAnyArray* _Nullable)getDelegatedStakes:(NSString* _Nullable)owner error:(NSError* _Nullable* _Nullable)error;
 - (SuiValidatorState* _Nullable)getValidatorState:(NSError* _Nullable* _Nullable)error;
 - (id<BaseToken> _Nullable)mainToken;
 /**
@@ -106,12 +108,12 @@
 - (SuiTransaction* _Nullable)withdrawDelegation:(NSString* _Nullable)owner delegationId:(NSString* _Nullable)delegationId stakeId:(NSString* _Nullable)stakeId error:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface SuiDelegatedStake : NSObject <goSeqRefInterface> {
+@interface SuiDelegatedStake : NSObject <goSeqRefInterface, BaseAniable, BaseJsonable> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
-- (nonnull instancetype)init;
+- (nullable instancetype)initWithJsonString:(NSString* _Nullable)str;
 @property (nonatomic) NSString* _Nonnull stakeId;
 @property (nonatomic) NSString* _Nonnull validatorAddress;
 @property (nonatomic) NSString* _Nonnull principal;
@@ -120,6 +122,8 @@
 @property (nonatomic) NSString* _Nonnull delegationId;
 @property (nonatomic) NSString* _Nonnull earnedAmount;
 @property (nonatomic) SuiValidator* _Nullable validator;
+- (BaseAny* _Nullable)asAny;
+- (BaseOptionalString* _Nullable)jsonString:(NSError* _Nullable* _Nullable)error;
 @end
 
 @interface SuiPickedCoins : NSObject <goSeqRefInterface> {
@@ -193,12 +197,12 @@
 - (BOOL)isValidAddress:(NSString* _Nullable)address;
 @end
 
-@interface SuiValidator : NSObject <goSeqRefInterface> {
+@interface SuiValidator : NSObject <goSeqRefInterface, BaseAniable, BaseJsonable> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
-- (nonnull instancetype)init;
+- (nullable instancetype)initWithJsonString:(NSString* _Nullable)str;
 @property (nonatomic) NSString* _Nonnull address;
 @property (nonatomic) NSString* _Nonnull name;
 @property (nonatomic) NSString* _Nonnull desc;
@@ -211,20 +215,24 @@
 @property (nonatomic) NSString* _Nonnull selfStaked;
 @property (nonatomic) NSString* _Nonnull totalRewards;
 @property (nonatomic) int64_t gasPrice;
+- (BaseAny* _Nullable)asAny;
+- (BaseOptionalString* _Nullable)jsonString:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface SuiValidatorState : NSObject <goSeqRefInterface> {
+@interface SuiValidatorState : NSObject <goSeqRefInterface, BaseJsonable> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
-- (nonnull instancetype)init;
+- (nullable instancetype)initWithJsonString:(NSString* _Nullable)str;
 /**
  * The current epoch in Sui. An epoch takes approximately 24 hours and runs in checkpoints.
  */
 @property (nonatomic) int64_t epoch;
-// skipped field ValidatorState.Validators with unsupported type: []*github.com/coming-chat/wallet-SDK/core/sui.Validator
-
+/**
+ * Array of `Validator` elements
+ */
+@property (nonatomic) BaseAnyArray* _Nullable validators;
 /**
  * The amount of all tokens staked in the Sui Network.
  */
@@ -234,6 +242,7 @@
  */
 @property (nonatomic) NSString* _Nonnull totalRewards;
 @property (nonatomic) int64_t time;
+- (BaseOptionalString* _Nullable)jsonString:(NSError* _Nullable* _Nullable)error;
 @end
 
 FOUNDATION_EXPORT const long SuiDelegationStatusActived;
@@ -253,7 +262,11 @@ Android cannot support both NewAccountWithMnemonic(string) and NewAccountWithPri
  */
 FOUNDATION_EXPORT SuiAccount* _Nullable SuiAccountWithPrivateKey(NSString* _Nullable prikey, NSError* _Nullable* _Nullable error);
 
+FOUNDATION_EXPORT SuiDelegatedStake* _Nullable SuiAsDelegatedStake(BaseAny* _Nullable a);
+
 FOUNDATION_EXPORT SuiAccount* _Nullable SuiAsSuiAccount(id<BaseAccount> _Nullable account);
+
+FOUNDATION_EXPORT SuiValidator* _Nullable SuiAsValidator(BaseAny* _Nullable a);
 
 FOUNDATION_EXPORT NSString* _Nonnull SuiDecodeAddressToPublicKey(NSString* _Nullable address, NSError* _Nullable* _Nullable error);
 
@@ -279,6 +292,10 @@ FOUNDATION_EXPORT SuiAccount* _Nullable SuiNewAccountWithMnemonic(NSString* _Nul
 
 FOUNDATION_EXPORT SuiChain* _Nullable SuiNewChainWithRpcUrl(NSString* _Nullable rpcUrl);
 
+FOUNDATION_EXPORT BaseAnyArray* _Nullable SuiNewDelegatedStakeArrayWithJsonString(NSString* _Nullable str, NSError* _Nullable* _Nullable error);
+
+FOUNDATION_EXPORT SuiDelegatedStake* _Nullable SuiNewDelegatedStakeWithJsonString(NSString* _Nullable str, NSError* _Nullable* _Nullable error);
+
 /**
  * @param tag format `address::module_name::name`, e.g. "0x2::sui::SUI"
  */
@@ -287,5 +304,9 @@ FOUNDATION_EXPORT SuiToken* _Nullable SuiNewToken(SuiChain* _Nullable chain, NSS
 FOUNDATION_EXPORT SuiToken* _Nullable SuiNewTokenMain(SuiChain* _Nullable chain);
 
 FOUNDATION_EXPORT SuiUtil* _Nullable SuiNewUtil(NSError* _Nullable* _Nullable error);
+
+FOUNDATION_EXPORT SuiValidatorState* _Nullable SuiNewValidatorStateWithJsonString(NSString* _Nullable str, NSError* _Nullable* _Nullable error);
+
+FOUNDATION_EXPORT SuiValidator* _Nullable SuiNewValidatorWithJsonString(NSString* _Nullable str, NSError* _Nullable* _Nullable error);
 
 #endif
