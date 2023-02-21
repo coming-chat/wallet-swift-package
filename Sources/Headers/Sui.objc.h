@@ -85,6 +85,7 @@
  * @return Array of `DelegatedStake` elements
  */
 - (BaseAnyArray* _Nullable)getDelegatedStakes:(NSString* _Nullable)owner error:(NSError* _Nullable* _Nullable)error;
+- (SuiValidator* _Nullable)getValidator:(NSString* _Nullable)address useCache:(BOOL)useCache error:(NSError* _Nullable* _Nullable)error;
 - (SuiValidatorState* _Nullable)getValidatorState:(NSError* _Nullable* _Nullable)error;
 - (id<BaseToken> _Nullable)mainToken;
 /**
@@ -117,6 +118,7 @@
 @property(strong, readonly) _Nonnull id _ref;
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nullable instancetype)init;
 - (nullable instancetype)initWithJsonString:(NSString* _Nullable)str;
 @property (nonatomic) NSString* _Nonnull stakeId;
 @property (nonatomic) NSString* _Nonnull validatorAddress;
@@ -206,6 +208,7 @@
 @property(strong, readonly) _Nonnull id _ref;
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nullable instancetype)init;
 - (nullable instancetype)initWithJsonString:(NSString* _Nullable)str;
 @property (nonatomic) NSString* _Nonnull address;
 @property (nonatomic) NSString* _Nonnull name;
@@ -228,6 +231,7 @@
 @property(strong, readonly) _Nonnull id _ref;
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nullable instancetype)init;
 - (nullable instancetype)initWithJsonString:(NSString* _Nullable)str;
 /**
  * The current epoch in Sui. An epoch takes approximately 24 hours and runs in checkpoints.
@@ -298,6 +302,8 @@ FOUNDATION_EXPORT SuiAccount* _Nullable SuiNewAccountWithMnemonic(NSString* _Nul
 
 FOUNDATION_EXPORT SuiChain* _Nullable SuiNewChainWithRpcUrl(NSString* _Nullable rpcUrl);
 
+FOUNDATION_EXPORT SuiDelegatedStake* _Nullable SuiNewDelegatedStake(void);
+
 FOUNDATION_EXPORT BaseAnyArray* _Nullable SuiNewDelegatedStakeArrayWithJsonString(NSString* _Nullable str, NSError* _Nullable* _Nullable error);
 
 FOUNDATION_EXPORT SuiDelegatedStake* _Nullable SuiNewDelegatedStakeWithJsonString(NSString* _Nullable str, NSError* _Nullable* _Nullable error);
@@ -310,6 +316,10 @@ FOUNDATION_EXPORT SuiToken* _Nullable SuiNewToken(SuiChain* _Nullable chain, NSS
 FOUNDATION_EXPORT SuiToken* _Nullable SuiNewTokenMain(SuiChain* _Nullable chain);
 
 FOUNDATION_EXPORT SuiUtil* _Nullable SuiNewUtil(NSError* _Nullable* _Nullable error);
+
+FOUNDATION_EXPORT SuiValidator* _Nullable SuiNewValidator(void);
+
+FOUNDATION_EXPORT SuiValidatorState* _Nullable SuiNewValidatorState(void);
 
 FOUNDATION_EXPORT SuiValidatorState* _Nullable SuiNewValidatorStateWithJsonString(NSString* _Nullable str, NSError* _Nullable* _Nullable error);
 
