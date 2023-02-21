@@ -97,6 +97,10 @@
  */
 - (NSString* _Nonnull)sendRawTransaction:(NSString* _Nullable)signedTx error:(NSError* _Nullable* _Nullable)error;
 /**
+ * @useCache If true, when there is cached data, the result will be returned directly without requesting data on the chain.
+ */
+- (BaseOptionalString* _Nullable)totalStakedSuiAtValidator:(NSString* _Nullable)validator owner:(NSString* _Nullable)owner useCache:(BOOL)useCache error:(NSError* _Nullable* _Nullable)error;
+/**
  * Just encapsulation and callbacks to method `TransferObject`.
 @param gasId gas object to be used in this transaction, the gateway will pick one from the signer's possession if not provided
  */
@@ -267,6 +271,8 @@ FOUNDATION_EXPORT SuiDelegatedStake* _Nullable SuiAsDelegatedStake(BaseAny* _Nul
 FOUNDATION_EXPORT SuiAccount* _Nullable SuiAsSuiAccount(id<BaseAccount> _Nullable account);
 
 FOUNDATION_EXPORT SuiValidator* _Nullable SuiAsValidator(BaseAny* _Nullable a);
+
+FOUNDATION_EXPORT double SuiAverageApyOfDelegatedStakes(BaseAnyArray* _Nullable stakes);
 
 FOUNDATION_EXPORT NSString* _Nonnull SuiDecodeAddressToPublicKey(NSString* _Nullable address, NSError* _Nullable* _Nullable error);
 
