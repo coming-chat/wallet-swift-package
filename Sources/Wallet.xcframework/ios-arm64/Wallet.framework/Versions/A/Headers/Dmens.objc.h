@@ -135,6 +135,12 @@
 - (nullable instancetype)initWithAddress:(NSString* _Nullable)posterAddress configuration:(DmensConfiguration* _Nullable)configuration;
 @property (nonatomic) DmensConfiguration* _Nullable configuration;
 @property (nonatomic) DmensPosterConfig* _Nullable posterConfig;
+/**
+ * BatchQueryIsFollowingStatus
+Batch query the following status of all users in a specified list.
+The query results will be modified directly in the pointer object.
+ */
+- (BOOL)batchQueryIsFollowingStatus:(DmensUserPage* _Nullable)users error:(NSError* _Nullable* _Nullable)error;
 // skipped method Poster.BatchQueryNoteByIds with unsupported parameter or return types
 
 /**
@@ -315,6 +321,10 @@ cursor 为空时，表示 null
 @property (nonatomic) NSString* _Nonnull bio;
 @property (nonatomic) NSString* _Nonnull name;
 @property (nonatomic) NSString* _Nonnull nodeId;
+@property (nonatomic) NSString* _Nonnull background;
+@property (nonatomic) NSString* _Nonnull website;
+@property (nonatomic) NSString* _Nonnull identification;
+@property (nonatomic) BOOL isFollowing;
 - (BaseAny* _Nullable)asAny;
 - (NSString* _Nonnull)jsonString:(NSError* _Nullable* _Nullable)error;
 @end
