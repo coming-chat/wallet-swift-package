@@ -27,14 +27,8 @@
 @class DmensUserInfo;
 @class DmensUserPage;
 @class DmensValidProfile;
-@protocol DmensJsonable;
-@class DmensJsonable;
 @protocol DmensPageable;
 @class DmensPageable;
-
-@protocol DmensJsonable <NSObject>
-- (NSString* _Nonnull)jsonString:(NSError* _Nullable* _Nullable)error;
-@end
 
 @protocol DmensPageable <NSObject>
 /**
@@ -73,12 +67,12 @@
 @property (nonatomic) BOOL isMainNet;
 @end
 
-@interface DmensNote : NSObject <goSeqRefInterface, BaseAniable, DmensJsonable> {
+@interface DmensNote : NSObject <goSeqRefInterface, BaseAniable, BaseJsonable> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
-- (nonnull instancetype)init;
+- (nullable instancetype)initWithJsonString:(NSString* _Nullable)str;
 @property (nonatomic) int64_t createTime;
 @property (nonatomic) NSString* _Nonnull noteId;
 @property (nonatomic) long action;
@@ -87,21 +81,21 @@
 @property (nonatomic) NSString* _Nonnull refId;
 @property (nonatomic) DmensNoteStatus* _Nullable status;
 - (BaseAny* _Nullable)asAny;
-- (NSString* _Nonnull)jsonString:(NSError* _Nullable* _Nullable)error;
+- (BaseOptionalString* _Nullable)jsonString:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface DmensNotePage : NSObject <goSeqRefInterface, DmensJsonable, DmensPageable> {
+@interface DmensNotePage : NSObject <goSeqRefInterface, BaseJsonable> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
-- (nonnull instancetype)init;
+- (nullable instancetype)initWithJsonString:(NSString* _Nullable)str;
 - (long)currentCount;
 - (NSString* _Nonnull)currentCursor;
 - (DmensNote* _Nullable)firstObject;
 - (BOOL)hasNextPage;
 - (BaseAnyArray* _Nullable)itemArray;
-- (NSString* _Nonnull)jsonString:(NSError* _Nullable* _Nullable)error;
+- (BaseOptionalString* _Nullable)jsonString:(NSError* _Nullable* _Nullable)error;
 - (long)totalCount;
 @end
 
@@ -271,51 +265,51 @@ cursor 为空时，表示 null
 - (NSString* _Nonnull)actualQueryString;
 @end
 
-@interface DmensRepostNote : NSObject <goSeqRefInterface, BaseAniable, DmensJsonable> {
+@interface DmensRepostNote : NSObject <goSeqRefInterface, BaseAniable, BaseJsonable> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
-- (nonnull instancetype)init;
+- (nullable instancetype)initWithJsonString:(NSString* _Nullable)str;
 @property (nonatomic) DmensNote* _Nullable note;
 @property (nonatomic) DmensNote* _Nullable repost;
 - (BaseAny* _Nullable)asAny;
-- (NSString* _Nonnull)jsonString:(NSError* _Nullable* _Nullable)error;
+- (BaseOptionalString* _Nullable)jsonString:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface DmensRepostNotePage : NSObject <goSeqRefInterface, DmensJsonable, DmensPageable> {
+@interface DmensRepostNotePage : NSObject <goSeqRefInterface, BaseJsonable> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
-- (nonnull instancetype)init;
+- (nullable instancetype)initWithJsonString:(NSString* _Nullable)str;
 - (long)currentCount;
 - (NSString* _Nonnull)currentCursor;
 - (DmensRepostNote* _Nullable)firstObject;
 - (BOOL)hasNextPage;
 - (BaseAnyArray* _Nullable)itemArray;
-- (NSString* _Nonnull)jsonString:(NSError* _Nullable* _Nullable)error;
+- (BaseOptionalString* _Nullable)jsonString:(NSError* _Nullable* _Nullable)error;
 - (long)totalCount;
 @end
 
-@interface DmensUserFollowCount : NSObject <goSeqRefInterface, DmensJsonable> {
+@interface DmensUserFollowCount : NSObject <goSeqRefInterface, BaseJsonable> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
-- (nonnull instancetype)init;
+- (nullable instancetype)initWithJsonString:(NSString* _Nullable)str;
 @property (nonatomic) NSString* _Nonnull user;
 @property (nonatomic) long followerCount;
 @property (nonatomic) long followingCount;
-- (NSString* _Nonnull)jsonString:(NSError* _Nullable* _Nullable)error;
+- (BaseOptionalString* _Nullable)jsonString:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface DmensUserInfo : NSObject <goSeqRefInterface, BaseAniable, DmensJsonable> {
+@interface DmensUserInfo : NSObject <goSeqRefInterface, BaseAniable, BaseJsonable> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
-- (nonnull instancetype)init;
+- (nullable instancetype)initWithJsonString:(NSString* _Nullable)str;
 @property (nonatomic) NSString* _Nonnull address;
 @property (nonatomic) NSString* _Nonnull avatar;
 @property (nonatomic) NSString* _Nonnull bio;
@@ -326,21 +320,21 @@ cursor 为空时，表示 null
 @property (nonatomic) NSString* _Nonnull identification;
 @property (nonatomic) BOOL isFollowing;
 - (BaseAny* _Nullable)asAny;
-- (NSString* _Nonnull)jsonString:(NSError* _Nullable* _Nullable)error;
+- (BaseOptionalString* _Nullable)jsonString:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface DmensUserPage : NSObject <goSeqRefInterface, DmensJsonable, DmensPageable> {
+@interface DmensUserPage : NSObject <goSeqRefInterface, BaseJsonable> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
-- (nonnull instancetype)init;
+- (nullable instancetype)initWithJsonString:(NSString* _Nullable)str;
 - (long)currentCount;
 - (NSString* _Nonnull)currentCursor;
 - (DmensUserInfo* _Nullable)firstObject;
 - (BOOL)hasNextPage;
 - (BaseAnyArray* _Nullable)itemArray;
-- (NSString* _Nonnull)jsonString:(NSError* _Nullable* _Nullable)error;
+- (BaseOptionalString* _Nullable)jsonString:(NSError* _Nullable* _Nullable)error;
 - (long)totalCount;
 @end
 
@@ -392,8 +386,9 @@ FOUNDATION_EXPORT DmensRepostNote* _Nullable DmensAsRepostNote(BaseAny* _Nullabl
 
 FOUNDATION_EXPORT DmensUserInfo* _Nullable DmensAsUserInfo(BaseAny* _Nullable a);
 
-// skipped function JsonString with unsupported parameter or return types
+FOUNDATION_EXPORT DmensNotePage* _Nullable DmensNewNotePageWithJsonString(NSString* _Nullable str, NSError* _Nullable* _Nullable error);
 
+FOUNDATION_EXPORT DmensNote* _Nullable DmensNewNoteWithJsonString(NSString* _Nullable str, NSError* _Nullable* _Nullable error);
 
 FOUNDATION_EXPORT DmensPoster* _Nullable DmensNewPoster(DmensPosterConfig* _Nullable posterConfig, DmensConfiguration* _Nullable configuration, NSError* _Nullable* _Nullable error);
 
@@ -401,17 +396,17 @@ FOUNDATION_EXPORT DmensPosterConfig* _Nullable DmensNewPosterConfig(NSString* _N
 
 FOUNDATION_EXPORT DmensPoster* _Nullable DmensNewPosterWithAddress(NSString* _Nullable posterAddress, DmensConfiguration* _Nullable configuration, NSError* _Nullable* _Nullable error);
 
-@class DmensJsonable;
+FOUNDATION_EXPORT DmensRepostNotePage* _Nullable DmensNewRepostNotePageWithJsonString(NSString* _Nullable str, NSError* _Nullable* _Nullable error);
+
+FOUNDATION_EXPORT DmensRepostNote* _Nullable DmensNewRepostNoteWithJsonString(NSString* _Nullable str, NSError* _Nullable* _Nullable error);
+
+FOUNDATION_EXPORT DmensUserFollowCount* _Nullable DmensNewUserFollowCountWithJsonString(NSString* _Nullable str, NSError* _Nullable* _Nullable error);
+
+FOUNDATION_EXPORT DmensUserInfo* _Nullable DmensNewUserInfoWithJsonString(NSString* _Nullable str, NSError* _Nullable* _Nullable error);
+
+FOUNDATION_EXPORT DmensUserPage* _Nullable DmensNewUserPageWithJsonString(NSString* _Nullable str, NSError* _Nullable* _Nullable error);
 
 @class DmensPageable;
-
-@interface DmensJsonable : NSObject <goSeqRefInterface, DmensJsonable> {
-}
-@property(strong, readonly) _Nonnull id _ref;
-
-- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
-- (NSString* _Nonnull)jsonString:(NSError* _Nullable* _Nullable)error;
-@end
 
 @interface DmensPageable : NSObject <goSeqRefInterface, DmensPageable> {
 }
