@@ -198,6 +198,7 @@ this func should be recalled again to fetch the registered dmens object id
 - (DmensNoteStatus* _Nullable)queryNoteStatusById:(NSString* _Nullable)noteId viewer:(NSString* _Nullable)viewer error:(NSError* _Nullable* _Nullable)error;
 - (DmensNotePage* _Nullable)queryNotesMyFollowed:(long)pageSize afterCursor:(NSString* _Nullable)afterCursor error:(NSError* _Nullable* _Nullable)error;
 - (DmensNotePage* _Nullable)queryReplyNoteList:(NSString* _Nullable)noteId pageSize:(long)pageSize afterCursor:(NSString* _Nullable)afterCursor error:(NSError* _Nullable* _Nullable)error;
+- (BaseOptionalString* _Nullable)querySuiNameByAddress:(NSString* _Nullable)address error:(NSError* _Nullable* _Nullable)error;
 - (DmensNotePage* _Nullable)queryTrendNoteList:(long)pageSize afterCursor:(NSString* _Nullable)afterCursor error:(NSError* _Nullable* _Nullable)error;
 - (DmensUserPage* _Nullable)queryTrendUserList:(long)pageSize error:(NSError* _Nullable* _Nullable)error;
 /**
@@ -336,6 +337,10 @@ cursor 为空时，表示 null
 @property (nonatomic) NSString* _Nonnull background;
 @property (nonatomic) NSString* _Nonnull website;
 @property (nonatomic) NSString* _Nonnull identification;
+/**
+ * Only queried when call QueryUserInfoByAddress
+ */
+@property (nonatomic) NSString* _Nonnull suiName;
 // skipped field UserInfo.Item with unsupported type: []string
 
 @property (nonatomic) DmensNFTAvatar* _Nullable nftAvatar;
