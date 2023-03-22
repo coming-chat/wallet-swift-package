@@ -14,6 +14,7 @@
 #include "Sui.objc.h"
 
 @class DmensConfiguration;
+@class DmensNFTAvatar;
 @class DmensNote;
 @class DmensNotePage;
 @class DmensNoteStatus;
@@ -65,6 +66,17 @@
 @property (nonatomic) NSString* _Nonnull globalProfileTableId;
 @property (nonatomic) NSString* _Nonnull profileCheckUrl;
 @property (nonatomic) BOOL isMainNet;
+@end
+
+@interface DmensNFTAvatar : NSObject <goSeqRefInterface> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nonnull instancetype)init;
+@property (nonatomic) NSString* _Nonnull id_;
+@property (nonatomic) NSString* _Nonnull image;
+@property (nonatomic) NSString* _Nonnull type;
 @end
 
 @interface DmensNote : NSObject <goSeqRefInterface, BaseAniable, BaseJsonable> {
@@ -135,6 +147,9 @@ Batch query the following status of all users in a specified list.
 The query results will be modified directly in the pointer object.
  */
 - (BOOL)batchQueryIsFollowingStatus:(DmensUserPage* _Nullable)users error:(NSError* _Nullable* _Nullable)error;
+// skipped method Poster.BatchQueryNFTAvatarByIds with unsupported parameter or return types
+
+- (BOOL)batchQueryNFTAvatarForUserPage:(DmensUserPage* _Nullable)page error:(NSError* _Nullable* _Nullable)error;
 // skipped method Poster.BatchQueryNoteByIds with unsupported parameter or return types
 
 /**
@@ -173,6 +188,7 @@ this func should be recalled again to fetch the registered dmens object id
 - (DmensNotePage* _Nullable)queryAllNoteList:(long)pageSize afterCursor:(NSString* _Nullable)afterCursor error:(NSError* _Nullable* _Nullable)error;
 - (DmensQuery* _Nullable)queryDmensGlobalConfig;
 - (DmensQuery* _Nullable)queryDmensObjectId;
+- (DmensNFTAvatar* _Nullable)queryNFTAvatar:(NSString* _Nullable)nftId error:(NSError* _Nullable* _Nullable)error;
 - (DmensNote* _Nullable)queryNoteById:(NSString* _Nullable)noteId error:(NSError* _Nullable* _Nullable)error;
 /**
  * QueryNoteStatusById
@@ -221,6 +237,8 @@ this func should be recalled again to fetch the registered dmens object id
 - (DmensNotePage* _Nullable)queryUserRepostListAsNotePage:(NSString* _Nullable)user pageSize:(long)pageSize afterCursor:(NSString* _Nullable)afterCursor error:(NSError* _Nullable* _Nullable)error;
 - (DmensUserPage* _Nullable)queryUsersByName:(NSString* _Nullable)name pageSize:(long)pageSize afterCursor:(NSString* _Nullable)afterCursor error:(NSError* _Nullable* _Nullable)error;
 - (SuiTransaction* _Nullable)register:(DmensValidProfile* _Nullable)validProfile error:(NSError* _Nullable* _Nullable)error;
+- (SuiTransaction* _Nullable)removeNftAvatar:(DmensNFTAvatar* _Nullable)avatar error:(NSError* _Nullable* _Nullable)error;
+- (SuiTransaction* _Nullable)setNftAvatar:(NSString* _Nullable)nftId error:(NSError* _Nullable* _Nullable)error;
 @end
 
 @interface DmensPosterConfig : NSObject <goSeqRefInterface> {
@@ -318,6 +336,9 @@ cursor 为空时，表示 null
 @property (nonatomic) NSString* _Nonnull background;
 @property (nonatomic) NSString* _Nonnull website;
 @property (nonatomic) NSString* _Nonnull identification;
+// skipped field UserInfo.Item with unsupported type: []string
+
+@property (nonatomic) DmensNFTAvatar* _Nullable nftAvatar;
 @property (nonatomic) BOOL isFollowing;
 - (BaseAny* _Nullable)asAny;
 - (BaseOptionalString* _Nullable)jsonString:(NSError* _Nullable* _Nullable)error;
@@ -357,7 +378,9 @@ FOUNDATION_EXPORT const int64_t DmensActionLike;
 FOUNDATION_EXPORT const int64_t DmensActionQuotePost;
 FOUNDATION_EXPORT const int64_t DmensActionRePost;
 FOUNDATION_EXPORT const int64_t DmensActionReply;
+FOUNDATION_EXPORT NSString* _Nonnull const DmensFunctionAddItem;
 FOUNDATION_EXPORT NSString* _Nonnull const DmensFunctionRegister;
+FOUNDATION_EXPORT NSString* _Nonnull const DmensFunctionRemoveItem;
 
 @interface Dmens : NSObject
 + (DmensConfiguration* _Nullable) devnetConfig;

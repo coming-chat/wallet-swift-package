@@ -72,6 +72,8 @@
 // skipped method Chain.BaseMoveCall with unsupported parameter or return types
 
 - (NSString* _Nonnull)batchFetchTransactionStatus:(NSString* _Nullable)hashListString;
+// skipped method Chain.Client with unsupported parameter or return types
+
 - (BaseOptionalString* _Nullable)estimateGasFee:(SuiTransaction* _Nullable)transaction error:(NSError* _Nullable* _Nullable)error;
 // skipped method Chain.FetchNFTs with unsupported parameter or return types
 
