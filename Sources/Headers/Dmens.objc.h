@@ -73,7 +73,7 @@
 @property(strong, readonly) _Nonnull id _ref;
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
-- (nonnull instancetype)init;
+- (nullable instancetype)init:(NSString* _Nullable)nftId image:(NSString* _Nullable)image typ:(NSString* _Nullable)typ;
 @property (nonatomic) NSString* _Nonnull id_;
 @property (nonatomic) NSString* _Nonnull image;
 @property (nonatomic) NSString* _Nonnull type;
@@ -413,6 +413,8 @@ FOUNDATION_EXPORT DmensNote* _Nullable DmensAsNote(BaseAny* _Nullable any);
 FOUNDATION_EXPORT DmensRepostNote* _Nullable DmensAsRepostNote(BaseAny* _Nullable any);
 
 FOUNDATION_EXPORT DmensUserInfo* _Nullable DmensAsUserInfo(BaseAny* _Nullable a);
+
+FOUNDATION_EXPORT DmensNFTAvatar* _Nullable DmensNewNFTAvatar(NSString* _Nullable nftId, NSString* _Nullable image, NSString* _Nullable typ);
 
 FOUNDATION_EXPORT DmensNotePage* _Nullable DmensNewNotePageWithJsonString(NSString* _Nullable str, NSError* _Nullable* _Nullable error);
 
