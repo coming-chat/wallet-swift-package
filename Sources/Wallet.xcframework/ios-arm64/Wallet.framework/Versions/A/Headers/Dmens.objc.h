@@ -84,6 +84,7 @@
 @property(strong, readonly) _Nonnull id _ref;
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nullable instancetype)init;
 - (nullable instancetype)initWithJsonString:(NSString* _Nullable)str;
 @property (nonatomic) int64_t createTime;
 @property (nonatomic) NSString* _Nonnull noteId;
@@ -101,6 +102,7 @@
 @property(strong, readonly) _Nonnull id _ref;
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nullable instancetype)init;
 - (nullable instancetype)initWithJsonString:(NSString* _Nullable)str;
 - (long)currentCount;
 - (NSString* _Nonnull)currentCursor;
@@ -289,6 +291,7 @@ cursor 为空时，表示 null
 @property(strong, readonly) _Nonnull id _ref;
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nullable instancetype)init;
 - (nullable instancetype)initWithJsonString:(NSString* _Nullable)str;
 @property (nonatomic) DmensNote* _Nullable note;
 @property (nonatomic) DmensNote* _Nullable repost;
@@ -301,6 +304,7 @@ cursor 为空时，表示 null
 @property(strong, readonly) _Nonnull id _ref;
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nullable instancetype)init;
 - (nullable instancetype)initWithJsonString:(NSString* _Nullable)str;
 - (long)currentCount;
 - (NSString* _Nonnull)currentCursor;
@@ -316,6 +320,7 @@ cursor 为空时，表示 null
 @property(strong, readonly) _Nonnull id _ref;
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nullable instancetype)init;
 - (nullable instancetype)initWithJsonString:(NSString* _Nullable)str;
 @property (nonatomic) NSString* _Nonnull user;
 @property (nonatomic) long followerCount;
@@ -328,6 +333,7 @@ cursor 为空时，表示 null
 @property(strong, readonly) _Nonnull id _ref;
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nullable instancetype)init;
 - (nullable instancetype)initWithJsonString:(NSString* _Nullable)str;
 @property (nonatomic) NSString* _Nonnull address;
 @property (nonatomic) NSString* _Nonnull avatar;
@@ -354,6 +360,7 @@ cursor 为空时，表示 null
 @property(strong, readonly) _Nonnull id _ref;
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nullable instancetype)init;
 - (nullable instancetype)initWithJsonString:(NSString* _Nullable)str;
 - (long)currentCount;
 - (NSString* _Nonnull)currentCursor;
@@ -416,6 +423,10 @@ FOUNDATION_EXPORT DmensUserInfo* _Nullable DmensAsUserInfo(BaseAny* _Nullable a)
 
 FOUNDATION_EXPORT DmensNFTAvatar* _Nullable DmensNewNFTAvatar(NSString* _Nullable nftId, NSString* _Nullable image, NSString* _Nullable typ);
 
+FOUNDATION_EXPORT DmensNote* _Nullable DmensNewNote(void);
+
+FOUNDATION_EXPORT DmensNotePage* _Nullable DmensNewNotePage(void);
+
 FOUNDATION_EXPORT DmensNotePage* _Nullable DmensNewNotePageWithJsonString(NSString* _Nullable str, NSError* _Nullable* _Nullable error);
 
 FOUNDATION_EXPORT DmensNote* _Nullable DmensNewNoteWithJsonString(NSString* _Nullable str, NSError* _Nullable* _Nullable error);
@@ -426,13 +437,23 @@ FOUNDATION_EXPORT DmensPosterConfig* _Nullable DmensNewPosterConfig(NSString* _N
 
 FOUNDATION_EXPORT DmensPoster* _Nullable DmensNewPosterWithAddress(NSString* _Nullable posterAddress, DmensConfiguration* _Nullable configuration, NSError* _Nullable* _Nullable error);
 
+FOUNDATION_EXPORT DmensRepostNote* _Nullable DmensNewRepostNote(void);
+
+FOUNDATION_EXPORT DmensRepostNotePage* _Nullable DmensNewRepostNotePage(void);
+
 FOUNDATION_EXPORT DmensRepostNotePage* _Nullable DmensNewRepostNotePageWithJsonString(NSString* _Nullable str, NSError* _Nullable* _Nullable error);
 
 FOUNDATION_EXPORT DmensRepostNote* _Nullable DmensNewRepostNoteWithJsonString(NSString* _Nullable str, NSError* _Nullable* _Nullable error);
 
+FOUNDATION_EXPORT DmensUserFollowCount* _Nullable DmensNewUserFollowCount(void);
+
 FOUNDATION_EXPORT DmensUserFollowCount* _Nullable DmensNewUserFollowCountWithJsonString(NSString* _Nullable str, NSError* _Nullable* _Nullable error);
 
+FOUNDATION_EXPORT DmensUserInfo* _Nullable DmensNewUserInfo(void);
+
 FOUNDATION_EXPORT DmensUserInfo* _Nullable DmensNewUserInfoWithJsonString(NSString* _Nullable str, NSError* _Nullable* _Nullable error);
+
+FOUNDATION_EXPORT DmensUserPage* _Nullable DmensNewUserPage(void);
 
 FOUNDATION_EXPORT DmensUserPage* _Nullable DmensNewUserPageWithJsonString(NSString* _Nullable str, NSError* _Nullable* _Nullable error);
 
