@@ -68,15 +68,19 @@
 @property (nonatomic) BOOL isMainNet;
 @end
 
-@interface DmensNFTAvatar : NSObject <goSeqRefInterface> {
+@interface DmensNFTAvatar : NSObject <goSeqRefInterface, BaseAniable, BaseJsonable> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
-- (nullable instancetype)init:(NSString* _Nullable)nftId image:(NSString* _Nullable)image typ:(NSString* _Nullable)typ;
+- (nullable instancetype)init;
+- (nullable instancetype)initWithId:(NSString* _Nullable)nftId image:(NSString* _Nullable)image typ:(NSString* _Nullable)typ;
+- (nullable instancetype)initWithJsonString:(NSString* _Nullable)str;
 @property (nonatomic) NSString* _Nonnull id_;
 @property (nonatomic) NSString* _Nonnull image;
 @property (nonatomic) NSString* _Nonnull type;
+- (BaseAny* _Nullable)asAny;
+- (BaseOptionalString* _Nullable)jsonString:(NSError* _Nullable* _Nullable)error;
 @end
 
 @interface DmensNote : NSObject <goSeqRefInterface, BaseAniable, BaseJsonable> {
@@ -415,13 +419,19 @@ FOUNDATION_EXPORT NSString* _Nonnull const DmensFunctionRemoveItem;
 
 @end
 
+FOUNDATION_EXPORT DmensNFTAvatar* _Nullable DmensAsNFTAvatar(BaseAny* _Nullable any);
+
 FOUNDATION_EXPORT DmensNote* _Nullable DmensAsNote(BaseAny* _Nullable any);
 
 FOUNDATION_EXPORT DmensRepostNote* _Nullable DmensAsRepostNote(BaseAny* _Nullable any);
 
 FOUNDATION_EXPORT DmensUserInfo* _Nullable DmensAsUserInfo(BaseAny* _Nullable a);
 
-FOUNDATION_EXPORT DmensNFTAvatar* _Nullable DmensNewNFTAvatar(NSString* _Nullable nftId, NSString* _Nullable image, NSString* _Nullable typ);
+FOUNDATION_EXPORT DmensNFTAvatar* _Nullable DmensNewNFTAvatar(void);
+
+FOUNDATION_EXPORT DmensNFTAvatar* _Nullable DmensNewNFTAvatarWithId(NSString* _Nullable nftId, NSString* _Nullable image, NSString* _Nullable typ);
+
+FOUNDATION_EXPORT DmensNFTAvatar* _Nullable DmensNewNFTAvatarWithJsonString(NSString* _Nullable str, NSError* _Nullable* _Nullable error);
 
 FOUNDATION_EXPORT DmensNote* _Nullable DmensNewNote(void);
 
