@@ -16,6 +16,7 @@
 @class SuiChain;
 @class SuiDelegatedStake;
 @class SuiPickedCoins;
+@class SuiSignedTransaction;
 @class SuiToken;
 @class SuiTransaction;
 @class SuiUtil;
@@ -112,7 +113,7 @@
  * @param gasId gas object to be used in this transaction, the gateway will pick one from the signer's possession if not provided
  */
 - (SuiTransaction* _Nullable)transferObject:(NSString* _Nullable)sender receiver:(NSString* _Nullable)receiver objectId:(NSString* _Nullable)objectId gasId:(NSString* _Nullable)gasId gasBudget:(int64_t)gasBudget error:(NSError* _Nullable* _Nullable)error;
-- (SuiTransaction* _Nullable)withdrawDelegation:(NSString* _Nullable)owner delegationId:(NSString* _Nullable)delegationId stakeId:(NSString* _Nullable)stakeId error:(NSError* _Nullable* _Nullable)error;
+- (SuiTransaction* _Nullable)withdrawDelegation:(NSString* _Nullable)owner stakeId:(NSString* _Nullable)stakeId error:(NSError* _Nullable* _Nullable)error;
 @end
 
 @interface SuiDelegatedStake : NSObject <goSeqRefInterface, BaseAniable, BaseJsonable> {
@@ -151,6 +152,18 @@
 // skipped method PickedCoins.EstimateMergeGas with unsupported parameter or return types
 
 // skipped method PickedCoins.EstimateTotalGas with unsupported parameter or return types
+
+@end
+
+@interface SuiSignedTransaction : NSObject <goSeqRefInterface> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nonnull instancetype)init;
+// skipped field SignedTransaction.TxBytes with unsupported type: *github.com/coming-chat/go-sui/types.Base64Data
+
+// skipped field SignedTransaction.Signature with unsupported type: *github.com/coming-chat/go-sui/sui_types.Signature
 
 @end
 

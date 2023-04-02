@@ -79,6 +79,7 @@
 @property (nonatomic) NSString* _Nonnull id_;
 @property (nonatomic) NSString* _Nonnull image;
 @property (nonatomic) NSString* _Nonnull type;
+@property (nonatomic) NSString* _Nonnull name;
 - (BaseAny* _Nullable)asAny;
 - (BaseOptionalString* _Nullable)jsonString:(NSError* _Nullable* _Nullable)error;
 @end
