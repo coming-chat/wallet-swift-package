@@ -265,7 +265,14 @@
  * The amount of rewards won by all Sui validators in the last epoch.
  */
 @property (nonatomic) NSString* _Nonnull totalRewards;
-@property (nonatomic) int64_t time;
+@property (nonatomic) int64_t epochStartTimestampMs;
+@property (nonatomic) int64_t epochDurationMs;
+/**
+ * @return if time > 0 indicates how long it will take to get the reward;
+if time < 0 indicates how much time has passed since the reward was earned;
+ */
+- (int64_t)earningAmountTimeAfterNowMs;
+- (int64_t)earningAmountTimeAfterTimestampMs:(int64_t)timestamp;
 - (BaseOptionalString* _Nullable)jsonString:(NSError* _Nullable* _Nullable)error;
 @end
 
