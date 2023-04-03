@@ -84,6 +84,7 @@
  */
 - (BaseTransactionDetail* _Nullable)fetchTransactionDetail:(NSString* _Nullable)hash error:(NSError* _Nullable* _Nullable)error;
 - (long)fetchTransactionStatus:(NSString* _Nullable)hash;
+- (BaseOptionalString* _Nullable)gasPrice:(NSError* _Nullable* _Nullable)error;
 /**
  * @return Array of `DelegatedStake` elements
  */
