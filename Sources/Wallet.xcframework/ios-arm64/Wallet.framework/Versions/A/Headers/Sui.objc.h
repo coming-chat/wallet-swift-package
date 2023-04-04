@@ -278,7 +278,7 @@ if time < 0 indicates how much time has passed since the reward was earned;
 
 FOUNDATION_EXPORT const long SuiDelegationStatusActived;
 FOUNDATION_EXPORT const long SuiDelegationStatusPending;
-FOUNDATION_EXPORT NSString* _Nonnull const SuiFaucetUrlTestnet;
+FOUNDATION_EXPORT NSString* _Nonnull const SuiDevNetFaucetUrl;
 FOUNDATION_EXPORT const int64_t SuiMaxGasBudget;
 FOUNDATION_EXPORT const int64_t SuiMaxGasForMerge;
 FOUNDATION_EXPORT const int64_t SuiMaxGasForPay;
@@ -286,6 +286,7 @@ FOUNDATION_EXPORT const int64_t SuiMaxGasForTransfer;
 FOUNDATION_EXPORT const int64_t SuiSuiDecimal;
 FOUNDATION_EXPORT NSString* _Nonnull const SuiSuiName;
 FOUNDATION_EXPORT NSString* _Nonnull const SuiSuiSymbol;
+FOUNDATION_EXPORT NSString* _Nonnull const SuiTestNetFaucetUrl;
 
 /**
  * rename for support android.
@@ -312,7 +313,7 @@ FOUNDATION_EXPORT NSString* _Nonnull SuiEncodePublicKeyToAddress(NSString* _Null
  * *
  * @param address Hex-encoded 16 bytes Sui account address wich mints tokens
  * @param faucetUrl default https://faucet.testnet.sui.io/gas
- * @return digest of transfer transaction.
+ * @return digest of the faucet transfer transaction.
  */
 FOUNDATION_EXPORT BaseOptionalString* _Nullable SuiFaucetFundAccount(NSString* _Nullable address, NSString* _Nullable faucetUrl, NSError* _Nullable* _Nullable error);
 
