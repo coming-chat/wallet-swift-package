@@ -13,7 +13,9 @@
 #include "Base.objc.h"
 #include "Aptos.objc.h"
 #include "Eth.objc.h"
+#include "Sui.objc.h"
 
+@class RedpacketContractConfig;
 @class RedpacketRedPacketAction;
 @class RedpacketRedPacketCloseParams;
 @class RedpacketRedPacketCreateParams;
@@ -28,6 +30,15 @@
 - (NSString* _Nonnull)estimateGasFee:(id<BaseAccount> _Nullable)p0 p1:(RedpacketRedPacketAction* _Nullable)p1 error:(NSError* _Nullable* _Nullable)error;
 - (RedpacketRedPacketDetail* _Nullable)fetchRedPacketCreationDetail:(NSString* _Nullable)hash error:(NSError* _Nullable* _Nullable)error;
 - (NSString* _Nonnull)sendTransaction:(id<BaseAccount> _Nullable)p0 p1:(RedpacketRedPacketAction* _Nullable)p1 error:(NSError* _Nullable* _Nullable)error;
+@end
+
+@interface RedpacketContractConfig : NSObject <goSeqRefInterface> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nonnull instancetype)init;
+@property (nonatomic) NSString* _Nonnull suiConfigAddress;
 @end
 
 @interface RedpacketRedPacketAction : NSObject <goSeqRefInterface> {
@@ -60,6 +71,7 @@ add empty arg to distinct with NewRedPacketActionCreate signature when build jar
 - (nonnull instancetype)init;
 @property (nonatomic) NSString* _Nonnull tokenAddress;
 @property (nonatomic) int64_t packetId;
+@property (nonatomic) NSString* _Nonnull packetObjectId;
 @property (nonatomic) NSString* _Nonnull creator;
 @end
 
@@ -108,6 +120,7 @@ add empty arg to distinct with NewRedPacketActionCreate signature when build jar
 - (nonnull instancetype)init;
 @property (nonatomic) NSString* _Nonnull tokenAddress;
 @property (nonatomic) int64_t packetId;
+@property (nonatomic) NSString* _Nonnull packetObjectId;
 // skipped field RedPacketOpenParams.Addresses with unsupported type: []string
 
 // skipped field RedPacketOpenParams.Amounts with unsupported type: []string
@@ -119,10 +132,12 @@ FOUNDATION_EXPORT NSString* _Nonnull const RedpacketAptosName;
 FOUNDATION_EXPORT NSString* _Nonnull const RedpacketAptosSymbol;
 FOUNDATION_EXPORT NSString* _Nonnull const RedpacketChainTypeAptos;
 FOUNDATION_EXPORT NSString* _Nonnull const RedpacketChainTypeEth;
+FOUNDATION_EXPORT NSString* _Nonnull const RedpacketChainTypeSui;
 FOUNDATION_EXPORT NSString* _Nonnull const RedpacketRPAMethodClose;
 FOUNDATION_EXPORT NSString* _Nonnull const RedpacketRPAMethodCreate;
 FOUNDATION_EXPORT NSString* _Nonnull const RedpacketRPAMethodOpen;
 FOUNDATION_EXPORT NSString* _Nonnull const RedpacketRedPacketABI;
+FOUNDATION_EXPORT const int64_t RedpacketSuiDecimal;
 
 FOUNDATION_EXPORT id<RedpacketRedPacketContract> _Nullable RedpacketNewAptosRedPacketContract(id<AptosIChain> _Nullable chain, NSString* _Nullable contractAddress);
 
@@ -142,11 +157,18 @@ FOUNDATION_EXPORT RedpacketRedPacketAction* _Nullable RedpacketNewRedPacketActio
 // skipped function NewRedPacketActionOpen with unsupported parameter or return types
 
 
-FOUNDATION_EXPORT id<RedpacketRedPacketContract> _Nullable RedpacketNewRedPacketContract(NSString* _Nullable chainType, id<BaseChain> _Nullable chain, NSString* _Nullable contractAddress, NSError* _Nullable* _Nullable error);
+FOUNDATION_EXPORT id<RedpacketRedPacketContract> _Nullable RedpacketNewRedPacketContract(NSString* _Nullable chainType, id<BaseChain> _Nullable chain, NSString* _Nullable contractAddress, RedpacketContractConfig* _Nullable config, NSError* _Nullable* _Nullable error);
 
 FOUNDATION_EXPORT RedpacketRedPacketDetail* _Nullable RedpacketNewRedPacketDetail(void);
 
 FOUNDATION_EXPORT RedpacketRedPacketDetail* _Nullable RedpacketNewRedPacketDetailWithJsonString(NSString* _Nullable s, NSError* _Nullable* _Nullable error);
+
+FOUNDATION_EXPORT RedpacketRedPacketAction* _Nullable RedpacketNewSuiRedPacketActionClose(NSString* _Nullable tokenAddress, NSString* _Nullable packetObjectId, NSString* _Nullable creator, NSString* _Nullable p3, NSError* _Nullable* _Nullable error);
+
+FOUNDATION_EXPORT id<RedpacketRedPacketContract> _Nullable RedpacketNewSuiRedPacketContract(SuiChain* _Nullable chain, NSString* _Nullable contractAddress, RedpacketContractConfig* _Nullable config, NSError* _Nullable* _Nullable error);
+
+// skipped function NewSuiRedpacketActionOpen with unsupported parameter or return types
+
 
 @class RedpacketRedPacketContract;
 

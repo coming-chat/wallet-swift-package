@@ -67,6 +67,8 @@
 
 // skipped method RestClient.LedgerInfo with unsupported parameter or return types
 
+// skipped method RestClient.RawQuery with unsupported parameter or return types
+
 - (void)setVersion:(NSString* _Nullable)version;
 // skipped method RestClient.SimulateSignedBCSTransaction with unsupported parameter or return types
 
