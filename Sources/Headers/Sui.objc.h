@@ -133,6 +133,13 @@
 @property (nonatomic) NSString* _Nonnull earnedAmount;
 @property (nonatomic) SuiValidator* _Nullable validator;
 - (BaseAny* _Nullable)asAny;
+/**
+ * @return if time > 0 indicates how long it will take to get the reward;
+if time < 0 indicates how much time has passed since the reward was earned;
+ */
+- (int64_t)earningAmountTimeAfterNowMs:(SuiValidatorState* _Nullable)stateInfo;
+// skipped method DelegatedStake.EarningAmountTimeAfterTimestampMs with unsupported parameter or return types
+
 - (BaseOptionalString* _Nullable)jsonString:(NSError* _Nullable* _Nullable)error;
 @end
 
