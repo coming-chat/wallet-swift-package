@@ -287,7 +287,6 @@ FOUNDATION_EXPORT const long SuiDelegationStatusActived;
 FOUNDATION_EXPORT const long SuiDelegationStatusPending;
 FOUNDATION_EXPORT NSString* _Nonnull const SuiDevNetFaucetUrl;
 FOUNDATION_EXPORT const int64_t SuiMaxGasBudget;
-FOUNDATION_EXPORT const int64_t SuiMaxGasForMerge;
 FOUNDATION_EXPORT const int64_t SuiMaxGasForPay;
 FOUNDATION_EXPORT const int64_t SuiMaxGasForTransfer;
 FOUNDATION_EXPORT const int64_t SuiSuiDecimal;
