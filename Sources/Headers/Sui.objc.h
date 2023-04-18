@@ -15,6 +15,8 @@
 @class SuiAccount;
 @class SuiChain;
 @class SuiDelegatedStake;
+@class SuiMergeCoinPreview;
+@class SuiMergeCoinRequest;
 @class SuiPickedCoins;
 @class SuiSignedTransaction;
 @class SuiToken;
@@ -73,6 +75,15 @@
 // skipped method Chain.BaseMoveCall with unsupported parameter or return types
 
 - (NSString* _Nonnull)batchFetchTransactionStatus:(NSString* _Nullable)hashListString;
+- (SuiMergeCoinPreview* _Nullable)buildMergeCoinPreview:(SuiMergeCoinRequest* _Nullable)request error:(NSError* _Nullable* _Nullable)error;
+/**
+ * @param coinType Default is `SUI_COIN_TYPE`
+ */
+- (SuiMergeCoinRequest* _Nullable)buildMergeCoinRequest:(NSString* _Nullable)owner coinType:(NSString* _Nullable)coinType targetAmount:(NSString* _Nullable)targetAmount error:(NSError* _Nullable* _Nullable)error;
+/**
+ * @param coinType Default is `SUI_COIN_TYPE`
+ */
+- (SuiTransaction* _Nullable)buildSplitCoinTransaction:(NSString* _Nullable)owner coinType:(NSString* _Nullable)coinType targetAmount:(NSString* _Nullable)targetAmount error:(NSError* _Nullable* _Nullable)error;
 // skipped method Chain.Client with unsupported parameter or return types
 
 - (BaseOptionalString* _Nullable)estimateGasFee:(SuiTransaction* _Nullable)transaction error:(NSError* _Nullable* _Nullable)error;
@@ -143,6 +154,57 @@ if time < 0 indicates how much time has passed since the reward was earned;
 - (BaseOptionalString* _Nullable)jsonString:(NSError* _Nullable* _Nullable)error;
 @end
 
+@interface SuiMergeCoinPreview : NSObject <goSeqRefInterface> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nonnull instancetype)init;
+/**
+ * The original request
+ */
+@property (nonatomic) SuiMergeCoinRequest* _Nullable request;
+/**
+ * The merge coins transaction
+ */
+@property (nonatomic) SuiTransaction* _Nullable transaction;
+/**
+ * Did the simulated transaction execute successfully?
+ */
+@property (nonatomic) BOOL simulateSuccess;
+@property (nonatomic) int64_t estimateGasFee;
+/**
+ * If the transaction is executed, owner will receive a coin amount that is not less than this.
+ */
+@property (nonatomic) NSString* _Nonnull estimateAmount;
+/**
+ * Due to the results obtained through simulated execution, we may know that the balance may increase and the value of this state may be inconsistent with the value in the request.
+ */
+@property (nonatomic) BOOL willBeAchieved;
+@end
+
+@interface SuiMergeCoinRequest : NSObject <goSeqRefInterface> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nonnull instancetype)init;
+@property (nonatomic) NSString* _Nonnull owner;
+@property (nonatomic) NSString* _Nonnull coinType;
+@property (nonatomic) NSString* _Nonnull targetAmount;
+// skipped field MergeCoinRequest.Coins with unsupported type: github.com/coming-chat/go-sui/types.Coins
+
+@property (nonatomic) long coinsCount;
+/**
+ * If the transaction is executed, owner will receive a coin amount that is not less than this.
+ */
+@property (nonatomic) NSString* _Nonnull estimateAmount;
+/**
+ * Will the goal of merging coins of a specified amount be achieved?
+ */
+@property (nonatomic) BOOL willBeAchieved;
+@end
+
 @interface SuiPickedCoins : NSObject <goSeqRefInterface> {
 }
 @property(strong, readonly) _Nonnull id _ref;
@@ -151,10 +213,11 @@ if time < 0 indicates how much time has passed since the reward was earned;
 - (nonnull instancetype)init;
 // skipped field PickedCoins.Coins with unsupported type: github.com/coming-chat/go-sui/types.Coins
 
-// skipped field PickedCoins.Total with unsupported type: *math/big.Int
+// skipped field PickedCoins.Total with unsupported type: math/big.Int
 
-// skipped field PickedCoins.Amount with unsupported type: *math/big.Int
+// skipped field PickedCoins.Amount with unsupported type: math/big.Int
 
+@property (nonatomic) BOOL canUseTransferObject;
 // skipped method PickedCoins.CoinIds with unsupported parameter or return types
 
 // skipped method PickedCoins.EstimateMergeGas with unsupported parameter or return types
@@ -193,6 +256,7 @@ if time < 0 indicates how much time has passed since the reward was earned;
 - (BaseOptionalString* _Nullable)buildTransferTxWithAccount:(SuiAccount* _Nullable)account receiverAddress:(NSString* _Nullable)receiverAddress amount:(NSString* _Nullable)amount error:(NSError* _Nullable* _Nullable)error;
 - (id<BaseChain> _Nullable)chain;
 - (BaseOptionalString* _Nullable)estimateFees:(SuiAccount* _Nullable)account receiverAddress:(NSString* _Nullable)receiverAddress amount:(NSString* _Nullable)amount error:(NSError* _Nullable* _Nullable)error;
+- (BOOL)isSUI;
 - (BaseTokenInfo* _Nullable)tokenInfo:(NSError* _Nullable* _Nullable)error;
 @end
 
@@ -286,9 +350,11 @@ if time < 0 indicates how much time has passed since the reward was earned;
 FOUNDATION_EXPORT const long SuiDelegationStatusActived;
 FOUNDATION_EXPORT const long SuiDelegationStatusPending;
 FOUNDATION_EXPORT NSString* _Nonnull const SuiDevNetFaucetUrl;
+FOUNDATION_EXPORT const int64_t SuiMAX_INPUT_COUNT;
 FOUNDATION_EXPORT const int64_t SuiMaxGasBudget;
 FOUNDATION_EXPORT const int64_t SuiMaxGasForPay;
 FOUNDATION_EXPORT const int64_t SuiMaxGasForTransfer;
+FOUNDATION_EXPORT NSString* _Nonnull const SuiSUI_COIN_TYPE;
 FOUNDATION_EXPORT const int64_t SuiSuiDecimal;
 FOUNDATION_EXPORT NSString* _Nonnull const SuiSuiName;
 FOUNDATION_EXPORT NSString* _Nonnull const SuiSuiSymbol;
