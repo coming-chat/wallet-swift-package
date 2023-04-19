@@ -17,7 +17,6 @@
 @class SuiDelegatedStake;
 @class SuiMergeCoinPreview;
 @class SuiMergeCoinRequest;
-@class SuiPickedCoins;
 @class SuiSignedTransaction;
 @class SuiToken;
 @class SuiTransaction;
@@ -205,27 +204,6 @@ if time < 0 indicates how much time has passed since the reward was earned;
 @property (nonatomic) BOOL willBeAchieved;
 @end
 
-@interface SuiPickedCoins : NSObject <goSeqRefInterface> {
-}
-@property(strong, readonly) _Nonnull id _ref;
-
-- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
-- (nonnull instancetype)init;
-// skipped field PickedCoins.Coins with unsupported type: github.com/coming-chat/go-sui/types.Coins
-
-// skipped field PickedCoins.Total with unsupported type: math/big.Int
-
-// skipped field PickedCoins.Amount with unsupported type: math/big.Int
-
-@property (nonatomic) BOOL canUseTransferObject;
-// skipped method PickedCoins.CoinIds with unsupported parameter or return types
-
-// skipped method PickedCoins.EstimateMergeGas with unsupported parameter or return types
-
-// skipped method PickedCoins.EstimateTotalGas with unsupported parameter or return types
-
-@end
-
 @interface SuiSignedTransaction : NSObject <goSeqRefInterface> {
 }
 @property(strong, readonly) _Nonnull id _ref;
@@ -255,6 +233,7 @@ if time < 0 indicates how much time has passed since the reward was earned;
 - (BaseOptionalString* _Nullable)buildTransferTx:(NSString* _Nullable)privateKey receiverAddress:(NSString* _Nullable)receiverAddress amount:(NSString* _Nullable)amount error:(NSError* _Nullable* _Nullable)error;
 - (BaseOptionalString* _Nullable)buildTransferTxWithAccount:(SuiAccount* _Nullable)account receiverAddress:(NSString* _Nullable)receiverAddress amount:(NSString* _Nullable)amount error:(NSError* _Nullable* _Nullable)error;
 - (id<BaseChain> _Nullable)chain;
+- (NSString* _Nonnull)coinType;
 - (BaseOptionalString* _Nullable)estimateFees:(SuiAccount* _Nullable)account receiverAddress:(NSString* _Nullable)receiverAddress amount:(NSString* _Nullable)amount error:(NSError* _Nullable* _Nullable)error;
 - (BOOL)isSUI;
 - (BaseTokenInfo* _Nullable)tokenInfo:(NSError* _Nullable* _Nullable)error;
@@ -350,15 +329,40 @@ if time < 0 indicates how much time has passed since the reward was earned;
 FOUNDATION_EXPORT const long SuiDelegationStatusActived;
 FOUNDATION_EXPORT const long SuiDelegationStatusPending;
 FOUNDATION_EXPORT NSString* _Nonnull const SuiDevNetFaucetUrl;
-FOUNDATION_EXPORT const int64_t SuiMAX_INPUT_COUNT;
+/**
+ * = 256-1
+ */
+FOUNDATION_EXPORT const int64_t SuiMAX_INPUT_COUNT_MERGE;
+/**
+ * = 512-1
+ */
+FOUNDATION_EXPORT const int64_t SuiMAX_INPUT_COUNT_STAKE;
 FOUNDATION_EXPORT const int64_t SuiMaxGasBudget;
 FOUNDATION_EXPORT const int64_t SuiMaxGasForPay;
 FOUNDATION_EXPORT const int64_t SuiMaxGasForTransfer;
+/**
+ * "0x2::sui::SUI"
+ */
 FOUNDATION_EXPORT NSString* _Nonnull const SuiSUI_COIN_TYPE;
 FOUNDATION_EXPORT const int64_t SuiSuiDecimal;
 FOUNDATION_EXPORT NSString* _Nonnull const SuiSuiName;
 FOUNDATION_EXPORT NSString* _Nonnull const SuiSuiSymbol;
 FOUNDATION_EXPORT NSString* _Nonnull const SuiTestNetFaucetUrl;
+
+@interface Sui : NSObject
++ (NSError* _Nullable) errInsufficientBalance;
++ (void) setErrInsufficientBalance:(NSError* _Nullable)v;
+
++ (NSError* _Nullable) errNeedMergeCoin;
++ (void) setErrNeedMergeCoin:(NSError* _Nullable)v;
+
++ (NSError* _Nullable) errNeedSplitGasCoin;
++ (void) setErrNeedSplitGasCoin:(NSError* _Nullable)v;
+
++ (NSError* _Nullable) errNoCoinsFound;
++ (void) setErrNoCoinsFound:(NSError* _Nullable)v;
+
+@end
 
 /**
  * rename for support android.
@@ -388,6 +392,10 @@ FOUNDATION_EXPORT NSString* _Nonnull SuiEncodePublicKeyToAddress(NSString* _Null
  * @return digest of the faucet transfer transaction.
  */
 FOUNDATION_EXPORT BaseOptionalString* _Nullable SuiFaucetFundAccount(NSString* _Nullable address, NSString* _Nullable faucetUrl, NSError* _Nullable* _Nullable error);
+
+FOUNDATION_EXPORT BOOL SuiIsMergeError(NSError* _Nullable err);
+
+FOUNDATION_EXPORT BOOL SuiIsSplitError(NSError* _Nullable err);
 
 /**
  * @param chainnet chain name
