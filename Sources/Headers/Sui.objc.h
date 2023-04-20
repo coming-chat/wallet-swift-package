@@ -353,6 +353,9 @@ FOUNDATION_EXPORT NSString* _Nonnull const SuiTestNetFaucetUrl;
 + (NSError* _Nullable) errInsufficientBalance;
 + (void) setErrInsufficientBalance:(NSError* _Nullable)v;
 
++ (NSError* _Nullable) errMergeOneCoin;
++ (void) setErrMergeOneCoin:(NSError* _Nullable)v;
+
 + (NSError* _Nullable) errNeedMergeCoin;
 + (void) setErrNeedMergeCoin:(NSError* _Nullable)v;
 
@@ -361,6 +364,9 @@ FOUNDATION_EXPORT NSString* _Nonnull const SuiTestNetFaucetUrl;
 
 + (NSError* _Nullable) errNoCoinsFound;
 + (void) setErrNoCoinsFound:(NSError* _Nullable)v;
+
++ (NSError* _Nullable) errNoNeedMergeCoin;
++ (void) setErrNoNeedMergeCoin:(NSError* _Nullable)v;
 
 @end
 
