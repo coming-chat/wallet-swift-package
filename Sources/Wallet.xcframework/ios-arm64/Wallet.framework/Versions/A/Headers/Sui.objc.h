@@ -17,6 +17,7 @@
 @class SuiDelegatedStake;
 @class SuiMergeCoinPreview;
 @class SuiMergeCoinRequest;
+@class SuiRestReachability;
 @class SuiSignedTransaction;
 @class SuiToken;
 @class SuiTransaction;
@@ -202,6 +203,18 @@ if time < 0 indicates how much time has passed since the reward was earned;
  * Will the goal of merging coins of a specified amount be achieved?
  */
 @property (nonatomic) BOOL willBeAchieved;
+@end
+
+@interface SuiRestReachability : NSObject <goSeqRefInterface, BaseRpcReachability> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nullable instancetype)init;
+/**
+ * @return latency (ms) of rpc query blockNumber. -1 means the connection failed.
+ */
+- (BaseRpcLatency* _Nullable)latencyOf:(NSString* _Nullable)rpc timeout:(int64_t)timeout error:(NSError* _Nullable* _Nullable)error;
 @end
 
 @interface SuiSignedTransaction : NSObject <goSeqRefInterface> {
@@ -417,6 +430,8 @@ FOUNDATION_EXPORT SuiDelegatedStake* _Nullable SuiNewDelegatedStake(void);
 FOUNDATION_EXPORT BaseAnyArray* _Nullable SuiNewDelegatedStakeArrayWithJsonString(NSString* _Nullable str, NSError* _Nullable* _Nullable error);
 
 FOUNDATION_EXPORT SuiDelegatedStake* _Nullable SuiNewDelegatedStakeWithJsonString(NSString* _Nullable str, NSError* _Nullable* _Nullable error);
+
+FOUNDATION_EXPORT SuiRestReachability* _Nullable SuiNewRestReachability(void);
 
 /**
  * @param tag format `address::module_name::name`, e.g. "0x2::sui::SUI"
