@@ -145,7 +145,6 @@
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
 - (nullable instancetype)init:(DmensPosterConfig* _Nullable)posterConfig configuration:(DmensConfiguration* _Nullable)configuration;
-- (nullable instancetype)initWithAddress:(NSString* _Nullable)posterAddress configuration:(DmensConfiguration* _Nullable)configuration;
 @property (nonatomic) DmensConfiguration* _Nullable configuration;
 @property (nonatomic) DmensPosterConfig* _Nullable posterConfig;
 /**
@@ -254,9 +253,13 @@ this func should be recalled again to fetch the registered dmens object id
 @property(strong, readonly) _Nonnull id _ref;
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
-- (nullable instancetype)init:(NSString* _Nullable)address;
+- (nullable instancetype)init:(NSString* _Nullable)address reviewing:(BOOL)reviewing;
 @property (nonatomic) NSString* _Nonnull address;
 @property (nonatomic) NSString* _Nonnull dmensNftId;
+/**
+ * Default false
+ */
+@property (nonatomic) BOOL reviewing;
 @end
 
 @interface DmensProfile : NSObject <goSeqRefInterface> {
@@ -444,9 +447,7 @@ FOUNDATION_EXPORT DmensNote* _Nullable DmensNewNoteWithJsonString(NSString* _Nul
 
 FOUNDATION_EXPORT DmensPoster* _Nullable DmensNewPoster(DmensPosterConfig* _Nullable posterConfig, DmensConfiguration* _Nullable configuration, NSError* _Nullable* _Nullable error);
 
-FOUNDATION_EXPORT DmensPosterConfig* _Nullable DmensNewPosterConfig(NSString* _Nullable address);
-
-FOUNDATION_EXPORT DmensPoster* _Nullable DmensNewPosterWithAddress(NSString* _Nullable posterAddress, DmensConfiguration* _Nullable configuration, NSError* _Nullable* _Nullable error);
+FOUNDATION_EXPORT DmensPosterConfig* _Nullable DmensNewPosterConfig(NSString* _Nullable address, BOOL reviewing);
 
 FOUNDATION_EXPORT DmensRepostNote* _Nullable DmensNewRepostNote(void);
 
