@@ -87,6 +87,8 @@
 // skipped method Chain.Client with unsupported parameter or return types
 
 - (BaseOptionalString* _Nullable)estimateGasFee:(SuiTransaction* _Nullable)transaction error:(NSError* _Nullable* _Nullable)error;
+// skipped method Chain.EstimateTransactionFeeAndRebuildTransaction with unsupported parameter or return types
+
 // skipped method Chain.FetchNFTs with unsupported parameter or return types
 
 - (BaseOptionalString* _Nullable)fetchNFTsJsonString:(NSString* _Nullable)owner error:(NSError* _Nullable* _Nullable)error;
@@ -103,10 +105,7 @@
 - (SuiValidator* _Nullable)getValidator:(NSString* _Nullable)address useCache:(BOOL)useCache error:(NSError* _Nullable* _Nullable)error;
 - (SuiValidatorState* _Nullable)getValidatorState:(NSError* _Nullable* _Nullable)error;
 - (id<BaseToken> _Nullable)mainToken;
-/**
- * @param gasId gas object to be used in this transaction, the gateway will pick one from the signer's possession if not provided
- */
-- (SuiTransaction* _Nullable)mintNFT:(NSString* _Nullable)creator name:(NSString* _Nullable)name description:(NSString* _Nullable)description uri:(NSString* _Nullable)uri gasId:(NSString* _Nullable)gasId gasBudget:(int64_t)gasBudget error:(NSError* _Nullable* _Nullable)error;
+- (SuiTransaction* _Nullable)mintNFT:(NSString* _Nullable)creator name:(NSString* _Nullable)name description:(NSString* _Nullable)description uri:(NSString* _Nullable)uri error:(NSError* _Nullable* _Nullable)error;
 /**
  * Send the raw transaction on-chain
 @return the hex hash string
@@ -120,11 +119,8 @@
  * Just encapsulation and callbacks to method `TransferObject`.
 @param gasId gas object to be used in this transaction, the gateway will pick one from the signer's possession if not provided
  */
-- (SuiTransaction* _Nullable)transferNFT:(NSString* _Nullable)sender receiver:(NSString* _Nullable)receiver nftId:(NSString* _Nullable)nftId gasId:(NSString* _Nullable)gasId gasBudget:(int64_t)gasBudget error:(NSError* _Nullable* _Nullable)error;
-/**
- * @param gasId gas object to be used in this transaction, the gateway will pick one from the signer's possession if not provided
- */
-- (SuiTransaction* _Nullable)transferObject:(NSString* _Nullable)sender receiver:(NSString* _Nullable)receiver objectId:(NSString* _Nullable)objectId gasId:(NSString* _Nullable)gasId gasBudget:(int64_t)gasBudget error:(NSError* _Nullable* _Nullable)error;
+- (SuiTransaction* _Nullable)transferNFT:(NSString* _Nullable)sender receiver:(NSString* _Nullable)receiver nftId:(NSString* _Nullable)nftId error:(NSError* _Nullable* _Nullable)error;
+- (SuiTransaction* _Nullable)transferObject:(NSString* _Nullable)sender receiver:(NSString* _Nullable)receiver objectId:(NSString* _Nullable)objectId gasBudget:(int64_t)gasBudget error:(NSError* _Nullable* _Nullable)error;
 - (SuiTransaction* _Nullable)withdrawDelegation:(NSString* _Nullable)owner stakeId:(NSString* _Nullable)stakeId error:(NSError* _Nullable* _Nullable)error;
 @end
 
@@ -260,7 +256,6 @@ if time < 0 indicates how much time has passed since the reward was earned;
 - (nonnull instancetype)init;
 // skipped field Transaction.Txn with unsupported type: github.com/coming-chat/go-sui/types.TransactionBytes
 
-@property (nonatomic) int64_t maxGasBudget;
 @property (nonatomic) int64_t estimateGasFee;
 - (BaseOptionalString* _Nullable)signWithAccount:(SuiAccount* _Nullable)account error:(NSError* _Nullable* _Nullable)error;
 @end
@@ -353,6 +348,7 @@ FOUNDATION_EXPORT const int64_t SuiMAX_INPUT_COUNT_STAKE;
 FOUNDATION_EXPORT const int64_t SuiMaxGasBudget;
 FOUNDATION_EXPORT const int64_t SuiMaxGasForPay;
 FOUNDATION_EXPORT const int64_t SuiMaxGasForTransfer;
+FOUNDATION_EXPORT const int64_t SuiMinGasBudget;
 /**
  * "0x2::sui::SUI"
  */
