@@ -246,6 +246,7 @@ this func should be recalled again to fetch the registered dmens object id
 - (SuiTransaction* _Nullable)register:(DmensValidProfile* _Nullable)validProfile error:(NSError* _Nullable* _Nullable)error;
 - (SuiTransaction* _Nullable)removeNftAvatar:(DmensNFTAvatar* _Nullable)avatar error:(NSError* _Nullable* _Nullable)error;
 - (SuiTransaction* _Nullable)setNftAvatar:(NSString* _Nullable)nftId error:(NSError* _Nullable* _Nullable)error;
+- (void)switchRpcUrl:(NSString* _Nullable)rpc;
 @end
 
 @interface DmensPosterConfig : NSObject <goSeqRefInterface> {
