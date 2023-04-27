@@ -446,4 +446,7 @@ FOUNDATION_EXPORT SuiValidatorState* _Nullable SuiNewValidatorStateWithJsonStrin
 
 FOUNDATION_EXPORT SuiValidator* _Nullable SuiNewValidatorWithJsonString(NSString* _Nullable str, NSError* _Nullable* _Nullable error);
 
+// skipped function TransformNFT with unsupported parameter or return types
+
+
 #endif
