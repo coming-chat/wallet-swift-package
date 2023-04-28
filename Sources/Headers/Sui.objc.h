@@ -19,6 +19,8 @@
 @class SuiMergeCoinRequest;
 @class SuiRestReachability;
 @class SuiSignedTransaction;
+@class SuiSuiCatConfig;
+@class SuiSuiCatGlobalData;
 @class SuiToken;
 @class SuiTransaction;
 @class SuiUtil;
@@ -92,6 +94,7 @@
 // skipped method Chain.FetchNFTs with unsupported parameter or return types
 
 - (BaseOptionalString* _Nullable)fetchNFTsJsonString:(NSString* _Nullable)owner error:(NSError* _Nullable* _Nullable)error;
+- (SuiSuiCatGlobalData* _Nullable)fetchSuiCatGlobalData:(NSError* _Nullable* _Nullable)error;
 /**
  * Fetch transaction details through transaction hash
  */
@@ -106,6 +109,8 @@
 - (SuiValidatorState* _Nullable)getValidatorState:(NSError* _Nullable* _Nullable)error;
 - (id<BaseToken> _Nullable)mainToken;
 - (SuiTransaction* _Nullable)mintNFT:(NSString* _Nullable)creator name:(NSString* _Nullable)name description:(NSString* _Nullable)description uri:(NSString* _Nullable)uri error:(NSError* _Nullable* _Nullable)error;
+- (SuiTransaction* _Nullable)mintSuiCatNFT:(NSString* _Nullable)signer amount:(NSString* _Nullable)amount error:(NSError* _Nullable* _Nullable)error;
+- (BaseOptionalBool* _Nullable)queryIsInSuiCatWhiteList:(NSString* _Nullable)address error:(NSError* _Nullable* _Nullable)error;
 /**
  * Send the raw transaction on-chain
 @return the hex hash string
@@ -223,6 +228,32 @@ if time < 0 indicates how much time has passed since the reward was earned;
 
 // skipped field SignedTransaction.Signature with unsupported type: *github.com/coming-chat/go-sui/sui_types.Signature
 
+@end
+
+@interface SuiSuiCatConfig : NSObject <goSeqRefInterface> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nonnull instancetype)init;
+@property (nonatomic) NSString* _Nonnull packageId;
+@property (nonatomic) NSString* _Nonnull globalId;
+@property (nonatomic) NSString* _Nonnull moduleName;
+@end
+
+@interface SuiSuiCatGlobalData : NSObject <goSeqRefInterface, BaseJsonable> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nullable instancetype)initWithJsonString:(NSString* _Nullable)str;
+@property (nonatomic) int64_t totalMinted;
+@property (nonatomic) int64_t supply;
+@property (nonatomic) NSString* _Nonnull pricePublic;
+@property (nonatomic) NSString* _Nonnull priceWhitelist;
+@property (nonatomic) int64_t startTimeMs;
+@property (nonatomic) int64_t durationMs;
+- (BaseOptionalString* _Nullable)jsonString:(NSError* _Nullable* _Nullable)error;
 @end
 
 @interface SuiToken : NSObject <goSeqRefInterface, BaseToken> {
@@ -353,6 +384,7 @@ FOUNDATION_EXPORT const int64_t SuiMinGasBudget;
  * "0x2::sui::SUI"
  */
 FOUNDATION_EXPORT NSString* _Nonnull const SuiSUI_COIN_TYPE;
+FOUNDATION_EXPORT NSString* _Nonnull const SuiSuiCatFuncMint;
 FOUNDATION_EXPORT const int64_t SuiSuiDecimal;
 FOUNDATION_EXPORT NSString* _Nonnull const SuiSuiName;
 FOUNDATION_EXPORT NSString* _Nonnull const SuiSuiSymbol;
@@ -376,6 +408,9 @@ FOUNDATION_EXPORT NSString* _Nonnull const SuiTestNetFaucetUrl;
 
 + (NSError* _Nullable) errNoNeedMergeCoin;
 + (void) setErrNoNeedMergeCoin:(NSError* _Nullable)v;
+
++ (SuiSuiCatConfig* _Nullable) suiCatTestnetConfig;
++ (void) setSuiCatTestnetConfig:(SuiSuiCatConfig* _Nullable)v;
 
 @end
 
@@ -428,6 +463,8 @@ FOUNDATION_EXPORT BaseAnyArray* _Nullable SuiNewDelegatedStakeArrayWithJsonStrin
 FOUNDATION_EXPORT SuiDelegatedStake* _Nullable SuiNewDelegatedStakeWithJsonString(NSString* _Nullable str, NSError* _Nullable* _Nullable error);
 
 FOUNDATION_EXPORT SuiRestReachability* _Nullable SuiNewRestReachability(void);
+
+FOUNDATION_EXPORT SuiSuiCatGlobalData* _Nullable SuiNewSuiCatGlobalDataWithJsonString(NSString* _Nullable str, NSError* _Nullable* _Nullable error);
 
 /**
  * @param tag format `address::module_name::name`, e.g. "0x2::sui::SUI"
