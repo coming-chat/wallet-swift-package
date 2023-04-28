@@ -175,7 +175,7 @@ The query results will be modified directly in the pointer object.
 - (DmensValidProfile* _Nullable)checkProfile:(DmensProfile* _Nullable)profile error:(NSError* _Nullable* _Nullable)error;
 - (SuiTransaction* _Nullable)dmensFollow:(BaseStringArray* _Nullable)addresses error:(NSError* _Nullable* _Nullable)error;
 - (SuiTransaction* _Nullable)dmensPost:(NSString* _Nullable)text error:(NSError* _Nullable* _Nullable)error;
-- (SuiTransaction* _Nullable)dmensPostWithRef:(long)action text:(NSString* _Nullable)text refIdentifier:(NSString* _Nullable)refIdentifier error:(NSError* _Nullable* _Nullable)error;
+- (SuiTransaction* _Nullable)dmensPostWithRef:(long)action text:(NSString* _Nullable)text refIdentifier:(NSString* _Nullable)refIdentifier refIdPoster:(NSString* _Nullable)refIdPoster error:(NSError* _Nullable* _Nullable)error;
 - (SuiTransaction* _Nullable)dmensUnfollow:(BaseStringArray* _Nullable)addresses error:(NSError* _Nullable* _Nullable)error;
 - (BOOL)fetchDmensGlobalConfig:(NSError* _Nullable* _Nullable)error;
 /**
