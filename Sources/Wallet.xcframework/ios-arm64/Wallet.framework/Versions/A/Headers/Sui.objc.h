@@ -327,6 +327,7 @@ if time < 0 indicates how much time has passed since the reward was earned;
 @property (nonatomic) NSString* _Nonnull selfStaked;
 @property (nonatomic) NSString* _Nonnull totalRewards;
 @property (nonatomic) int64_t gasPrice;
+@property (nonatomic) double poolShare;
 - (BaseAny* _Nullable)asAny;
 - (BaseOptionalString* _Nullable)jsonString:(NSError* _Nullable* _Nullable)error;
 @end
