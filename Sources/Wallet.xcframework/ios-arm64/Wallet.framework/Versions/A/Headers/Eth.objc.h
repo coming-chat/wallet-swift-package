@@ -50,6 +50,7 @@
 - (BaseBalance* _Nullable)balanceOfPublicKey:(NSString* _Nullable)publicKey error:(NSError* _Nullable* _Nullable)error;
 - (NSString* _Nonnull)batchFetchTransactionStatus:(NSString* _Nullable)hashListString;
 - (BaseOptionalString* _Nullable)estimateGasLimit:(EthCallMsg* _Nullable)msg error:(NSError* _Nullable* _Nullable)error;
+- (BaseOptionalString* _Nullable)estimateTransactionFee:(id<BaseTransaction> _Nullable)transaction error:(NSError* _Nullable* _Nullable)error;
 - (BaseTransactionDetail* _Nullable)fetchTransactionDetail:(NSString* _Nullable)hash error:(NSError* _Nullable* _Nullable)error;
 - (long)fetchTransactionStatus:(NSString* _Nullable)hash;
 - (EthEthChain* _Nullable)getEthChain:(NSError* _Nullable* _Nullable)error;
@@ -69,8 +70,11 @@
 - (BaseBalance* _Nullable)balanceOfAccount:(id<BaseAccount> _Nullable)account error:(NSError* _Nullable* _Nullable)error;
 - (BaseBalance* _Nullable)balanceOfAddress:(NSString* _Nullable)address error:(NSError* _Nullable* _Nullable)error;
 - (BaseBalance* _Nullable)balanceOfPublicKey:(NSString* _Nullable)publicKey error:(NSError* _Nullable* _Nullable)error;
+- (id<BaseTransaction> _Nullable)buildTransfer:(NSString* _Nullable)sender receiver:(NSString* _Nullable)receiver amount:(NSString* _Nullable)amount error:(NSError* _Nullable* _Nullable)error;
+- (id<BaseTransaction> _Nullable)buildTransferAll:(NSString* _Nullable)sender receiver:(NSString* _Nullable)receiver error:(NSError* _Nullable* _Nullable)error;
 - (BaseOptionalString* _Nullable)buildTransferTx:(NSString* _Nullable)privateKey transaction:(EthTransaction* _Nullable)transaction error:(NSError* _Nullable* _Nullable)error;
 - (BaseOptionalString* _Nullable)buildTransferTxWithAccount:(EthAccount* _Nullable)account transaction:(EthTransaction* _Nullable)transaction error:(NSError* _Nullable* _Nullable)error;
+- (BOOL)canTransferAll;
 - (id<BaseChain> _Nullable)chain;
 /**
  * need `fromAddress`, `receiverAddress`, `gasPrice`, `gasLimit`, `amount`
@@ -245,6 +249,7 @@ which can only be passed as strings separated by ","
 - (NSString* _Nonnull)ensureApprovedTokens:(EthAccount* _Nullable)account spender:(NSString* _Nullable)spender coins:(long)coins tokenAddress:(NSString* _Nullable)tokenAddress minAmount:(NSString* _Nullable)minAmount error:(NSError* _Nullable* _Nullable)error;
 - (id<EthTokenProtocol> _Nullable)erc20Token:(NSString* _Nullable)contractAddress;
 - (BaseOptionalString* _Nullable)estimateGasLimit:(EthCallMsg* _Nullable)msg error:(NSError* _Nullable* _Nullable)error;
+- (BaseOptionalString* _Nullable)estimateTransactionFee:(id<BaseTransaction> _Nullable)transaction error:(NSError* _Nullable* _Nullable)error;
 - (EthRedPacketDetail* _Nullable)fetchRedPacketCreationDetail:(NSString* _Nullable)hash error:(NSError* _Nullable* _Nullable)error;
 /**
  * Fetch transaction details through transaction hash
@@ -300,8 +305,11 @@ Support normal or erc20 transfer
 - (BaseBalance* _Nullable)balanceOfAccount:(id<BaseAccount> _Nullable)account error:(NSError* _Nullable* _Nullable)error;
 - (BaseBalance* _Nullable)balanceOfAddress:(NSString* _Nullable)address error:(NSError* _Nullable* _Nullable)error;
 - (BaseBalance* _Nullable)balanceOfPublicKey:(NSString* _Nullable)publicKey error:(NSError* _Nullable* _Nullable)error;
+- (id<BaseTransaction> _Nullable)buildTransfer:(NSString* _Nullable)sender receiver:(NSString* _Nullable)receiver amount:(NSString* _Nullable)amount error:(NSError* _Nullable* _Nullable)error;
+- (id<BaseTransaction> _Nullable)buildTransferAll:(NSString* _Nullable)sender receiver:(NSString* _Nullable)receiver error:(NSError* _Nullable* _Nullable)error;
 - (BaseOptionalString* _Nullable)buildTransferTx:(NSString* _Nullable)privateKey transaction:(EthTransaction* _Nullable)transaction error:(NSError* _Nullable* _Nullable)error;
 - (BaseOptionalString* _Nullable)buildTransferTxWithAccount:(EthAccount* _Nullable)account transaction:(EthTransaction* _Nullable)transaction error:(NSError* _Nullable* _Nullable)error;
+- (BOOL)canTransferAll;
 - (id<BaseChain> _Nullable)chain;
 - (BOOL)decimal:(int16_t* _Nullable)ret0_ error:(NSError* _Nullable* _Nullable)error;
 /**
@@ -761,8 +769,11 @@ Deprecated: use NewRedPacketContract() get base.RedPacketContract, and SendTrans
 - (BaseBalance* _Nullable)balanceOfAccount:(id<BaseAccount> _Nullable)account error:(NSError* _Nullable* _Nullable)error;
 - (BaseBalance* _Nullable)balanceOfAddress:(NSString* _Nullable)address error:(NSError* _Nullable* _Nullable)error;
 - (BaseBalance* _Nullable)balanceOfPublicKey:(NSString* _Nullable)publicKey error:(NSError* _Nullable* _Nullable)error;
+- (id<BaseTransaction> _Nullable)buildTransfer:(NSString* _Nullable)sender receiver:(NSString* _Nullable)receiver amount:(NSString* _Nullable)amount error:(NSError* _Nullable* _Nullable)error;
+- (id<BaseTransaction> _Nullable)buildTransferAll:(NSString* _Nullable)sender receiver:(NSString* _Nullable)receiver error:(NSError* _Nullable* _Nullable)error;
 - (BaseOptionalString* _Nullable)buildTransferTx:(NSString* _Nullable)privateKey transaction:(EthTransaction* _Nullable)transaction error:(NSError* _Nullable* _Nullable)error;
 - (BaseOptionalString* _Nullable)buildTransferTxWithAccount:(EthAccount* _Nullable)account transaction:(EthTransaction* _Nullable)transaction error:(NSError* _Nullable* _Nullable)error;
+- (BOOL)canTransferAll;
 - (id<BaseChain> _Nullable)chain;
 - (EthOptimismLayer2Gas* _Nullable)estimateGasFeeLayer2:(EthCallMsg* _Nullable)msg error:(NSError* _Nullable* _Nullable)error;
 - (NSString* _Nonnull)estimateGasLimit:(NSString* _Nullable)fromAddress receiverAddress:(NSString* _Nullable)receiverAddress gasPrice:(NSString* _Nullable)gasPrice amount:(NSString* _Nullable)amount error:(NSError* _Nullable* _Nullable)error;
@@ -772,7 +783,7 @@ Deprecated: use NewRedPacketContract() get base.RedPacketContract, and SendTrans
 - (BaseTokenInfo* _Nullable)tokenInfo:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface EthTransaction : NSObject <goSeqRefInterface> {
+@interface EthTransaction : NSObject <goSeqRefInterface, BaseTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -799,6 +810,7 @@ Deprecated: use NewRedPacketContract() get base.RedPacketContract, and SendTrans
  * This is an alias property for GasPrice in order to support EIP1559
  */
 - (void)setMaxFee:(NSString* _Nullable)maxFee;
+- (BaseOptionalString* _Nullable)signWithAccount:(id<BaseAccount> _Nullable)account error:(NSError* _Nullable* _Nullable)error;
 /**
  * @return gasPrice * gasLimit + value
  */
@@ -1021,6 +1033,7 @@ FOUNDATION_EXPORT BOOL EthVerifySignature(NSString* _Nullable pubkey, NSString* 
 - (BaseBalance* _Nullable)balanceOfPublicKey:(NSString* _Nullable)publicKey error:(NSError* _Nullable* _Nullable)error;
 - (NSString* _Nonnull)batchFetchTransactionStatus:(NSString* _Nullable)hashListString;
 - (BaseOptionalString* _Nullable)estimateGasLimit:(EthCallMsg* _Nullable)msg error:(NSError* _Nullable* _Nullable)error;
+- (BaseOptionalString* _Nullable)estimateTransactionFee:(id<BaseTransaction> _Nullable)transaction error:(NSError* _Nullable* _Nullable)error;
 - (BaseTransactionDetail* _Nullable)fetchTransactionDetail:(NSString* _Nullable)hash error:(NSError* _Nullable* _Nullable)error;
 - (long)fetchTransactionStatus:(NSString* _Nullable)hash;
 - (EthEthChain* _Nullable)getEthChain:(NSError* _Nullable* _Nullable)error;
@@ -1051,8 +1064,11 @@ FOUNDATION_EXPORT BOOL EthVerifySignature(NSString* _Nullable pubkey, NSString* 
 - (BaseBalance* _Nullable)balanceOfAccount:(id<BaseAccount> _Nullable)account error:(NSError* _Nullable* _Nullable)error;
 - (BaseBalance* _Nullable)balanceOfAddress:(NSString* _Nullable)address error:(NSError* _Nullable* _Nullable)error;
 - (BaseBalance* _Nullable)balanceOfPublicKey:(NSString* _Nullable)publicKey error:(NSError* _Nullable* _Nullable)error;
+- (id<BaseTransaction> _Nullable)buildTransfer:(NSString* _Nullable)sender receiver:(NSString* _Nullable)receiver amount:(NSString* _Nullable)amount error:(NSError* _Nullable* _Nullable)error;
+- (id<BaseTransaction> _Nullable)buildTransferAll:(NSString* _Nullable)sender receiver:(NSString* _Nullable)receiver error:(NSError* _Nullable* _Nullable)error;
 - (BaseOptionalString* _Nullable)buildTransferTx:(NSString* _Nullable)privateKey transaction:(EthTransaction* _Nullable)transaction error:(NSError* _Nullable* _Nullable)error;
 - (BaseOptionalString* _Nullable)buildTransferTxWithAccount:(EthAccount* _Nullable)account transaction:(EthTransaction* _Nullable)transaction error:(NSError* _Nullable* _Nullable)error;
+- (BOOL)canTransferAll;
 - (id<BaseChain> _Nullable)chain;
 /**
  * need `fromAddress`, `receiverAddress`, `gasPrice`, `gasLimit`, `amount`

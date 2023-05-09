@@ -99,6 +99,7 @@ which can only be passed as strings separated by ","
  */
 - (NSString* _Nonnull)batchFetchTransactionStatus:(NSString* _Nullable)hashListString;
 - (CosmosToken* _Nullable)denomToken:(NSString* _Nullable)prefix denom:(NSString* _Nullable)denom;
+- (BaseOptionalString* _Nullable)estimateTransactionFee:(id<BaseTransaction> _Nullable)transaction error:(NSError* _Nullable* _Nullable)error;
 /**
  * Fetch transaction details through transaction hash
  */
@@ -170,8 +171,11 @@ which can only be passed as strings separated by ","
  * Warning: Unable to use public key to query balance
  */
 - (BaseBalance* _Nullable)balanceOfPublicKey:(NSString* _Nullable)publicKey error:(NSError* _Nullable* _Nullable)error;
+- (id<BaseTransaction> _Nullable)buildTransfer:(NSString* _Nullable)sender receiver:(NSString* _Nullable)receiver amount:(NSString* _Nullable)amount error:(NSError* _Nullable* _Nullable)error;
+- (id<BaseTransaction> _Nullable)buildTransferAll:(NSString* _Nullable)sender receiver:(NSString* _Nullable)receiver error:(NSError* _Nullable* _Nullable)error;
 - (NSString* _Nonnull)buildTransferTx:(NSString* _Nullable)privateKey receiverAddress:(NSString* _Nullable)receiverAddress gasPrice:(NSString* _Nullable)gasPrice gasLimit:(NSString* _Nullable)gasLimit amount:(NSString* _Nullable)amount memo:(NSString* _Nullable)memo error:(NSError* _Nullable* _Nullable)error;
 - (NSString* _Nonnull)buildTransferTxWithAccount:(CosmosAccount* _Nullable)account receiverAddress:(NSString* _Nullable)receiverAddress gasPrice:(NSString* _Nullable)gasPrice gasLimit:(NSString* _Nullable)gasLimit amount:(NSString* _Nullable)amount memo:(NSString* _Nullable)memo error:(NSError* _Nullable* _Nullable)error;
+- (BOOL)canTransferAll;
 - (id<BaseChain> _Nullable)chain;
 /**
  * Warning: Main token does not support

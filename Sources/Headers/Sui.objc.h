@@ -88,7 +88,7 @@
 - (SuiTransaction* _Nullable)buildSplitCoinTransaction:(NSString* _Nullable)owner coinType:(NSString* _Nullable)coinType targetAmount:(NSString* _Nullable)targetAmount error:(NSError* _Nullable* _Nullable)error;
 // skipped method Chain.Client with unsupported parameter or return types
 
-- (BaseOptionalString* _Nullable)estimateGasFee:(SuiTransaction* _Nullable)transaction error:(NSError* _Nullable* _Nullable)error;
+- (BaseOptionalString* _Nullable)estimateTransactionFee:(id<BaseTransaction> _Nullable)transaction error:(NSError* _Nullable* _Nullable)error;
 // skipped method Chain.EstimateTransactionFeeAndRebuildTransaction with unsupported parameter or return types
 
 // skipped method Chain.FetchNFTs with unsupported parameter or return types
@@ -269,9 +269,15 @@ if time < 0 indicates how much time has passed since the reward was earned;
 - (BaseBalance* _Nullable)balanceOfAccount:(id<BaseAccount> _Nullable)account error:(NSError* _Nullable* _Nullable)error;
 - (BaseBalance* _Nullable)balanceOfAddress:(NSString* _Nullable)address error:(NSError* _Nullable* _Nullable)error;
 - (BaseBalance* _Nullable)balanceOfPublicKey:(NSString* _Nullable)publicKey error:(NSError* _Nullable* _Nullable)error;
+- (id<BaseTransaction> _Nullable)buildTransfer:(NSString* _Nullable)sender receiver:(NSString* _Nullable)receiver amount:(NSString* _Nullable)amount error:(NSError* _Nullable* _Nullable)error;
+/**
+ * Before invoking this method, it is best to check `CanTransferAll()`
+ */
+- (id<BaseTransaction> _Nullable)buildTransferAll:(NSString* _Nullable)sender receiver:(NSString* _Nullable)receiver error:(NSError* _Nullable* _Nullable)error;
 - (SuiTransaction* _Nullable)buildTransferTransaction:(SuiAccount* _Nullable)account receiverAddress:(NSString* _Nullable)receiverAddress amount:(NSString* _Nullable)amount error:(NSError* _Nullable* _Nullable)error;
 - (BaseOptionalString* _Nullable)buildTransferTx:(NSString* _Nullable)privateKey receiverAddress:(NSString* _Nullable)receiverAddress amount:(NSString* _Nullable)amount error:(NSError* _Nullable* _Nullable)error;
 - (BaseOptionalString* _Nullable)buildTransferTxWithAccount:(SuiAccount* _Nullable)account receiverAddress:(NSString* _Nullable)receiverAddress amount:(NSString* _Nullable)amount error:(NSError* _Nullable* _Nullable)error;
+- (BOOL)canTransferAll;
 - (id<BaseChain> _Nullable)chain;
 - (NSString* _Nonnull)coinType;
 - (BaseOptionalString* _Nullable)estimateFees:(SuiAccount* _Nullable)account receiverAddress:(NSString* _Nullable)receiverAddress amount:(NSString* _Nullable)amount error:(NSError* _Nullable* _Nullable)error;
@@ -279,7 +285,7 @@ if time < 0 indicates how much time has passed since the reward was earned;
 - (BaseTokenInfo* _Nullable)tokenInfo:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface SuiTransaction : NSObject <goSeqRefInterface> {
+@interface SuiTransaction : NSObject <goSeqRefInterface, BaseTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -288,7 +294,7 @@ if time < 0 indicates how much time has passed since the reward was earned;
 // skipped field Transaction.Txn with unsupported type: github.com/coming-chat/go-sui/types.TransactionBytes
 
 @property (nonatomic) int64_t estimateGasFee;
-- (BaseOptionalString* _Nullable)signWithAccount:(SuiAccount* _Nullable)account error:(NSError* _Nullable* _Nullable)error;
+- (BaseOptionalString* _Nullable)signWithAccount:(id<BaseAccount> _Nullable)account error:(NSError* _Nullable* _Nullable)error;
 @end
 
 @interface SuiUtil : NSObject <goSeqRefInterface, BaseAddressUtil> {

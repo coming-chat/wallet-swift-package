@@ -24,7 +24,6 @@
 @class BaseRpcLatency;
 @class BaseStringArray;
 @class BaseTokenInfo;
-@class BaseTransaction;
 @class BaseTransactionDetail;
 @protocol BaseAccount;
 @class BaseAccount;
@@ -44,6 +43,8 @@
 @class BaseRpcReachability;
 @protocol BaseToken;
 @class BaseToken;
+@protocol BaseTransaction;
+@class BaseTransaction;
 
 @protocol BaseAccount <NSObject>
 /**
@@ -97,6 +98,7 @@ which can only be passed as strings separated by ","
 @return Batch transaction status, its order is consistent with hashListString: "status1,status2,status3"
  */
 - (NSString* _Nonnull)batchFetchTransactionStatus:(NSString* _Nullable)hashListString;
+- (BaseOptionalString* _Nullable)estimateTransactionFee:(id<BaseTransaction> _Nullable)transaction error:(NSError* _Nullable* _Nullable)error;
 /**
  * Fetch transaction details through transaction hash
  */
@@ -152,8 +154,18 @@ which can only be passed as strings separated by ","
 - (BaseBalance* _Nullable)balanceOfAccount:(id<BaseAccount> _Nullable)account error:(NSError* _Nullable* _Nullable)error;
 - (BaseBalance* _Nullable)balanceOfAddress:(NSString* _Nullable)address error:(NSError* _Nullable* _Nullable)error;
 - (BaseBalance* _Nullable)balanceOfPublicKey:(NSString* _Nullable)publicKey error:(NSError* _Nullable* _Nullable)error;
+- (id<BaseTransaction> _Nullable)buildTransfer:(NSString* _Nullable)sender receiver:(NSString* _Nullable)receiver amount:(NSString* _Nullable)amount error:(NSError* _Nullable* _Nullable)error;
+- (id<BaseTransaction> _Nullable)buildTransferAll:(NSString* _Nullable)sender receiver:(NSString* _Nullable)receiver error:(NSError* _Nullable* _Nullable)error;
+/**
+ * Before invoking this method, it is best to check `CanTransferAll()`
+ */
+- (BOOL)canTransferAll;
 - (id<BaseChain> _Nullable)chain;
 - (BaseTokenInfo* _Nullable)tokenInfo:(NSError* _Nullable* _Nullable)error;
+@end
+
+@protocol BaseTransaction <NSObject>
+- (BaseOptionalString* _Nullable)signWithAccount:(id<BaseAccount> _Nullable)account error:(NSError* _Nullable* _Nullable)error;
 @end
 
 /**
@@ -469,14 +481,6 @@ selects base 2. Otherwise the selected base is 10.
 @property (nonatomic) int16_t decimal;
 @end
 
-@interface BaseTransaction : NSObject <goSeqRefInterface> {
-}
-@property(strong, readonly) _Nonnull id _ref;
-
-- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
-- (nonnull instancetype)init;
-@end
-
 /**
  * Transaction details that can be fetched from the chain
  */
@@ -537,6 +541,15 @@ FOUNDATION_EXPORT const long BaseTransactionStatusPending;
 FOUNDATION_EXPORT const long BaseTransactionStatusSuccess;
 
 @interface Base : NSObject
++ (NSError* _Nullable) errInvalidAccountType;
++ (void) setErrInvalidAccountType:(NSError* _Nullable)v;
+
++ (NSError* _Nullable) errInvalidChainType;
++ (void) setErrInvalidChainType:(NSError* _Nullable)v;
+
++ (NSError* _Nullable) errInvalidTransactionType;
++ (void) setErrInvalidTransactionType:(NSError* _Nullable)v;
+
 + (NSError* _Nullable) errUnsupportedFunction;
 + (void) setErrUnsupportedFunction:(NSError* _Nullable)v;
 
@@ -624,6 +637,8 @@ FOUNDATION_EXPORT BaseReachMonitor* _Nullable BaseNewReachMonitorWithReachabilit
 
 @class BaseToken;
 
+@class BaseTransaction;
+
 @interface BaseAccount : NSObject <goSeqRefInterface, BaseAccount> {
 }
 @property(strong, readonly) _Nonnull id _ref;
@@ -695,6 +710,7 @@ which can only be passed as strings separated by ","
 @return Batch transaction status, its order is consistent with hashListString: "status1,status2,status3"
  */
 - (NSString* _Nonnull)batchFetchTransactionStatus:(NSString* _Nullable)hashListString;
+- (BaseOptionalString* _Nullable)estimateTransactionFee:(id<BaseTransaction> _Nullable)transaction error:(NSError* _Nullable* _Nullable)error;
 /**
  * Fetch transaction details through transaction hash
  */
@@ -770,8 +786,22 @@ which can only be passed as strings separated by ","
 - (BaseBalance* _Nullable)balanceOfAccount:(id<BaseAccount> _Nullable)account error:(NSError* _Nullable* _Nullable)error;
 - (BaseBalance* _Nullable)balanceOfAddress:(NSString* _Nullable)address error:(NSError* _Nullable* _Nullable)error;
 - (BaseBalance* _Nullable)balanceOfPublicKey:(NSString* _Nullable)publicKey error:(NSError* _Nullable* _Nullable)error;
+- (id<BaseTransaction> _Nullable)buildTransfer:(NSString* _Nullable)sender receiver:(NSString* _Nullable)receiver amount:(NSString* _Nullable)amount error:(NSError* _Nullable* _Nullable)error;
+- (id<BaseTransaction> _Nullable)buildTransferAll:(NSString* _Nullable)sender receiver:(NSString* _Nullable)receiver error:(NSError* _Nullable* _Nullable)error;
+/**
+ * Before invoking this method, it is best to check `CanTransferAll()`
+ */
+- (BOOL)canTransferAll;
 - (id<BaseChain> _Nullable)chain;
 - (BaseTokenInfo* _Nullable)tokenInfo:(NSError* _Nullable* _Nullable)error;
+@end
+
+@interface BaseTransaction : NSObject <goSeqRefInterface, BaseTransaction> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (BaseOptionalString* _Nullable)signWithAccount:(id<BaseAccount> _Nullable)account error:(NSError* _Nullable* _Nullable)error;
 @end
 
 #endif

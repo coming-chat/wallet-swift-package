@@ -81,7 +81,7 @@
 - (BaseBalance* _Nullable)balanceOfAddress:(NSString* _Nullable)address error:(NSError* _Nullable* _Nullable)error;
 - (BaseBalance* _Nullable)balanceOfPublicKey:(NSString* _Nullable)publicKey error:(NSError* _Nullable* _Nullable)error;
 - (NSString* _Nonnull)batchFetchTransactionStatus:(NSString* _Nullable)hashListString;
-- (NSString* _Nonnull)estimateFeeForTransaction:(PolkaTransaction* _Nullable)transaction error:(NSError* _Nullable* _Nullable)error;
+- (BaseOptionalString* _Nullable)estimateTransactionFee:(id<BaseTransaction> _Nullable)transaction error:(NSError* _Nullable* _Nullable)error;
 /**
  * 获取 mini 多签转账时需要的 scriptHash
 @param transferTo 转账目标地址
@@ -150,6 +150,9 @@ This will save a lot of network traffic to download metadata from rpcUrl.
 - (BaseBalance* _Nullable)balanceOfAccount:(id<BaseAccount> _Nullable)account error:(NSError* _Nullable* _Nullable)error;
 - (BaseBalance* _Nullable)balanceOfAddress:(NSString* _Nullable)address error:(NSError* _Nullable* _Nullable)error;
 - (BaseBalance* _Nullable)balanceOfPublicKey:(NSString* _Nullable)publicKey error:(NSError* _Nullable* _Nullable)error;
+- (id<BaseTransaction> _Nullable)buildTransfer:(NSString* _Nullable)sender receiver:(NSString* _Nullable)receiver amount:(NSString* _Nullable)amount error:(NSError* _Nullable* _Nullable)error;
+- (id<BaseTransaction> _Nullable)buildTransferAll:(NSString* _Nullable)sender receiver:(NSString* _Nullable)receiver error:(NSError* _Nullable* _Nullable)error;
+- (BOOL)canTransferAll;
 - (id<BaseChain> _Nullable)chain;
 /**
  * Warning: polka chain is not currently supported
@@ -157,7 +160,7 @@ This will save a lot of network traffic to download metadata from rpcUrl.
 - (BaseTokenInfo* _Nullable)tokenInfo:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface PolkaTransaction : NSObject <goSeqRefInterface> {
+@interface PolkaTransaction : NSObject <goSeqRefInterface, BaseTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -167,6 +170,7 @@ This will save a lot of network traffic to download metadata from rpcUrl.
 - (NSString* _Nonnull)getTx:(NSData* _Nullable)signerPublicKey signatureData:(NSData* _Nullable)signatureData error:(NSError* _Nullable* _Nullable)error;
 - (NSString* _Nonnull)getTxFromHex:(NSString* _Nullable)signerPublicKeyHex signatureDataHex:(NSString* _Nullable)signatureDataHex error:(NSError* _Nullable* _Nullable)error;
 - (NSString* _Nonnull)getUnSignTx:(NSError* _Nullable* _Nullable)error;
+- (BaseOptionalString* _Nullable)signWithAccount:(id<BaseAccount> _Nullable)account error:(NSError* _Nullable* _Nullable)error;
 @end
 
 @interface PolkaTx : NSObject <goSeqRefInterface> {
