@@ -98,7 +98,16 @@ which can only be passed as strings separated by ","
 @return Batch transaction status, its order is consistent with hashListString: "status1,status2,status3"
  */
 - (NSString* _Nonnull)batchFetchTransactionStatus:(NSString* _Nullable)hashListString;
+/**
+ * Most chains can estimate the fee directly to the transaction object
+**But two chains don't work: `aptos`, `starcoin`**
+ */
 - (BaseOptionalString* _Nullable)estimateTransactionFee:(id<BaseTransaction> _Nullable)transaction error:(NSError* _Nullable* _Nullable)error;
+/**
+ * All chains can call this method to estimate the gas fee.
+**Chain  `aptos`, `starcoin` must pass in publickey**
+ */
+- (BaseOptionalString* _Nullable)estimateTransactionFeeUsePublicKey:(id<BaseTransaction> _Nullable)transaction pubkey:(NSString* _Nullable)pubkey error:(NSError* _Nullable* _Nullable)error;
 /**
  * Fetch transaction details through transaction hash
  */
@@ -413,6 +422,14 @@ selects base 2. Otherwise the selected base is 10.
 @property(strong, readonly) _Nonnull id _ref;
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+/**
+ * You need to pass in different objects to get the latency and block height of different chains.
+let reachability = eth.RpcReachability()
+let reachability = polka.RpcReachability()
+let reachability = sui.RestReachability()
+...
+let monitor = NewReachMonitorWithReachability(reachability)
+ */
 - (nullable instancetype)initWithReachability:(id<BaseRpcReachability> _Nullable)reachability;
 /**
  * The number of network connectivity tests to be performed per rpc. 0 means infinite, default is 1
@@ -541,11 +558,23 @@ FOUNDATION_EXPORT const long BaseTransactionStatusPending;
 FOUNDATION_EXPORT const long BaseTransactionStatusSuccess;
 
 @interface Base : NSObject
++ (NSError* _Nullable) errEstimateGasNeedPublicKey;
++ (void) setErrEstimateGasNeedPublicKey:(NSError* _Nullable)v;
+
 + (NSError* _Nullable) errInvalidAccountType;
 + (void) setErrInvalidAccountType:(NSError* _Nullable)v;
 
++ (NSError* _Nullable) errInvalidAddress;
++ (void) setErrInvalidAddress:(NSError* _Nullable)v;
+
 + (NSError* _Nullable) errInvalidChainType;
 + (void) setErrInvalidChainType:(NSError* _Nullable)v;
+
++ (NSError* _Nullable) errInvalidPrivateKey;
++ (void) setErrInvalidPrivateKey:(NSError* _Nullable)v;
+
++ (NSError* _Nullable) errInvalidPublicKey;
++ (void) setErrInvalidPublicKey:(NSError* _Nullable)v;
 
 + (NSError* _Nullable) errInvalidTransactionType;
 + (void) setErrInvalidTransactionType:(NSError* _Nullable)v;
@@ -617,6 +646,14 @@ FOUNDATION_EXPORT BaseBigInt* _Nullable BaseNewBigIntFromString(NSString* _Nulla
  */
 FOUNDATION_EXPORT BaseBigInts* _Nullable BaseNewBigInts(long size);
 
+/**
+ * You need to pass in different objects to get the latency and block height of different chains.
+let reachability = eth.RpcReachability()
+let reachability = polka.RpcReachability()
+let reachability = sui.RestReachability()
+...
+let monitor = NewReachMonitorWithReachability(reachability)
+ */
 FOUNDATION_EXPORT BaseReachMonitor* _Nullable BaseNewReachMonitorWithReachability(id<BaseRpcReachability> _Nullable reachability);
 
 @class BaseAccount;
@@ -710,7 +747,16 @@ which can only be passed as strings separated by ","
 @return Batch transaction status, its order is consistent with hashListString: "status1,status2,status3"
  */
 - (NSString* _Nonnull)batchFetchTransactionStatus:(NSString* _Nullable)hashListString;
+/**
+ * Most chains can estimate the fee directly to the transaction object
+**But two chains don't work: `aptos`, `starcoin`**
+ */
 - (BaseOptionalString* _Nullable)estimateTransactionFee:(id<BaseTransaction> _Nullable)transaction error:(NSError* _Nullable* _Nullable)error;
+/**
+ * All chains can call this method to estimate the gas fee.
+**Chain  `aptos`, `starcoin` must pass in publickey**
+ */
+- (BaseOptionalString* _Nullable)estimateTransactionFeeUsePublicKey:(id<BaseTransaction> _Nullable)transaction pubkey:(NSString* _Nullable)pubkey error:(NSError* _Nullable* _Nullable)error;
 /**
  * Fetch transaction details through transaction hash
  */
@@ -770,6 +816,9 @@ which can only be passed as strings separated by ","
 - (void)reachabilityDidReceiveNode:(BaseReachMonitor* _Nullable)monitor latency:(BaseRpcLatency* _Nullable)latency;
 @end
 
+/**
+ * You can customize the test latency method of rpc
+ */
 @interface BaseRpcReachability : NSObject <goSeqRefInterface, BaseRpcReachability> {
 }
 @property(strong, readonly) _Nonnull id _ref;

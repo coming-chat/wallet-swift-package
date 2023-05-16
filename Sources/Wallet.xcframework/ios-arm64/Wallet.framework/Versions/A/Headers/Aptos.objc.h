@@ -21,6 +21,7 @@
 @class AptosSignMessagePayload;
 @class AptosSignMessageResponse;
 @class AptosToken;
+@class AptosTransaction;
 @class AptosUtil;
 @protocol AptosIChain;
 @class AptosIChain;
@@ -32,6 +33,7 @@
 - (NSString* _Nonnull)batchFetchTransactionStatus:(NSString* _Nullable)hashListString;
 - (BaseOptionalString* _Nullable)estimatePayloadGasFeeBCS:(id<BaseAccount> _Nullable)account data:(NSData* _Nullable)data error:(NSError* _Nullable* _Nullable)error;
 - (BaseOptionalString* _Nullable)estimateTransactionFee:(id<BaseTransaction> _Nullable)transaction error:(NSError* _Nullable* _Nullable)error;
+- (BaseOptionalString* _Nullable)estimateTransactionFeeUsePublicKey:(id<BaseTransaction> _Nullable)transaction pubkey:(NSString* _Nullable)pubkey error:(NSError* _Nullable* _Nullable)error;
 - (BaseTransactionDetail* _Nullable)fetchTransactionDetail:(NSString* _Nullable)hash error:(NSError* _Nullable* _Nullable)error;
 - (long)fetchTransactionStatus:(NSString* _Nullable)hash;
 - (AptosclientRestClient* _Nullable)getClient:(NSError* _Nullable* _Nullable)error;
@@ -88,12 +90,11 @@
 - (BaseBalance* _Nullable)balanceOfPublicKey:(NSString* _Nullable)publicKey error:(NSError* _Nullable* _Nullable)error;
 - (NSString* _Nonnull)batchFetchTransactionStatus:(NSString* _Nullable)hashListString;
 - (BaseOptionalString* _Nullable)estimateGasPrice:(NSError* _Nullable* _Nullable)error;
-// skipped method Chain.EstimateMaxGasAmount with unsupported parameter or return types
-
 // skipped method Chain.EstimateMaxGasAmountBCS with unsupported parameter or return types
 
 - (BaseOptionalString* _Nullable)estimatePayloadGasFeeBCS:(id<BaseAccount> _Nullable)account data:(NSData* _Nullable)data error:(NSError* _Nullable* _Nullable)error;
 - (BaseOptionalString* _Nullable)estimateTransactionFee:(id<BaseTransaction> _Nullable)transaction error:(NSError* _Nullable* _Nullable)error;
+- (BaseOptionalString* _Nullable)estimateTransactionFeeUsePublicKey:(id<BaseTransaction> _Nullable)transaction pubkey:(NSString* _Nullable)pubkey error:(NSError* _Nullable* _Nullable)error;
 /**
  * Fetch transaction details through transaction hash
  */
@@ -282,11 +283,20 @@
 - (BaseBalance* _Nullable)balanceOfPublicKey:(NSString* _Nullable)publicKey error:(NSError* _Nullable* _Nullable)error;
 - (id<BaseTransaction> _Nullable)buildTransfer:(NSString* _Nullable)sender receiver:(NSString* _Nullable)receiver amount:(NSString* _Nullable)amount error:(NSError* _Nullable* _Nullable)error;
 - (id<BaseTransaction> _Nullable)buildTransferAll:(NSString* _Nullable)sender receiver:(NSString* _Nullable)receiver error:(NSError* _Nullable* _Nullable)error;
+/**
+ * Deprecated: use `BuildTransfer()`
+ */
 - (BaseOptionalString* _Nullable)buildTransferTx:(NSString* _Nullable)privateKey receiverAddress:(NSString* _Nullable)receiverAddress amount:(NSString* _Nullable)amount error:(NSError* _Nullable* _Nullable)error;
+/**
+ * Deprecated: use `BuildTransfer()`
+ */
 - (BaseOptionalString* _Nullable)buildTransferTxWithAccount:(AptosAccount* _Nullable)account receiverAddress:(NSString* _Nullable)receiverAddress amount:(NSString* _Nullable)amount error:(NSError* _Nullable* _Nullable)error;
 - (BOOL)canTransferAll;
 - (id<BaseChain> _Nullable)chain;
 - (BaseOptionalString* _Nullable)ensureOwnerRegistedToken:(AptosAccount* _Nullable)owner error:(NSError* _Nullable* _Nullable)error;
+/**
+ * Deprecated: use `BuildTransfer() & chain.EstimateTransactionFeeUsePublicKey()`
+ */
 - (BaseOptionalString* _Nullable)estimateFees:(AptosAccount* _Nullable)account receiverAddress:(NSString* _Nullable)receiverAddress amount:(NSString* _Nullable)amount error:(NSError* _Nullable* _Nullable)error;
 - (BaseOptionalBool* _Nullable)hasRegisted:(NSString* _Nullable)ownerAddress error:(NSError* _Nullable* _Nullable)error;
 /**
@@ -294,6 +304,17 @@
  */
 - (BaseOptionalString* _Nullable)registerTokenForOwner:(AptosAccount* _Nullable)owner error:(NSError* _Nullable* _Nullable)error;
 - (BaseTokenInfo* _Nullable)tokenInfo:(NSError* _Nullable* _Nullable)error;
+@end
+
+@interface AptosTransaction : NSObject <goSeqRefInterface, BaseTransaction> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nonnull instancetype)init;
+// skipped field Transaction.RawTxn with unsupported type: github.com/coming-chat/go-aptos/transaction_builder.RawTransaction
+
+- (BaseOptionalString* _Nullable)signWithAccount:(id<BaseAccount> _Nullable)account error:(NSError* _Nullable* _Nullable)error;
 @end
 
 @interface AptosUtil : NSObject <goSeqRefInterface, BaseAddressUtil> {
@@ -395,6 +416,7 @@ FOUNDATION_EXPORT AptosUtil* _Nullable AptosNewUtil(NSError* _Nullable* _Nullabl
 - (NSString* _Nonnull)batchFetchTransactionStatus:(NSString* _Nullable)hashListString;
 - (BaseOptionalString* _Nullable)estimatePayloadGasFeeBCS:(id<BaseAccount> _Nullable)account data:(NSData* _Nullable)data error:(NSError* _Nullable* _Nullable)error;
 - (BaseOptionalString* _Nullable)estimateTransactionFee:(id<BaseTransaction> _Nullable)transaction error:(NSError* _Nullable* _Nullable)error;
+- (BaseOptionalString* _Nullable)estimateTransactionFeeUsePublicKey:(id<BaseTransaction> _Nullable)transaction pubkey:(NSString* _Nullable)pubkey error:(NSError* _Nullable* _Nullable)error;
 - (BaseTransactionDetail* _Nullable)fetchTransactionDetail:(NSString* _Nullable)hash error:(NSError* _Nullable* _Nullable)error;
 - (long)fetchTransactionStatus:(NSString* _Nullable)hash;
 - (AptosclientRestClient* _Nullable)getClient:(NSError* _Nullable* _Nullable)error;

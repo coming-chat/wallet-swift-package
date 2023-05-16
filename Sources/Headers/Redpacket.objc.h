@@ -61,6 +61,7 @@ add empty arg to distinct with NewRedPacketActionCreate signature when build jar
 @property (nonatomic) RedpacketRedPacketCreateParams* _Nullable createParams;
 @property (nonatomic) RedpacketRedPacketOpenParams* _Nullable openParams;
 @property (nonatomic) RedpacketRedPacketCloseParams* _Nullable closeParams;
+- (NSString* _Nonnull)tokenAddress;
 @end
 
 @interface RedpacketRedPacketCloseParams : NSObject <goSeqRefInterface> {

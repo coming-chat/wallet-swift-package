@@ -86,11 +86,16 @@
  * @param coinType Default is `SUI_COIN_TYPE`
  */
 - (SuiTransaction* _Nullable)buildSplitCoinTransaction:(NSString* _Nullable)owner coinType:(NSString* _Nullable)coinType targetAmount:(NSString* _Nullable)targetAmount error:(NSError* _Nullable* _Nullable)error;
+// skipped method Chain.CachedGasPrice with unsupported parameter or return types
+
 // skipped method Chain.Client with unsupported parameter or return types
 
 - (BaseOptionalString* _Nullable)estimateTransactionFee:(id<BaseTransaction> _Nullable)transaction error:(NSError* _Nullable* _Nullable)error;
 // skipped method Chain.EstimateTransactionFeeAndRebuildTransaction with unsupported parameter or return types
 
+// skipped method Chain.EstimateTransactionFeeAndRebuildTransactionBCS with unsupported parameter or return types
+
+- (BaseOptionalString* _Nullable)estimateTransactionFeeUsePublicKey:(id<BaseTransaction> _Nullable)transaction pubkey:(NSString* _Nullable)pubkey error:(NSError* _Nullable* _Nullable)error;
 // skipped method Chain.FetchNFTs with unsupported parameter or return types
 
 - (BaseOptionalString* _Nullable)fetchNFTsJsonString:(NSString* _Nullable)owner error:(NSError* _Nullable* _Nullable)error;
@@ -110,6 +115,8 @@
 - (id<BaseToken> _Nullable)mainToken;
 - (SuiTransaction* _Nullable)mintNFT:(NSString* _Nullable)creator name:(NSString* _Nullable)name description:(NSString* _Nullable)description uri:(NSString* _Nullable)uri error:(NSError* _Nullable* _Nullable)error;
 - (SuiTransaction* _Nullable)mintSuiCatNFT:(NSString* _Nullable)signer amount:(NSString* _Nullable)amount error:(NSError* _Nullable* _Nullable)error;
+// skipped method Chain.PickGasCoins with unsupported parameter or return types
+
 - (BaseOptionalBool* _Nullable)queryIsInSuiCatWhiteList:(NSString* _Nullable)address error:(NSError* _Nullable* _Nullable)error;
 /**
  * Send the raw transaction on-chain
@@ -150,8 +157,7 @@
 if time < 0 indicates how much time has passed since the reward was earned;
  */
 - (int64_t)earningAmountTimeAfterNowMs:(SuiValidatorState* _Nullable)stateInfo;
-// skipped method DelegatedStake.EarningAmountTimeAfterTimestampMs with unsupported parameter or return types
-
+- (int64_t)earningAmountTimeAfterTimestampMs:(int64_t)timestamp stateInfo:(SuiValidatorState* _Nullable)stateInfo;
 - (BaseOptionalString* _Nullable)jsonString:(NSError* _Nullable* _Nullable)error;
 @end
 
@@ -193,7 +199,7 @@ if time < 0 indicates how much time has passed since the reward was earned;
 @property (nonatomic) NSString* _Nonnull owner;
 @property (nonatomic) NSString* _Nonnull coinType;
 @property (nonatomic) NSString* _Nonnull targetAmount;
-// skipped field MergeCoinRequest.Coins with unsupported type: github.com/coming-chat/go-sui/types.Coins
+// skipped field MergeCoinRequest.Coins with unsupported type: github.com/coming-chat/go-sui/v2/types.PickedCoins
 
 @property (nonatomic) long coinsCount;
 /**
@@ -224,9 +230,9 @@ if time < 0 indicates how much time has passed since the reward was earned;
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
 - (nonnull instancetype)init;
-// skipped field SignedTransaction.TxBytes with unsupported type: *github.com/coming-chat/go-sui/types.Base64Data
+// skipped field SignedTransaction.TxBytes with unsupported type: *github.com/coming-chat/go-sui/v2/lib.Base64Data
 
-// skipped field SignedTransaction.Signature with unsupported type: *github.com/coming-chat/go-sui/sui_types.Signature
+// skipped field SignedTransaction.Signature with unsupported type: *github.com/coming-chat/go-sui/v2/sui_types.Signature
 
 @end
 
@@ -291,10 +297,13 @@ if time < 0 indicates how much time has passed since the reward was earned;
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
 - (nonnull instancetype)init;
-// skipped field Transaction.Txn with unsupported type: github.com/coming-chat/go-sui/types.TransactionBytes
+// skipped field Transaction.Txn with unsupported type: github.com/coming-chat/go-sui/v2/types.TransactionBytes
+
+// skipped field Transaction.TxnBytes with unsupported type: github.com/coming-chat/go-sui/v2/lib.Base64Data
 
 @property (nonatomic) int64_t estimateGasFee;
 - (BaseOptionalString* _Nullable)signWithAccount:(id<BaseAccount> _Nullable)account error:(NSError* _Nullable* _Nullable)error;
+- (NSData* _Nullable)transactionBytes;
 @end
 
 @interface SuiUtil : NSObject <goSeqRefInterface, BaseAddressUtil> {

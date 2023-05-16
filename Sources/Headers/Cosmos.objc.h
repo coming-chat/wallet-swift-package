@@ -100,6 +100,7 @@ which can only be passed as strings separated by ","
 - (NSString* _Nonnull)batchFetchTransactionStatus:(NSString* _Nullable)hashListString;
 - (CosmosToken* _Nullable)denomToken:(NSString* _Nullable)prefix denom:(NSString* _Nullable)denom;
 - (BaseOptionalString* _Nullable)estimateTransactionFee:(id<BaseTransaction> _Nullable)transaction error:(NSError* _Nullable* _Nullable)error;
+- (BaseOptionalString* _Nullable)estimateTransactionFeeUsePublicKey:(id<BaseTransaction> _Nullable)transaction pubkey:(NSString* _Nullable)pubkey error:(NSError* _Nullable* _Nullable)error;
 /**
  * Fetch transaction details through transaction hash
  */

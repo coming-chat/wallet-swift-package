@@ -51,6 +51,7 @@
 - (NSString* _Nonnull)batchFetchTransactionStatus:(NSString* _Nullable)hashListString;
 - (BaseOptionalString* _Nullable)estimateGasLimit:(EthCallMsg* _Nullable)msg error:(NSError* _Nullable* _Nullable)error;
 - (BaseOptionalString* _Nullable)estimateTransactionFee:(id<BaseTransaction> _Nullable)transaction error:(NSError* _Nullable* _Nullable)error;
+- (BaseOptionalString* _Nullable)estimateTransactionFeeUsePublicKey:(id<BaseTransaction> _Nullable)transaction pubkey:(NSString* _Nullable)pubkey error:(NSError* _Nullable* _Nullable)error;
 - (BaseTransactionDetail* _Nullable)fetchTransactionDetail:(NSString* _Nullable)hash error:(NSError* _Nullable* _Nullable)error;
 - (long)fetchTransactionStatus:(NSString* _Nullable)hash;
 - (EthEthChain* _Nullable)getEthChain:(NSError* _Nullable* _Nullable)error;
@@ -250,6 +251,7 @@ which can only be passed as strings separated by ","
 - (id<EthTokenProtocol> _Nullable)erc20Token:(NSString* _Nullable)contractAddress;
 - (BaseOptionalString* _Nullable)estimateGasLimit:(EthCallMsg* _Nullable)msg error:(NSError* _Nullable* _Nullable)error;
 - (BaseOptionalString* _Nullable)estimateTransactionFee:(id<BaseTransaction> _Nullable)transaction error:(NSError* _Nullable* _Nullable)error;
+- (BaseOptionalString* _Nullable)estimateTransactionFeeUsePublicKey:(id<BaseTransaction> _Nullable)transaction pubkey:(NSString* _Nullable)pubkey error:(NSError* _Nullable* _Nullable)error;
 - (EthRedPacketDetail* _Nullable)fetchRedPacketCreationDetail:(NSString* _Nullable)hash error:(NSError* _Nullable* _Nullable)error;
 /**
  * Fetch transaction details through transaction hash
@@ -1034,6 +1036,7 @@ FOUNDATION_EXPORT BOOL EthVerifySignature(NSString* _Nullable pubkey, NSString* 
 - (NSString* _Nonnull)batchFetchTransactionStatus:(NSString* _Nullable)hashListString;
 - (BaseOptionalString* _Nullable)estimateGasLimit:(EthCallMsg* _Nullable)msg error:(NSError* _Nullable* _Nullable)error;
 - (BaseOptionalString* _Nullable)estimateTransactionFee:(id<BaseTransaction> _Nullable)transaction error:(NSError* _Nullable* _Nullable)error;
+- (BaseOptionalString* _Nullable)estimateTransactionFeeUsePublicKey:(id<BaseTransaction> _Nullable)transaction pubkey:(NSString* _Nullable)pubkey error:(NSError* _Nullable* _Nullable)error;
 - (BaseTransactionDetail* _Nullable)fetchTransactionDetail:(NSString* _Nullable)hash error:(NSError* _Nullable* _Nullable)error;
 - (long)fetchTransactionStatus:(NSString* _Nullable)hash;
 - (EthEthChain* _Nullable)getEthChain:(NSError* _Nullable* _Nullable)error;
