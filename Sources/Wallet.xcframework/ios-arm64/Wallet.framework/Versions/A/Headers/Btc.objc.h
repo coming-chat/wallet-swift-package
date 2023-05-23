@@ -21,6 +21,7 @@
 @class BtcBrc20TokenInfo;
 @class BtcChain;
 @class BtcFeeRate;
+@class BtcNFTPage;
 @class BtcUtil;
 
 @interface BtcAccount : NSObject <goSeqRefInterface, BaseAccount, BaseAddressUtil> {
@@ -90,6 +91,7 @@
 @property (nonatomic) NSString* _Nonnull location;
 @property (nonatomic) NSString* _Nonnull output;
 - (BaseAny* _Nullable)asAny;
+- (BaseNFT* _Nullable)asNFT;
 - (BaseOptionalString* _Nullable)jsonString:(NSError* _Nullable* _Nullable)error;
 @end
 
@@ -101,6 +103,7 @@
 - (nullable instancetype)initWithJsonString:(NSString* _Nullable)str;
 // skipped field Brc20InscriptionPage.SdkPageable with unsupported type: *github.com/coming-chat/wallet-SDK/core/base/inter.SdkPageable[*github.com/coming-chat/wallet-SDK/core/btc.Brc20Inscription]
 
+- (BtcNFTPage* _Nullable)asNFTPage;
 - (long)currentCount;
 - (NSString* _Nonnull)currentCursor;
 - (BOOL)hasNextPage;
@@ -240,6 +243,23 @@ So only the status and timestamp can be queried.
 @property (nonatomic) int64_t low;
 @property (nonatomic) int64_t average;
 @property (nonatomic) int64_t high;
+@end
+
+@interface BtcNFTPage : NSObject <goSeqRefInterface, BaseJsonable, BasePageable> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nonnull instancetype)init;
+// skipped field NFTPage.SdkPageable with unsupported type: *github.com/coming-chat/wallet-SDK/core/base/inter.SdkPageable[*github.com/coming-chat/wallet-SDK/core/base.NFT]
+
+- (long)currentCount;
+- (NSString* _Nonnull)currentCursor;
+- (BOOL)hasNextPage;
+- (BaseAnyArray* _Nullable)itemArray;
+- (BaseNFT* _Nullable)itemAt:(long)index;
+- (BaseOptionalString* _Nullable)jsonString:(NSError* _Nullable* _Nullable)error;
+- (long)totalCount;
 @end
 
 @interface BtcUtil : NSObject <goSeqRefInterface, BaseAddressUtil> {
