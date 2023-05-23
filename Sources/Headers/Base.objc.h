@@ -37,6 +37,8 @@
 @class BaseJsonable;
 @protocol BaseNFTFetcher;
 @class BaseNFTFetcher;
+@protocol BasePageable;
+@class BasePageable;
 @protocol BaseReachMonitorDelegate;
 @class BaseReachMonitorDelegate;
 @protocol BaseRpcReachability;
@@ -137,6 +139,27 @@ which can only be passed as strings separated by ","
 	 * @return This method directly calls `FetchNFTs()` and jsonifies the result and returns
  */
 - (BaseOptionalString* _Nullable)fetchNFTsJsonString:(NSString* _Nullable)owner error:(NSError* _Nullable* _Nullable)error;
+@end
+
+@protocol BasePageable <NSObject>
+/**
+ * The count of data in the current page.
+ */
+- (long)currentCount;
+/**
+ * The cursor of the current page.
+ */
+- (NSString* _Nonnull)currentCursor;
+/**
+ * Is there has next page.
+ */
+- (BOOL)hasNextPage;
+- (BaseAnyArray* _Nullable)itemArray;
+- (BaseOptionalString* _Nullable)jsonString:(NSError* _Nullable* _Nullable)error;
+/**
+ * The total count of all data in the remote server. Returns 0 if statistics are not available
+ */
+- (long)totalCount;
 @end
 
 @protocol BaseReachMonitorDelegate <NSObject>
@@ -668,6 +691,8 @@ FOUNDATION_EXPORT BaseReachMonitor* _Nullable BaseNewReachMonitorWithReachabilit
 
 @class BaseNFTFetcher;
 
+@class BasePageable;
+
 @class BaseReachMonitorDelegate;
 
 @class BaseRpcReachability;
@@ -794,6 +819,31 @@ which can only be passed as strings separated by ","
 	 * @return This method directly calls `FetchNFTs()` and jsonifies the result and returns
  */
 - (BaseOptionalString* _Nullable)fetchNFTsJsonString:(NSString* _Nullable)owner error:(NSError* _Nullable* _Nullable)error;
+@end
+
+@interface BasePageable : NSObject <goSeqRefInterface, BasePageable> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+/**
+ * The count of data in the current page.
+ */
+- (long)currentCount;
+/**
+ * The cursor of the current page.
+ */
+- (NSString* _Nonnull)currentCursor;
+/**
+ * Is there has next page.
+ */
+- (BOOL)hasNextPage;
+- (BaseAnyArray* _Nullable)itemArray;
+- (BaseOptionalString* _Nullable)jsonString:(NSError* _Nullable* _Nullable)error;
+/**
+ * The total count of all data in the remote server. Returns 0 if statistics are not available
+ */
+- (long)totalCount;
 @end
 
 @interface BaseReachMonitorDelegate : NSObject <goSeqRefInterface, BaseReachMonitorDelegate> {

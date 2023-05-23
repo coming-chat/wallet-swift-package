@@ -102,7 +102,7 @@
 - (BaseOptionalString* _Nullable)jsonString:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface DmensNotePage : NSObject <goSeqRefInterface, BaseJsonable> {
+@interface DmensNotePage : NSObject <goSeqRefInterface, BaseJsonable, BasePageable> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -308,7 +308,7 @@ cursor 为空时，表示 null
 - (BaseOptionalString* _Nullable)jsonString:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface DmensRepostNotePage : NSObject <goSeqRefInterface, BaseJsonable> {
+@interface DmensRepostNotePage : NSObject <goSeqRefInterface, BaseJsonable, BasePageable> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -364,7 +364,7 @@ cursor 为空时，表示 null
 - (BaseOptionalString* _Nullable)jsonString:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface DmensUserPage : NSObject <goSeqRefInterface, BaseJsonable> {
+@interface DmensUserPage : NSObject <goSeqRefInterface, BaseJsonable, BasePageable> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
