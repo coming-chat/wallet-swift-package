@@ -90,6 +90,10 @@
 @property (nonatomic) NSString* _Nonnull genesisTransaction;
 @property (nonatomic) NSString* _Nonnull location;
 @property (nonatomic) NSString* _Nonnull output;
+/**
+ * only has value if the content type starts with 'text/'
+ */
+@property (nonatomic) NSString* _Nonnull contentText;
 - (BaseAny* _Nullable)asAny;
 - (BaseNFT* _Nullable)asNFT;
 - (BaseOptionalString* _Nullable)jsonString:(NSError* _Nullable* _Nullable)error;
