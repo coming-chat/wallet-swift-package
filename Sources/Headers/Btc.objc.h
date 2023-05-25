@@ -35,11 +35,13 @@
  * @return default is the mainnet address
  */
 - (NSString* _Nonnull)address;
+- (NSString* _Nonnull)addressType;
 /**
  * @return publicKey that will start with 0x.
  */
 - (NSString* _Nonnull)decodeAddressToPublicKey:(NSString* _Nullable)address error:(NSError* _Nullable* _Nullable)error;
 - (BtcAccount* _Nullable)deriveAccountAt:(NSString* _Nullable)chainnet error:(NSError* _Nullable* _Nullable)error;
+- (NSString* _Nonnull)derivePath;
 /**
  * @param publicKey can start with 0x or not.
  */
