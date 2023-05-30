@@ -22,6 +22,7 @@
 @class BtcChain;
 @class BtcFeeRate;
 @class BtcNFTPage;
+@class BtcStringMap;
 @class BtcUtil;
 
 @interface BtcAccount : NSObject <goSeqRefInterface, BaseAccount, BaseAddressUtil> {
@@ -30,12 +31,17 @@
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
 - (nullable instancetype)initWithMnemonic:(NSString* _Nullable)mnemonic chainnet:(NSString* _Nullable)chainnet;
-@property (nonatomic) NSString* _Nonnull chainnet;
+/**
+ * Default is `AddressTypeComingTaproot`
+ */
+@property (nonatomic) long addressType;
 /**
  * @return default is the mainnet address
  */
 - (NSString* _Nonnull)address;
-- (NSString* _Nonnull)addressType;
+- (NSString* _Nonnull)addressTypeString;
+- (BaseOptionalString* _Nullable)addressWithType:(long)addrType error:(NSError* _Nullable* _Nullable)error;
+- (BaseOptionalString* _Nullable)comingTaprootAddress:(NSError* _Nullable* _Nullable)error;
 /**
  * @return publicKey that will start with 0x.
  */
@@ -47,6 +53,19 @@
  */
 - (NSString* _Nonnull)encodePublicKeyToAddress:(NSString* _Nullable)publicKey error:(NSError* _Nullable* _Nullable)error;
 - (BOOL)isValidAddress:(NSString* _Nullable)address;
+/**
+ * LegacyAddress P2PKH just for m/44'/
+ */
+- (BaseOptionalString* _Nullable)legacyAddress:(NSError* _Nullable* _Nullable)error;
+- (NSString* _Nonnull)multiSignaturePubKey;
+/**
+ * NativeSegwitAddress P2WPKH just for m/84'/
+ */
+- (BaseOptionalString* _Nullable)nativeSegwitAddress:(NSError* _Nullable* _Nullable)error;
+/**
+ * NestedSegwitAddress P2SH-P2WPKH just for m/49'/
+ */
+- (BaseOptionalString* _Nullable)nestedSegwitAddress:(NSError* _Nullable* _Nullable)error;
 /**
  * @return privateKey data
  */
@@ -71,6 +90,10 @@
  * TODO: function not implement yet.
  */
 - (BaseOptionalString* _Nullable)signHex:(NSString* _Nullable)messageHex password:(NSString* _Nullable)password error:(NSError* _Nullable* _Nullable)error;
+/**
+ * TaprootAddress P2TR just for m/86'/
+ */
+- (BaseOptionalString* _Nullable)taprootAddress:(NSError* _Nullable* _Nullable)error;
 @end
 
 @interface BtcBrc20Inscription : NSObject <goSeqRefInterface, BaseAniable, BaseJsonable> {
@@ -268,6 +291,25 @@ So only the status and timestamp can be queried.
 - (long)totalCount;
 @end
 
+@interface BtcStringMap : NSObject <goSeqRefInterface, BaseJsonable> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nullable instancetype)init;
+// skipped field StringMap.AnyMap with unsupported type: github.com/coming-chat/wallet-SDK/core/base/inter.AnyMap[string]
+
+- (BOOL)hasKey:(NSString* _Nullable)key;
+- (BaseOptionalString* _Nullable)jsonString:(NSError* _Nullable* _Nullable)error;
+- (BaseStringArray* _Nullable)keys;
+- (NSData* _Nullable)marshalJSON:(NSError* _Nullable* _Nullable)error;
+- (NSString* _Nonnull)remove:(NSString* _Nullable)key;
+- (void)setValue:(NSString* _Nullable)value key:(NSString* _Nullable)key;
+- (NSString* _Nonnull)string;
+- (BOOL)unmarshalJSON:(NSData* _Nullable)data error:(NSError* _Nullable* _Nullable)error;
+- (NSString* _Nonnull)valueOf:(NSString* _Nullable)key;
+@end
+
 @interface BtcUtil : NSObject <goSeqRefInterface, BaseAddressUtil> {
 }
 @property(strong, readonly) _Nonnull id _ref;
@@ -287,6 +329,11 @@ So only the status and timestamp can be queried.
 - (BOOL)isValidAddress:(NSString* _Nullable)address;
 @end
 
+FOUNDATION_EXPORT const long BtcAddressTypeComingTaproot;
+FOUNDATION_EXPORT const long BtcAddressTypeLegacy;
+FOUNDATION_EXPORT const long BtcAddressTypeNativeSegwit;
+FOUNDATION_EXPORT const long BtcAddressTypeNestedSegwit;
+FOUNDATION_EXPORT const long BtcAddressTypeTaproot;
 /**
  * ComingChat used, similar mainnet's alias.
  */
@@ -313,6 +360,13 @@ FOUNDATION_EXPORT BtcAccount* _Nullable BtcAsBitcoinAccount(id<BaseAccount> _Nul
 FOUNDATION_EXPORT BtcBrc20Inscription* _Nullable BtcAsBrc20Inscription(BaseAny* _Nullable a);
 
 FOUNDATION_EXPORT BtcBrc20TokenBalance* _Nullable BtcAsBrc20TokenBalance(BaseAny* _Nullable a);
+
+/**
+ * BatchQueryBalance
+@return If any address is successfully queried, it will return normally, and the amount of failed request is 0
+@throw error if all address query balance failed
+ */
+FOUNDATION_EXPORT BtcStringMap* _Nullable BtcBatchQueryBalance(BaseStringArray* _Nullable addresses, NSString* _Nullable chainnet, NSError* _Nullable* _Nullable error);
 
 FOUNDATION_EXPORT NSString* _Nonnull BtcEncodePublicDataToAddress(NSData* _Nullable public, NSString* _Nullable chainnet, NSError* _Nullable* _Nullable error);
 
@@ -355,6 +409,8 @@ FOUNDATION_EXPORT BtcBrc20TokenBalance* _Nullable BtcNewBrc20TokenBalanceWithJso
 FOUNDATION_EXPORT BtcBrc20TokenInfo* _Nullable BtcNewBrc20TokenInfoWithJsonString(NSString* _Nullable str, NSError* _Nullable* _Nullable error);
 
 FOUNDATION_EXPORT BtcChain* _Nullable BtcNewChainWithChainnet(NSString* _Nullable chainnet, NSError* _Nullable* _Nullable error);
+
+FOUNDATION_EXPORT BtcStringMap* _Nullable BtcNewStringMap(void);
 
 FOUNDATION_EXPORT BtcUtil* _Nullable BtcNewUtilWithChainnet(NSString* _Nullable chainnet, NSError* _Nullable* _Nullable error);
 
