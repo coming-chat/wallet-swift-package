@@ -95,7 +95,7 @@
 - (nullable instancetype)init:(id<WalletSDKWalletSecretInfo> _Nullable)info;
 @property (nonatomic) id<WalletSDKWalletSecretInfo> _Nullable walletInfo;
 - (WalletAccountInfo* _Nullable)aptosAccountInfo;
-- (WalletAccountInfo* _Nullable)bitcoinAccountInfo:(NSString* _Nullable)chainnet;
+- (WalletAccountInfo* _Nullable)bitcoinAccountInfo:(NSString* _Nullable)chainnet addressType:(long)addressType;
 - (WalletAccountInfo* _Nullable)cosmosAccountInfo:(int64_t)cointype prefix:(NSString* _Nullable)prefix;
 - (WalletAccountInfo* _Nullable)dogecoinAccountInfo:(NSString* _Nullable)chainnet;
 - (WalletAccountInfo* _Nullable)ethereumAccountInfo;
@@ -141,7 +141,7 @@
 /**
  * Get or create the bitcoin account with specified chainnet.
  */
-- (BtcAccount* _Nullable)getOrCreateBitcoinAccount:(NSString* _Nullable)chainnet error:(NSError* _Nullable* _Nullable)error;
+- (BtcAccount* _Nullable)getOrCreateBitcoinAccount:(NSString* _Nullable)chainnet addressType:(long)addressType error:(NSError* _Nullable* _Nullable)error;
 /**
  * Get or create cosmos chain account
  */
