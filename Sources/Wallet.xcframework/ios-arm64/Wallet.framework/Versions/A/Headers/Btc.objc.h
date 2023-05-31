@@ -394,6 +394,8 @@ FOUNDATION_EXPORT long BtcFetchTransactionStatus(NSString* _Nullable hashString,
  */
 FOUNDATION_EXPORT BOOL BtcIsValidAddress(NSString* _Nullable address, NSString* _Nullable chainnet);
 
+FOUNDATION_EXPORT BOOL BtcIsValidPrivateKey(NSString* _Nullable prikey);
+
 FOUNDATION_EXPORT BtcAccount* _Nullable BtcNewAccountWithMnemonic(NSString* _Nullable mnemonic, NSString* _Nullable chainnet, NSError* _Nullable* _Nullable error);
 
 FOUNDATION_EXPORT BtcBrc20InscriptionPage* _Nullable BtcNewBrc20InscriptionPageWithJsonString(NSString* _Nullable str, NSError* _Nullable* _Nullable error);
@@ -413,6 +415,13 @@ FOUNDATION_EXPORT BtcChain* _Nullable BtcNewChainWithChainnet(NSString* _Nullabl
 FOUNDATION_EXPORT BtcStringMap* _Nullable BtcNewStringMap(void);
 
 FOUNDATION_EXPORT BtcUtil* _Nullable BtcNewUtilWithChainnet(NSString* _Nullable chainnet, NSError* _Nullable* _Nullable error);
+
+/**
+ * PublicKeyTransform
+@param pubkey the original public key, can be uncompressed, compressed, or hybrid
+@param compress the transformed public key should be compressed or not
+ */
+FOUNDATION_EXPORT NSString* _Nonnull BtcPublicKeyTransform(NSString* _Nullable pubkey, BOOL compress, NSError* _Nullable* _Nullable error);
 
 /**
  * Deprecated: QueryBalance is deprecated. Please Use Chain.QueryBalanceWithAddress() instead.
