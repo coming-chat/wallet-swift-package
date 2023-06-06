@@ -22,7 +22,6 @@
 @class BtcChain;
 @class BtcFeeRate;
 @class BtcNFTPage;
-@class BtcOrd;
 @class BtcStringMap;
 @class BtcUtil;
 
@@ -292,17 +291,6 @@ So only the status and timestamp can be queried.
 - (long)totalCount;
 @end
 
-@interface BtcOrd : NSObject <goSeqRefInterface> {
-}
-@property(strong, readonly) _Nonnull id _ref;
-
-- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
-- (nonnull instancetype)init;
-@property (nonatomic) NSString* _Nonnull type;
-@property (nonatomic) NSString* _Nonnull contentType;
-@property (nonatomic) NSData* _Nullable content;
-@end
-
 @interface BtcStringMap : NSObject <goSeqRefInterface, BaseJsonable> {
 }
 @property(strong, readonly) _Nonnull id _ref;
@@ -380,8 +368,6 @@ FOUNDATION_EXPORT BtcBrc20TokenBalance* _Nullable BtcAsBrc20TokenBalance(BaseAny
  */
 FOUNDATION_EXPORT BtcStringMap* _Nullable BtcBatchQueryBalance(BaseStringArray* _Nullable addresses, NSString* _Nullable chainnet, NSError* _Nullable* _Nullable error);
 
-FOUNDATION_EXPORT BtcOrd* _Nullable BtcDecodeOrdFromWitness(NSData* _Nullable witness, NSError* _Nullable* _Nullable error);
-
 // skipped function DecodeTx with unsupported parameter or return types
 
 
@@ -391,6 +377,15 @@ FOUNDATION_EXPORT NSString* _Nonnull BtcEncodePublicDataToAddress(NSData* _Nulla
  * @param publicKey can start with 0x or not.
  */
 FOUNDATION_EXPORT NSString* _Nonnull BtcEncodePublicKeyToAddress(NSString* _Nullable publicKey, NSString* _Nullable chainnet, NSError* _Nullable* _Nullable error);
+
+// skipped function ExtractPSBTBse64ToMsgTx with unsupported parameter or return types
+
+
+// skipped function ExtractPSBTHexToMsgTx with unsupported parameter or return types
+
+
+// skipped function ExtractPSBTPacketToMsgTx with unsupported parameter or return types
+
 
 FOUNDATION_EXPORT BtcBrc20InscriptionPage* _Nullable BtcFetchBrc20Inscription(NSString* _Nullable owner, NSString* _Nullable cursor, long pageSize, NSError* _Nullable* _Nullable error);
 
