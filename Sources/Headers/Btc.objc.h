@@ -25,7 +25,7 @@
 @class BtcStringMap;
 @class BtcUtil;
 
-@interface BtcAccount : NSObject <goSeqRefInterface, BaseAccount, BaseAddressUtil> {
+@interface BtcAccount : NSObject <goSeqRefInterface, BaseAccount, BaseAddressUtil, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -96,7 +96,7 @@
 - (BaseOptionalString* _Nullable)taprootAddress:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface BtcBrc20Inscription : NSObject <goSeqRefInterface, BaseAniable, BaseJsonable> {
+@interface BtcBrc20Inscription : NSObject <goSeqRefInterface, BaseAniable, BaseJsonable, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -124,7 +124,7 @@
 - (BaseOptionalString* _Nullable)jsonString:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface BtcBrc20InscriptionPage : NSObject <goSeqRefInterface, BaseJsonable, BasePageable> {
+@interface BtcBrc20InscriptionPage : NSObject <goSeqRefInterface, BaseJsonable, BasePageable, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -142,7 +142,7 @@
 - (long)totalCount;
 @end
 
-@interface BtcBrc20Token : NSObject <goSeqRefInterface> {
+@interface BtcBrc20Token : NSObject <goSeqRefInterface, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -164,7 +164,7 @@
 - (BaseTokenInfo* _Nullable)tokenInfo:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface BtcBrc20TokenBalance : NSObject <goSeqRefInterface, BaseAniable, BaseJsonable> {
+@interface BtcBrc20TokenBalance : NSObject <goSeqRefInterface, BaseAniable, BaseJsonable, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -178,7 +178,7 @@
 - (BaseOptionalString* _Nullable)jsonString:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface BtcBrc20TokenBalancePage : NSObject <goSeqRefInterface, BaseJsonable, BasePageable> {
+@interface BtcBrc20TokenBalancePage : NSObject <goSeqRefInterface, BaseJsonable, BasePageable, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -195,7 +195,7 @@
 - (long)totalCount;
 @end
 
-@interface BtcBrc20TokenInfo : NSObject <goSeqRefInterface, BaseJsonable> {
+@interface BtcBrc20TokenInfo : NSObject <goSeqRefInterface, BaseJsonable, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -226,7 +226,7 @@
 - (BaseOptionalString* _Nullable)jsonString:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface BtcChain : NSObject <goSeqRefInterface, BaseAddressUtil, BaseChain, BaseToken> {
+@interface BtcChain : NSObject <goSeqRefInterface, BaseAddressUtil, BaseChain, BaseSignedTransaction, BaseToken> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -260,10 +260,11 @@ So only the status and timestamp can be queried.
 @return the hex hash string
  */
 - (NSString* _Nonnull)sendRawTransaction:(NSString* _Nullable)signedTx error:(NSError* _Nullable* _Nullable)error;
+- (BaseOptionalString* _Nullable)sendSignedTransaction:(id<BaseSignedTransaction> _Nullable)signedTxn error:(NSError* _Nullable* _Nullable)error;
 - (BaseTokenInfo* _Nullable)tokenInfo:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface BtcFeeRate : NSObject <goSeqRefInterface> {
+@interface BtcFeeRate : NSObject <goSeqRefInterface, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -274,7 +275,7 @@ So only the status and timestamp can be queried.
 @property (nonatomic) int64_t high;
 @end
 
-@interface BtcNFTPage : NSObject <goSeqRefInterface, BaseJsonable, BasePageable> {
+@interface BtcNFTPage : NSObject <goSeqRefInterface, BaseJsonable, BasePageable, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -291,7 +292,7 @@ So only the status and timestamp can be queried.
 - (long)totalCount;
 @end
 
-@interface BtcStringMap : NSObject <goSeqRefInterface, BaseJsonable> {
+@interface BtcStringMap : NSObject <goSeqRefInterface, BaseJsonable, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -310,7 +311,7 @@ So only the status and timestamp can be queried.
 - (NSString* _Nonnull)valueOf:(NSString* _Nullable)key;
 @end
 
-@interface BtcUtil : NSObject <goSeqRefInterface, BaseAddressUtil> {
+@interface BtcUtil : NSObject <goSeqRefInterface, BaseAddressUtil, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 

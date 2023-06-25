@@ -18,7 +18,7 @@
 @class SolanaToken;
 @class SolanaUtil;
 
-@interface SolanaAccount : NSObject <goSeqRefInterface, BaseAccount, BaseAddressUtil> {
+@interface SolanaAccount : NSObject <goSeqRefInterface, BaseAccount, BaseAddressUtil, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -54,7 +54,7 @@
 - (BaseOptionalString* _Nullable)signHex:(NSString* _Nullable)messageHex password:(NSString* _Nullable)password error:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface SolanaChain : NSObject <goSeqRefInterface, BaseAddressUtil, BaseChain> {
+@interface SolanaChain : NSObject <goSeqRefInterface, BaseAddressUtil, BaseChain, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -82,9 +82,10 @@
 @return the hex hash string
  */
 - (NSString* _Nonnull)sendRawTransaction:(NSString* _Nullable)signedTx error:(NSError* _Nullable* _Nullable)error;
+- (BaseOptionalString* _Nullable)sendSignedTransaction:(id<BaseSignedTransaction> _Nullable)signedTxn error:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface SolanaRpcReachability : NSObject <goSeqRefInterface, BaseRpcReachability> {
+@interface SolanaRpcReachability : NSObject <goSeqRefInterface, BaseRpcReachability, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -96,7 +97,7 @@
 - (BaseRpcLatency* _Nullable)latencyOf:(NSString* _Nullable)rpc timeout:(int64_t)timeout error:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface SolanaToken : NSObject <goSeqRefInterface, BaseToken> {
+@interface SolanaToken : NSObject <goSeqRefInterface, BaseSignedTransaction, BaseToken> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -115,7 +116,7 @@
 - (BaseTokenInfo* _Nullable)tokenInfo:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface SolanaUtil : NSObject <goSeqRefInterface, BaseAddressUtil> {
+@interface SolanaUtil : NSObject <goSeqRefInterface, BaseAddressUtil, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 

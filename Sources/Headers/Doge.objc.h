@@ -23,7 +23,7 @@
 @class DogeUTXOList;
 @class DogeUtil;
 
-@interface DogeAccount : NSObject <goSeqRefInterface, BaseAccount, BaseAddressUtil> {
+@interface DogeAccount : NSObject <goSeqRefInterface, BaseAccount, BaseAddressUtil, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -69,7 +69,7 @@
 - (BaseOptionalString* _Nullable)signHex:(NSString* _Nullable)messageHex password:(NSString* _Nullable)password error:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface DogeChain : NSObject <goSeqRefInterface, BaseAddressUtil, BaseChain, BaseToken> {
+@interface DogeChain : NSObject <goSeqRefInterface, BaseAddressUtil, BaseChain, BaseSignedTransaction, BaseToken> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -105,11 +105,12 @@
 @return the hex hash string
  */
 - (NSString* _Nonnull)sendRawTransaction:(NSString* _Nullable)signedTx error:(NSError* _Nullable* _Nullable)error;
+- (BaseOptionalString* _Nullable)sendSignedTransaction:(id<BaseSignedTransaction> _Nullable)signedTxn error:(NSError* _Nullable* _Nullable)error;
 - (DogeFeeRate* _Nullable)suggestFeeRate:(NSError* _Nullable* _Nullable)error;
 - (BaseTokenInfo* _Nullable)tokenInfo:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface DogeFeeRate : NSObject <goSeqRefInterface> {
+@interface DogeFeeRate : NSObject <goSeqRefInterface, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -120,7 +121,7 @@
 @property (nonatomic) int64_t high;
 @end
 
-@interface DogeSDKUTXOList : NSObject <goSeqRefInterface> {
+@interface DogeSDKUTXOList : NSObject <goSeqRefInterface, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -131,7 +132,7 @@
 @property (nonatomic) long fastestFee;
 @end
 
-@interface DogeTransaction : NSObject <goSeqRefInterface> {
+@interface DogeTransaction : NSObject <goSeqRefInterface, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -140,7 +141,7 @@
 /**
  * Demo: https://api.blockcypher.com/v1/doge/main/txs/7bc313903372776e1eb81d321e3fe27c9721ce8e71a9bcfee1bde6baea31b5c2
  */
-@property (nonatomic) NSString* _Nonnull hash;
+@property (nonatomic) NSString* _Nonnull hashString;
 // skipped field Transaction.Total with unsupported type: *math/big.Int
 
 // skipped field Transaction.Fees with unsupported type: *math/big.Int
@@ -162,7 +163,7 @@
 
 @end
 
-@interface DogeTransactionInput : NSObject <goSeqRefInterface> {
+@interface DogeTransactionInput : NSObject <goSeqRefInterface, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -172,7 +173,7 @@
 
 @end
 
-@interface DogeTransactionOutput : NSObject <goSeqRefInterface> {
+@interface DogeTransactionOutput : NSObject <goSeqRefInterface, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -184,7 +185,7 @@
 
 @end
 
-@interface DogeUTXO : NSObject <goSeqRefInterface> {
+@interface DogeUTXO : NSObject <goSeqRefInterface, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -201,7 +202,7 @@ https://api.blockcypher.com/v1/doge/main/addrs/D8aDCsK4TA9NYhmwiqw1BjZ4CP8LQ814E
 - (NSData* _Nullable)marshalJSON:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface DogeUTXOList : NSObject <goSeqRefInterface> {
+@interface DogeUTXOList : NSObject <goSeqRefInterface, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -211,7 +212,7 @@ https://api.blockcypher.com/v1/doge/main/addrs/D8aDCsK4TA9NYhmwiqw1BjZ4CP8LQ814E
 
 @end
 
-@interface DogeUtil : NSObject <goSeqRefInterface, BaseAddressUtil> {
+@interface DogeUtil : NSObject <goSeqRefInterface, BaseAddressUtil, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 

@@ -32,7 +32,7 @@
 - (NSString* _Nonnull)sendTransaction:(id<BaseAccount> _Nullable)p0 p1:(RedpacketRedPacketAction* _Nullable)p1 error:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface RedpacketContractConfig : NSObject <goSeqRefInterface> {
+@interface RedpacketContractConfig : NSObject <goSeqRefInterface, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -41,7 +41,7 @@
 @property (nonatomic) NSString* _Nonnull suiConfigAddress;
 @end
 
-@interface RedpacketRedPacketAction : NSObject <goSeqRefInterface> {
+@interface RedpacketRedPacketAction : NSObject <goSeqRefInterface, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -64,7 +64,7 @@ add empty arg to distinct with NewRedPacketActionCreate signature when build jar
 - (NSString* _Nonnull)tokenAddress;
 @end
 
-@interface RedpacketRedPacketCloseParams : NSObject <goSeqRefInterface> {
+@interface RedpacketRedPacketCloseParams : NSObject <goSeqRefInterface, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -76,7 +76,7 @@ add empty arg to distinct with NewRedPacketActionCreate signature when build jar
 @property (nonatomic) NSString* _Nonnull creator;
 @end
 
-@interface RedpacketRedPacketCreateParams : NSObject <goSeqRefInterface> {
+@interface RedpacketRedPacketCreateParams : NSObject <goSeqRefInterface, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -87,7 +87,7 @@ add empty arg to distinct with NewRedPacketActionCreate signature when build jar
 @property (nonatomic) NSString* _Nonnull amount;
 @end
 
-@interface RedpacketRedPacketDataError : NSObject <goSeqRefInterface> {
+@interface RedpacketRedPacketDataError : NSObject <goSeqRefInterface, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -96,7 +96,7 @@ add empty arg to distinct with NewRedPacketActionCreate signature when build jar
 - (NSString* _Nonnull)error;
 @end
 
-@interface RedpacketRedPacketDetail : NSObject <goSeqRefInterface, EthJsonable> {
+@interface RedpacketRedPacketDetail : NSObject <goSeqRefInterface, BaseSignedTransaction, EthJsonable> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -113,7 +113,7 @@ add empty arg to distinct with NewRedPacketActionCreate signature when build jar
 - (NSString* _Nonnull)jsonString;
 @end
 
-@interface RedpacketRedPacketOpenParams : NSObject <goSeqRefInterface> {
+@interface RedpacketRedPacketOpenParams : NSObject <goSeqRefInterface, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 

@@ -43,6 +43,8 @@
 @class BaseReachMonitorDelegate;
 @protocol BaseRpcReachability;
 @class BaseRpcReachability;
+@protocol BaseSignedTransaction;
+@class BaseSignedTransaction;
 @protocol BaseToken;
 @class BaseToken;
 @protocol BaseTransaction;
@@ -124,6 +126,11 @@ which can only be passed as strings separated by ","
 @return the hex hash string
  */
 - (NSString* _Nonnull)sendRawTransaction:(NSString* _Nullable)signedTx error:(NSError* _Nullable* _Nullable)error;
+/**
+ * Send the signed transaction on-chain
+@return the hex hash string
+ */
+- (BaseOptionalString* _Nullable)sendSignedTransaction:(id<BaseSignedTransaction> _Nullable)signedTxn error:(NSError* _Nullable* _Nullable)error;
 @end
 
 @protocol BaseJsonable <NSObject>
@@ -182,6 +189,9 @@ which can only be passed as strings separated by ","
 - (BaseRpcLatency* _Nullable)latencyOf:(NSString* _Nullable)rpc timeout:(int64_t)timeout error:(NSError* _Nullable* _Nullable)error;
 @end
 
+@protocol BaseSignedTransaction <NSObject>
+@end
+
 @protocol BaseToken <NSObject>
 - (BaseBalance* _Nullable)balanceOfAccount:(id<BaseAccount> _Nullable)account error:(NSError* _Nullable* _Nullable)error;
 - (BaseBalance* _Nullable)balanceOfAddress:(NSString* _Nullable)address error:(NSError* _Nullable* _Nullable)error;
@@ -198,12 +208,13 @@ which can only be passed as strings separated by ","
 
 @protocol BaseTransaction <NSObject>
 - (BaseOptionalString* _Nullable)signWithAccount:(id<BaseAccount> _Nullable)account error:(NSError* _Nullable* _Nullable)error;
+- (id<BaseSignedTransaction> _Nullable)signedTransactionWithAccount:(id<BaseAccount> _Nullable)account error:(NSError* _Nullable* _Nullable)error;
 @end
 
 /**
  * 如果需要自定义类型支持 Any, 需要遵循协议 Aniable
  */
-@interface BaseAny : NSObject <goSeqRefInterface, BaseJsonable> {
+@interface BaseAny : NSObject <goSeqRefInterface, BaseJsonable, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -242,7 +253,7 @@ which can only be passed as strings separated by ","
 - (void)setUInt8:(BaseBigInt* _Nullable)v;
 @end
 
-@interface BaseAnyArray : NSObject <goSeqRefInterface, BaseAniable, BaseJsonable> {
+@interface BaseAnyArray : NSObject <goSeqRefInterface, BaseAniable, BaseJsonable, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -269,7 +280,7 @@ which can only be passed as strings separated by ","
 - (BaseAny* _Nullable)valueOf:(long)index;
 @end
 
-@interface BaseAnyMap : NSObject <goSeqRefInterface, BaseAniable, BaseJsonable> {
+@interface BaseAnyMap : NSObject <goSeqRefInterface, BaseAniable, BaseJsonable, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -291,7 +302,7 @@ which can only be passed as strings separated by ","
 - (BaseAny* _Nullable)valueOf:(NSString* _Nullable)key;
 @end
 
-@interface BaseBalance : NSObject <goSeqRefInterface> {
+@interface BaseBalance : NSObject <goSeqRefInterface, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -304,7 +315,7 @@ which can only be passed as strings separated by ","
 /**
  * A BigInt represents a signed multi-precision integer.
  */
-@interface BaseBigInt : NSObject <goSeqRefInterface> {
+@interface BaseBigInt : NSObject <goSeqRefInterface, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -365,7 +376,7 @@ selects base 2. Otherwise the selected base is 10.
 /**
  * BigInts represents a slice of big ints.
  */
-@interface BaseBigInts : NSObject <goSeqRefInterface> {
+@interface BaseBigInts : NSObject <goSeqRefInterface, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -388,7 +399,7 @@ selects base 2. Otherwise the selected base is 10.
 - (long)size;
 @end
 
-@interface BaseNFT : NSObject <goSeqRefInterface> {
+@interface BaseNFT : NSObject <goSeqRefInterface, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -401,7 +412,7 @@ selects base 2. Otherwise the selected base is 10.
 @property (nonatomic) NSString* _Nonnull image;
 @property (nonatomic) NSString* _Nonnull standard;
 @property (nonatomic) NSString* _Nonnull collection;
-@property (nonatomic) NSString* _Nonnull description;
+@property (nonatomic) NSString* _Nonnull descr;
 @property (nonatomic) NSString* _Nonnull contractAddress;
 @property (nonatomic) NSString* _Nonnull relatedUrl;
 /**
@@ -419,7 +430,7 @@ selects base 2. Otherwise the selected base is 10.
 /**
  * Optional bool for easy of writing iOS code
  */
-@interface BaseOptionalBool : NSObject <goSeqRefInterface> {
+@interface BaseOptionalBool : NSObject <goSeqRefInterface, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -431,7 +442,7 @@ selects base 2. Otherwise the selected base is 10.
 /**
  * Optional string for easy of writing iOS code
  */
-@interface BaseOptionalString : NSObject <goSeqRefInterface> {
+@interface BaseOptionalString : NSObject <goSeqRefInterface, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -440,7 +451,7 @@ selects base 2. Otherwise the selected base is 10.
 @property (nonatomic) NSString* _Nonnull value;
 @end
 
-@interface BaseReachMonitor : NSObject <goSeqRefInterface> {
+@interface BaseReachMonitor : NSObject <goSeqRefInterface, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -478,7 +489,7 @@ let monitor = NewReachMonitorWithReachability(reachability)
 - (void)stopConnectivity;
 @end
 
-@interface BaseRpcLatency : NSObject <goSeqRefInterface> {
+@interface BaseRpcLatency : NSObject <goSeqRefInterface, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -489,7 +500,7 @@ let monitor = NewReachMonitorWithReachability(reachability)
 @property (nonatomic) int64_t height;
 @end
 
-@interface BaseStringArray : NSObject <goSeqRefInterface> {
+@interface BaseStringArray : NSObject <goSeqRefInterface, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -510,7 +521,7 @@ let monitor = NewReachMonitorWithReachability(reachability)
 - (NSString* _Nonnull)valueOf:(long)index;
 @end
 
-@interface BaseTokenInfo : NSObject <goSeqRefInterface> {
+@interface BaseTokenInfo : NSObject <goSeqRefInterface, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -524,7 +535,7 @@ let monitor = NewReachMonitorWithReachability(reachability)
 /**
  * Transaction details that can be fetched from the chain
  */
-@interface BaseTransactionDetail : NSObject <goSeqRefInterface> {
+@interface BaseTransactionDetail : NSObject <goSeqRefInterface, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -584,11 +595,17 @@ FOUNDATION_EXPORT const long BaseTransactionStatusSuccess;
 + (NSError* _Nullable) errEstimateGasNeedPublicKey;
 + (void) setErrEstimateGasNeedPublicKey:(NSError* _Nullable)v;
 
++ (NSError* _Nullable) errInvalidAccountAddress;
++ (void) setErrInvalidAccountAddress:(NSError* _Nullable)v;
+
 + (NSError* _Nullable) errInvalidAccountType;
 + (void) setErrInvalidAccountType:(NSError* _Nullable)v;
 
 + (NSError* _Nullable) errInvalidAddress;
 + (void) setErrInvalidAddress:(NSError* _Nullable)v;
+
++ (NSError* _Nullable) errInvalidAmount;
++ (void) setErrInvalidAmount:(NSError* _Nullable)v;
 
 + (NSError* _Nullable) errInvalidChainType;
 + (void) setErrInvalidChainType:(NSError* _Nullable)v;
@@ -601,6 +618,12 @@ FOUNDATION_EXPORT const long BaseTransactionStatusSuccess;
 
 + (NSError* _Nullable) errInvalidTransactionType;
 + (void) setErrInvalidTransactionType:(NSError* _Nullable)v;
+
++ (NSError* _Nullable) errMissingTransaction;
++ (void) setErrMissingTransaction:(NSError* _Nullable)v;
+
++ (NSError* _Nullable) errNotCoinTransferTxn;
++ (void) setErrNotCoinTransferTxn:(NSError* _Nullable)v;
 
 + (NSError* _Nullable) errUnsupportedFunction;
 + (void) setErrUnsupportedFunction:(NSError* _Nullable)v;
@@ -696,6 +719,8 @@ FOUNDATION_EXPORT BaseReachMonitor* _Nullable BaseNewReachMonitorWithReachabilit
 @class BaseReachMonitorDelegate;
 
 @class BaseRpcReachability;
+
+@class BaseSignedTransaction;
 
 @class BaseToken;
 
@@ -796,6 +821,11 @@ which can only be passed as strings separated by ","
 @return the hex hash string
  */
 - (NSString* _Nonnull)sendRawTransaction:(NSString* _Nullable)signedTx error:(NSError* _Nullable* _Nullable)error;
+/**
+ * Send the signed transaction on-chain
+@return the hex hash string
+ */
+- (BaseOptionalString* _Nullable)sendSignedTransaction:(id<BaseSignedTransaction> _Nullable)signedTxn error:(NSError* _Nullable* _Nullable)error;
 @end
 
 @interface BaseJsonable : NSObject <goSeqRefInterface, BaseJsonable> {
@@ -877,6 +907,13 @@ which can only be passed as strings separated by ","
 - (BaseRpcLatency* _Nullable)latencyOf:(NSString* _Nullable)rpc timeout:(int64_t)timeout error:(NSError* _Nullable* _Nullable)error;
 @end
 
+@interface BaseSignedTransaction : NSObject <goSeqRefInterface, BaseSignedTransaction> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+@end
+
 @interface BaseToken : NSObject <goSeqRefInterface, BaseToken> {
 }
 @property(strong, readonly) _Nonnull id _ref;
@@ -901,6 +938,7 @@ which can only be passed as strings separated by ","
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
 - (BaseOptionalString* _Nullable)signWithAccount:(id<BaseAccount> _Nullable)account error:(NSError* _Nullable* _Nullable)error;
+- (id<BaseSignedTransaction> _Nullable)signedTransactionWithAccount:(id<BaseAccount> _Nullable)account error:(NSError* _Nullable* _Nullable)error;
 @end
 
 #endif

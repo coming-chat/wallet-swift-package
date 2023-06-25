@@ -18,7 +18,7 @@
 @class StarcoinToken;
 @class StarcoinUtil;
 
-@interface StarcoinAccount : NSObject <goSeqRefInterface, BaseAccount, BaseAddressUtil> {
+@interface StarcoinAccount : NSObject <goSeqRefInterface, BaseAccount, BaseAddressUtil, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -61,7 +61,7 @@
 
 @end
 
-@interface StarcoinChain : NSObject <goSeqRefInterface, BaseChain> {
+@interface StarcoinChain : NSObject <goSeqRefInterface, BaseChain, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -88,9 +88,10 @@
 @return the hex hash string
  */
 - (NSString* _Nonnull)sendRawTransaction:(NSString* _Nullable)signedTx error:(NSError* _Nullable* _Nullable)error;
+- (BaseOptionalString* _Nullable)sendSignedTransaction:(id<BaseSignedTransaction> _Nullable)signedTxn error:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface StarcoinToken : NSObject <goSeqRefInterface, BaseToken> {
+@interface StarcoinToken : NSObject <goSeqRefInterface, BaseSignedTransaction, BaseToken> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -111,7 +112,7 @@
 - (BaseTokenInfo* _Nullable)tokenInfo:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface StarcoinUtil : NSObject <goSeqRefInterface, BaseAddressUtil> {
+@interface StarcoinUtil : NSObject <goSeqRefInterface, BaseAddressUtil, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 

@@ -19,6 +19,7 @@
 #include "Polka.objc.h"
 #include "Solana.objc.h"
 #include "Starcoin.objc.h"
+#include "Starknet.objc.h"
 #include "Sui.objc.h"
 
 @class WalletAccountInfo;
@@ -55,7 +56,7 @@
 - (NSString* _Nonnull)sdkWatchAddress;
 @end
 
-@interface WalletAccountInfo : NSObject <goSeqRefInterface> {
+@interface WalletAccountInfo : NSObject <goSeqRefInterface, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -87,7 +88,7 @@
 考虑到每次都导入助记词生成账号，而仅仅是为了获取账号地址或者公钥，可能会影响钱包的性能和体验
 因此新提供了这个可以缓存 *账号地址* 和 *公钥* 这种不敏感信息的钱包
  */
-@interface WalletCacheWallet : NSObject <goSeqRefInterface> {
+@interface WalletCacheWallet : NSObject <goSeqRefInterface, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -102,6 +103,7 @@
 - (WalletAccountInfo* _Nullable)polkaAccountInfo:(long)network;
 - (WalletAccountInfo* _Nullable)solanaAccountInfo;
 - (WalletAccountInfo* _Nullable)starcoinAccountInfo;
+- (WalletAccountInfo* _Nullable)starknetAccountInfo;
 - (WalletAccountInfo* _Nullable)suiAccountInfo;
 /**
  * 获取钱包类型
@@ -113,7 +115,7 @@
 /**
  * Deprecated: 这个钱包对象缓存了助记词、密码、私钥等信息，继续使用有泄露资产的风险 ⚠️
  */
-@interface WalletWallet : NSObject <goSeqRefInterface> {
+@interface WalletWallet : NSObject <goSeqRefInterface, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -168,6 +170,10 @@
  */
 - (StarcoinAccount* _Nullable)getOrCreateStarcoinAccount:(NSError* _Nullable* _Nullable)error;
 /**
+ * Get or create the starknet account.
+ */
+- (StarknetAccount* _Nullable)getOrCreateStarknetAccount:(NSError* _Nullable* _Nullable)error;
+/**
  * Get or create the sui account.
  */
 - (SuiAccount* _Nullable)getOrCreateSuiAccount:(NSError* _Nullable* _Nullable)error;
@@ -197,7 +203,7 @@
 - (NSData* _Nullable)signFromHex:(NSString* _Nullable)messageHex password:(NSString* _Nullable)password error:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface WalletWatchAccount : NSObject <goSeqRefInterface, BaseAccount> {
+@interface WalletWatchAccount : NSObject <goSeqRefInterface, BaseAccount, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -227,6 +233,7 @@ FOUNDATION_EXPORT NSString* _Nonnull const WalletChainTypePolka;
 FOUNDATION_EXPORT NSString* _Nonnull const WalletChainTypeSignet;
 FOUNDATION_EXPORT NSString* _Nonnull const WalletChainTypeSolana;
 FOUNDATION_EXPORT NSString* _Nonnull const WalletChainTypeStarcoin;
+FOUNDATION_EXPORT NSString* _Nonnull const WalletChainTypeStarknet;
 FOUNDATION_EXPORT NSString* _Nonnull const WalletChainTypeSui;
 FOUNDATION_EXPORT NSString* _Nonnull const WalletChainTypeTerra;
 FOUNDATION_EXPORT const long WalletWalletTypeError;

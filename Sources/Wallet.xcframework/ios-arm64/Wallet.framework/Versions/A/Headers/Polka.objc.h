@@ -22,7 +22,7 @@
 @class PolkaUtil;
 @class PolkaXBTCToken;
 
-@interface PolkaAccount : NSObject <goSeqRefInterface, BaseAccount, BaseAddressUtil> {
+@interface PolkaAccount : NSObject <goSeqRefInterface, BaseAccount, BaseAddressUtil, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -65,7 +65,7 @@
 - (BaseOptionalString* _Nullable)signHex:(NSString* _Nullable)messageHex password:(NSString* _Nullable)password error:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface PolkaChain : NSObject <goSeqRefInterface, BaseChain> {
+@interface PolkaChain : NSObject <goSeqRefInterface, BaseChain, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -114,13 +114,14 @@ This will save a lot of network traffic to download metadata from rpcUrl.
 // skipped method Chain.RpcCall with unsupported parameter or return types
 
 - (NSString* _Nonnull)sendRawTransaction:(NSString* _Nullable)signedTx error:(NSError* _Nullable* _Nullable)error;
+- (BaseOptionalString* _Nullable)sendSignedTransaction:(id<BaseSignedTransaction> _Nullable)signedTxn error:(NSError* _Nullable* _Nullable)error;
 /**
  * Note: Only chainx have XBTC token.
  */
 - (PolkaXBTCToken* _Nullable)xbtcToken;
 @end
 
-@interface PolkaMiniXScriptHash : NSObject <goSeqRefInterface> {
+@interface PolkaMiniXScriptHash : NSObject <goSeqRefInterface, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -130,7 +131,7 @@ This will save a lot of network traffic to download metadata from rpcUrl.
 @property (nonatomic) int32_t blockNumber;
 @end
 
-@interface PolkaRpcReachability : NSObject <goSeqRefInterface, BaseRpcReachability> {
+@interface PolkaRpcReachability : NSObject <goSeqRefInterface, BaseRpcReachability, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -142,7 +143,7 @@ This will save a lot of network traffic to download metadata from rpcUrl.
 - (BaseRpcLatency* _Nullable)latencyOf:(NSString* _Nullable)rpc timeout:(int64_t)timeout error:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface PolkaToken : NSObject <goSeqRefInterface, BaseToken> {
+@interface PolkaToken : NSObject <goSeqRefInterface, BaseSignedTransaction, BaseToken> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -161,7 +162,7 @@ This will save a lot of network traffic to download metadata from rpcUrl.
 - (BaseTokenInfo* _Nullable)tokenInfo:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface PolkaTransaction : NSObject <goSeqRefInterface, BaseTransaction> {
+@interface PolkaTransaction : NSObject <goSeqRefInterface, BaseSignedTransaction, BaseTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -172,9 +173,10 @@ This will save a lot of network traffic to download metadata from rpcUrl.
 - (NSString* _Nonnull)getTxFromHex:(NSString* _Nullable)signerPublicKeyHex signatureDataHex:(NSString* _Nullable)signatureDataHex error:(NSError* _Nullable* _Nullable)error;
 - (NSString* _Nonnull)getUnSignTx:(NSError* _Nullable* _Nullable)error;
 - (BaseOptionalString* _Nullable)signWithAccount:(id<BaseAccount> _Nullable)account error:(NSError* _Nullable* _Nullable)error;
+- (id<BaseSignedTransaction> _Nullable)signedTransactionWithAccount:(id<BaseAccount> _Nullable)account error:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface PolkaTx : NSObject <goSeqRefInterface> {
+@interface PolkaTx : NSObject <goSeqRefInterface, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -190,7 +192,7 @@ This will save a lot of network traffic to download metadata from rpcUrl.
 - (PolkaTransaction* _Nullable)newXGatewayBitcoinCreateTaprootWithdrawTx:(NSString* _Nullable)ids transactionHex:(NSString* _Nullable)transactionHex error:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface PolkaUtil : NSObject <goSeqRefInterface, BaseAddressUtil> {
+@interface PolkaUtil : NSObject <goSeqRefInterface, BaseAddressUtil, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -208,7 +210,7 @@ This will save a lot of network traffic to download metadata from rpcUrl.
 - (BOOL)isValidAddress:(NSString* _Nullable)address;
 @end
 
-@interface PolkaXBTCToken : NSObject <goSeqRefInterface> {
+@interface PolkaXBTCToken : NSObject <goSeqRefInterface, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 

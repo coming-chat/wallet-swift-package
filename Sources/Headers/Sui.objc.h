@@ -27,7 +27,7 @@
 @class SuiValidator;
 @class SuiValidatorState;
 
-@interface SuiAccount : NSObject <goSeqRefInterface, BaseAccount, BaseAddressUtil> {
+@interface SuiAccount : NSObject <goSeqRefInterface, BaseAccount, BaseAddressUtil, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -63,7 +63,7 @@
 - (BaseOptionalString* _Nullable)signHex:(NSString* _Nullable)messageHex password:(NSString* _Nullable)password error:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface SuiChain : NSObject <goSeqRefInterface, BaseChain, BaseNFTFetcher> {
+@interface SuiChain : NSObject <goSeqRefInterface, BaseChain, BaseNFTFetcher, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -123,6 +123,7 @@
 @return the hex hash string
  */
 - (NSString* _Nonnull)sendRawTransaction:(NSString* _Nullable)signedTx error:(NSError* _Nullable* _Nullable)error;
+- (BaseOptionalString* _Nullable)sendSignedTransaction:(id<BaseSignedTransaction> _Nullable)signedTxn error:(NSError* _Nullable* _Nullable)error;
 /**
  * @useCache If true, when there is cached data, the result will be returned directly without requesting data on the chain.
  */
@@ -136,7 +137,7 @@
 - (SuiTransaction* _Nullable)withdrawDelegation:(NSString* _Nullable)owner stakeId:(NSString* _Nullable)stakeId error:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface SuiDelegatedStake : NSObject <goSeqRefInterface, BaseAniable, BaseJsonable> {
+@interface SuiDelegatedStake : NSObject <goSeqRefInterface, BaseAniable, BaseJsonable, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -161,7 +162,7 @@ if time < 0 indicates how much time has passed since the reward was earned;
 - (BaseOptionalString* _Nullable)jsonString:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface SuiMergeCoinPreview : NSObject <goSeqRefInterface> {
+@interface SuiMergeCoinPreview : NSObject <goSeqRefInterface, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -190,7 +191,7 @@ if time < 0 indicates how much time has passed since the reward was earned;
 @property (nonatomic) BOOL willBeAchieved;
 @end
 
-@interface SuiMergeCoinRequest : NSObject <goSeqRefInterface> {
+@interface SuiMergeCoinRequest : NSObject <goSeqRefInterface, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -212,7 +213,7 @@ if time < 0 indicates how much time has passed since the reward was earned;
 @property (nonatomic) BOOL willBeAchieved;
 @end
 
-@interface SuiRestReachability : NSObject <goSeqRefInterface, BaseRpcReachability> {
+@interface SuiRestReachability : NSObject <goSeqRefInterface, BaseRpcReachability, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -224,7 +225,7 @@ if time < 0 indicates how much time has passed since the reward was earned;
 - (BaseRpcLatency* _Nullable)latencyOf:(NSString* _Nullable)rpc timeout:(int64_t)timeout error:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface SuiSignedTransaction : NSObject <goSeqRefInterface> {
+@interface SuiSignedTransaction : NSObject <goSeqRefInterface, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -236,7 +237,7 @@ if time < 0 indicates how much time has passed since the reward was earned;
 
 @end
 
-@interface SuiSuiCatConfig : NSObject <goSeqRefInterface> {
+@interface SuiSuiCatConfig : NSObject <goSeqRefInterface, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -247,7 +248,7 @@ if time < 0 indicates how much time has passed since the reward was earned;
 @property (nonatomic) NSString* _Nonnull moduleName;
 @end
 
-@interface SuiSuiCatGlobalData : NSObject <goSeqRefInterface, BaseJsonable> {
+@interface SuiSuiCatGlobalData : NSObject <goSeqRefInterface, BaseJsonable, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -262,7 +263,7 @@ if time < 0 indicates how much time has passed since the reward was earned;
 - (BaseOptionalString* _Nullable)jsonString:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface SuiToken : NSObject <goSeqRefInterface, BaseToken> {
+@interface SuiToken : NSObject <goSeqRefInterface, BaseSignedTransaction, BaseToken> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -291,7 +292,7 @@ if time < 0 indicates how much time has passed since the reward was earned;
 - (BaseTokenInfo* _Nullable)tokenInfo:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface SuiTransaction : NSObject <goSeqRefInterface, BaseTransaction> {
+@interface SuiTransaction : NSObject <goSeqRefInterface, BaseSignedTransaction, BaseTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -303,10 +304,11 @@ if time < 0 indicates how much time has passed since the reward was earned;
 
 @property (nonatomic) int64_t estimateGasFee;
 - (BaseOptionalString* _Nullable)signWithAccount:(id<BaseAccount> _Nullable)account error:(NSError* _Nullable* _Nullable)error;
+- (id<BaseSignedTransaction> _Nullable)signedTransactionWithAccount:(id<BaseAccount> _Nullable)account error:(NSError* _Nullable* _Nullable)error;
 - (NSData* _Nullable)transactionBytes;
 @end
 
-@interface SuiUtil : NSObject <goSeqRefInterface, BaseAddressUtil> {
+@interface SuiUtil : NSObject <goSeqRefInterface, BaseAddressUtil, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -323,7 +325,7 @@ if time < 0 indicates how much time has passed since the reward was earned;
 - (BOOL)isValidAddress:(NSString* _Nullable)address;
 @end
 
-@interface SuiValidator : NSObject <goSeqRefInterface, BaseAniable, BaseJsonable> {
+@interface SuiValidator : NSObject <goSeqRefInterface, BaseAniable, BaseJsonable, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -347,7 +349,7 @@ if time < 0 indicates how much time has passed since the reward was earned;
 - (BaseOptionalString* _Nullable)jsonString:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface SuiValidatorState : NSObject <goSeqRefInterface, BaseJsonable> {
+@interface SuiValidatorState : NSObject <goSeqRefInterface, BaseJsonable, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 

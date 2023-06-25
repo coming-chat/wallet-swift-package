@@ -52,7 +52,7 @@
 - (long)totalCount;
 @end
 
-@interface DmensConfiguration : NSObject <goSeqRefInterface> {
+@interface DmensConfiguration : NSObject <goSeqRefInterface, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -68,7 +68,7 @@
 @property (nonatomic) BOOL isMainNet;
 @end
 
-@interface DmensNFTAvatar : NSObject <goSeqRefInterface, BaseAniable, BaseJsonable> {
+@interface DmensNFTAvatar : NSObject <goSeqRefInterface, BaseAniable, BaseJsonable, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -84,7 +84,7 @@
 - (BaseOptionalString* _Nullable)jsonString:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface DmensNote : NSObject <goSeqRefInterface, BaseAniable, BaseJsonable> {
+@interface DmensNote : NSObject <goSeqRefInterface, BaseAniable, BaseJsonable, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -102,7 +102,7 @@
 - (BaseOptionalString* _Nullable)jsonString:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface DmensNotePage : NSObject <goSeqRefInterface, BaseJsonable, BasePageable> {
+@interface DmensNotePage : NSObject <goSeqRefInterface, BaseJsonable, BasePageable, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -118,7 +118,7 @@
 - (long)totalCount;
 @end
 
-@interface DmensNoteStatus : NSObject <goSeqRefInterface> {
+@interface DmensNoteStatus : NSObject <goSeqRefInterface, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -139,7 +139,7 @@
 @property (nonatomic) BOOL isLiked;
 @end
 
-@interface DmensPoster : NSObject <goSeqRefInterface> {
+@interface DmensPoster : NSObject <goSeqRefInterface, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -249,7 +249,7 @@ this func should be recalled again to fetch the registered dmens object id
 - (void)switchRpcUrl:(NSString* _Nullable)rpc;
 @end
 
-@interface DmensPosterConfig : NSObject <goSeqRefInterface> {
+@interface DmensPosterConfig : NSObject <goSeqRefInterface, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -263,7 +263,7 @@ this func should be recalled again to fetch the registered dmens object id
 @property (nonatomic) BOOL reviewing;
 @end
 
-@interface DmensProfile : NSObject <goSeqRefInterface> {
+@interface DmensProfile : NSObject <goSeqRefInterface, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -277,7 +277,7 @@ this func should be recalled again to fetch the registered dmens object id
 @property (nonatomic) NSString* _Nonnull identification;
 @end
 
-@interface DmensQuery : NSObject <goSeqRefInterface> {
+@interface DmensQuery : NSObject <goSeqRefInterface, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -295,7 +295,7 @@ cursor 为空时，表示 null
 - (NSString* _Nonnull)actualQueryString;
 @end
 
-@interface DmensRepostNote : NSObject <goSeqRefInterface, BaseAniable, BaseJsonable> {
+@interface DmensRepostNote : NSObject <goSeqRefInterface, BaseAniable, BaseJsonable, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -308,7 +308,7 @@ cursor 为空时，表示 null
 - (BaseOptionalString* _Nullable)jsonString:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface DmensRepostNotePage : NSObject <goSeqRefInterface, BaseJsonable, BasePageable> {
+@interface DmensRepostNotePage : NSObject <goSeqRefInterface, BaseJsonable, BasePageable, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -324,7 +324,7 @@ cursor 为空时，表示 null
 - (long)totalCount;
 @end
 
-@interface DmensUserFollowCount : NSObject <goSeqRefInterface, BaseJsonable> {
+@interface DmensUserFollowCount : NSObject <goSeqRefInterface, BaseJsonable, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -337,7 +337,7 @@ cursor 为空时，表示 null
 - (BaseOptionalString* _Nullable)jsonString:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface DmensUserInfo : NSObject <goSeqRefInterface, BaseAniable, BaseJsonable> {
+@interface DmensUserInfo : NSObject <goSeqRefInterface, BaseAniable, BaseJsonable, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -364,7 +364,7 @@ cursor 为空时，表示 null
 - (BaseOptionalString* _Nullable)jsonString:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface DmensUserPage : NSObject <goSeqRefInterface, BaseJsonable, BasePageable> {
+@interface DmensUserPage : NSObject <goSeqRefInterface, BaseJsonable, BasePageable, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -380,7 +380,7 @@ cursor 为空时，表示 null
 - (long)totalCount;
 @end
 
-@interface DmensValidProfile : NSObject <goSeqRefInterface> {
+@interface DmensValidProfile : NSObject <goSeqRefInterface, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
