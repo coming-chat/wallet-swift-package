@@ -71,7 +71,11 @@ which can only be passed as strings separated by ","
 @return Batch transaction status, its order is consistent with hashListString: "status1,status2,status3"
  */
 - (NSString* _Nonnull)batchFetchTransactionStatus:(NSString* _Nullable)hashListString;
-- (StarknetDeployAccountTransaction* _Nullable)buildDeployAccountTransaction:(NSString* _Nullable)publicKey error:(NSError* _Nullable* _Nullable)error;
+/**
+ * BuildDeployAccountTransaction
+@param maxFee default is 0.0002
+ */
+- (StarknetDeployAccountTransaction* _Nullable)buildDeployAccountTransaction:(NSString* _Nullable)publicKey maxFee:(NSString* _Nullable)maxFee error:(NSError* _Nullable* _Nullable)error;
 /**
  * unsupported
  */
@@ -211,7 +215,7 @@ FOUNDATION_EXPORT const int64_t StarknetNetworkMainnet;
 + (NSError* _Nullable) errUnknownNetwork;
 + (void) setErrUnknownNetwork:(NSError* _Nullable)v;
 
-// skipped variable MAX_FEE with unsupported type: invalid type
+// skipped variable MaxFee with unsupported type: invalid type
 
 @end
 
@@ -225,6 +229,8 @@ FOUNDATION_EXPORT StarknetAccount* _Nullable StarknetAsStarknetAccount(id<BaseAc
 FOUNDATION_EXPORT NSString* _Nonnull StarknetDecodeAddressToPublicKey(NSString* _Nullable address, NSError* _Nullable* _Nullable error);
 
 FOUNDATION_EXPORT NSString* _Nonnull StarknetEncodePublicKeyToAddress(NSString* _Nullable publicKey, NSError* _Nullable* _Nullable error);
+
+FOUNDATION_EXPORT BOOL StarknetIsNotDeployedError(NSError* _Nullable err);
 
 FOUNDATION_EXPORT BOOL StarknetIsValidAddress(NSString* _Nullable address);
 
