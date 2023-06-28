@@ -240,6 +240,8 @@ FOUNDATION_EXPORT BOOL StarknetIsNotDeployedError(NSError* _Nullable err);
 
 FOUNDATION_EXPORT BOOL StarknetIsValidAddress(NSString* _Nullable address);
 
+FOUNDATION_EXPORT BOOL StarknetIsValidPrivateKey(NSString* _Nullable key);
+
 // skipped function NetworkChainID with unsupported parameter or return types
 
 
