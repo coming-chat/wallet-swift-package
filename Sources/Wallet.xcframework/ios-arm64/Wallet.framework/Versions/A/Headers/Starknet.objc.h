@@ -146,6 +146,10 @@ which can only be passed as strings separated by ","
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
 - (nonnull instancetype)init;
 @property (nonatomic) StarknetAccount* _Nullable account;
+/**
+ * Do you need to automatically deploy the contract address first when you send the transaction for the first time? default NO
+ */
+@property (nonatomic) BOOL needAutoDeploy;
 @end
 
 @interface StarknetToken : NSObject <goSeqRefInterface, BaseSignedTransaction, BaseToken> {
@@ -220,6 +224,8 @@ FOUNDATION_EXPORT const int64_t StarknetNetworkMainnet;
 @end
 
 FOUNDATION_EXPORT StarknetAccount* _Nullable StarknetAccountWithPrivateKey(NSString* _Nullable privatekey, NSError* _Nullable* _Nullable error);
+
+FOUNDATION_EXPORT StarknetSignedTransaction* _Nullable StarknetAsSignedTransaction(id<BaseSignedTransaction> _Nullable txn);
 
 FOUNDATION_EXPORT StarknetAccount* _Nullable StarknetAsStarknetAccount(id<BaseAccount> _Nullable account);
 
