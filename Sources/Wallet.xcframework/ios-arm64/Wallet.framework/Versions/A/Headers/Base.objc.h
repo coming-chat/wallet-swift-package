@@ -702,6 +702,23 @@ let monitor = NewReachMonitorWithReachability(reachability)
  */
 FOUNDATION_EXPORT BaseReachMonitor* _Nullable BaseNewReachMonitorWithReachability(id<BaseRpcReachability> _Nullable reachability);
 
+// skipped function ParseNumber with unsupported parameter or return types
+
+
+/**
+ * ParseNumberToDecimal
+@param num any format number, such as decimal "1237890123", hex "0x123ef0", "123ef0"
+@return decimal number, characters include 0-9
+ */
+FOUNDATION_EXPORT NSString* _Nonnull BaseParseNumberToDecimal(NSString* _Nullable num);
+
+/**
+ * ParseNumberToHex
+@param num any format number, such as decimal "1237890123", hex "0x123ef0", "123ef0"
+@return hex number start with 0x, characters include 0-9 a-f
+ */
+FOUNDATION_EXPORT NSString* _Nonnull BaseParseNumberToHex(NSString* _Nullable num);
+
 @class BaseAccount;
 
 @class BaseAddressUtil;
