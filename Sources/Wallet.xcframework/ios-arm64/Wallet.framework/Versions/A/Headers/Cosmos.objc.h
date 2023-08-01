@@ -21,7 +21,7 @@
 @class CosmosToken;
 @class CosmosUtil;
 
-@interface CosmosAccount : NSObject <goSeqRefInterface, BaseAccount, BaseSignedTransaction> {
+@interface CosmosAccount : NSObject <goSeqRefInterface, BaseAccount> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -61,7 +61,7 @@
 - (BaseOptionalString* _Nullable)signHex:(NSString* _Nullable)messageHex password:(NSString* _Nullable)password error:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface CosmosAccountInfo : NSObject <goSeqRefInterface, BaseSignedTransaction> {
+@interface CosmosAccountInfo : NSObject <goSeqRefInterface> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -75,7 +75,7 @@
 - (NSString* _Nonnull)nonce;
 @end
 
-@interface CosmosChain : NSObject <goSeqRefInterface, BaseChain, BaseSignedTransaction> {
+@interface CosmosChain : NSObject <goSeqRefInterface, BaseChain> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -123,7 +123,7 @@ which can only be passed as strings separated by ","
 - (BaseOptionalString* _Nullable)sendSignedTransaction:(id<BaseSignedTransaction> _Nullable)signedTxn error:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface CosmosGradedGasPrice : NSObject <goSeqRefInterface, BaseSignedTransaction> {
+@interface CosmosGradedGasPrice : NSObject <goSeqRefInterface> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -134,7 +134,7 @@ which can only be passed as strings separated by ","
 @property (nonatomic) NSString* _Nonnull high;
 @end
 
-@interface CosmosKnownTokenInfo : NSObject <goSeqRefInterface, BaseSignedTransaction> {
+@interface CosmosKnownTokenInfo : NSObject <goSeqRefInterface> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -147,7 +147,7 @@ which can only be passed as strings separated by ","
 @property (nonatomic) NSString* _Nonnull gasLimit;
 @end
 
-@interface CosmosRpcReachability : NSObject <goSeqRefInterface, BaseRpcReachability, BaseSignedTransaction> {
+@interface CosmosRpcReachability : NSObject <goSeqRefInterface, BaseRpcReachability> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -159,7 +159,7 @@ which can only be passed as strings separated by ","
 - (BaseRpcLatency* _Nullable)latencyOf:(NSString* _Nullable)rpc timeout:(int64_t)timeout error:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface CosmosToken : NSObject <goSeqRefInterface, BaseSignedTransaction, BaseToken> {
+@interface CosmosToken : NSObject <goSeqRefInterface, BaseToken> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -185,7 +185,7 @@ which can only be passed as strings separated by ","
 - (BaseTokenInfo* _Nullable)tokenInfo:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface CosmosUtil : NSObject <goSeqRefInterface, BaseAddressUtil, BaseSignedTransaction> {
+@interface CosmosUtil : NSObject <goSeqRefInterface, BaseAddressUtil> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 

@@ -27,7 +27,7 @@
 @class SuiValidator;
 @class SuiValidatorState;
 
-@interface SuiAccount : NSObject <goSeqRefInterface, BaseAccount, BaseAddressUtil, BaseSignedTransaction> {
+@interface SuiAccount : NSObject <goSeqRefInterface, BaseAccount, BaseAddressUtil> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -63,7 +63,7 @@
 - (BaseOptionalString* _Nullable)signHex:(NSString* _Nullable)messageHex password:(NSString* _Nullable)password error:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface SuiChain : NSObject <goSeqRefInterface, BaseChain, BaseNFTFetcher, BaseSignedTransaction> {
+@interface SuiChain : NSObject <goSeqRefInterface, BaseChain, BaseNFTFetcher> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -137,7 +137,7 @@
 - (SuiTransaction* _Nullable)withdrawDelegation:(NSString* _Nullable)owner stakeId:(NSString* _Nullable)stakeId error:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface SuiDelegatedStake : NSObject <goSeqRefInterface, BaseAniable, BaseJsonable, BaseSignedTransaction> {
+@interface SuiDelegatedStake : NSObject <goSeqRefInterface, BaseAniable, BaseJsonable> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -162,7 +162,7 @@ if time < 0 indicates how much time has passed since the reward was earned;
 - (BaseOptionalString* _Nullable)jsonString:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface SuiMergeCoinPreview : NSObject <goSeqRefInterface, BaseSignedTransaction> {
+@interface SuiMergeCoinPreview : NSObject <goSeqRefInterface> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -191,7 +191,7 @@ if time < 0 indicates how much time has passed since the reward was earned;
 @property (nonatomic) BOOL willBeAchieved;
 @end
 
-@interface SuiMergeCoinRequest : NSObject <goSeqRefInterface, BaseSignedTransaction> {
+@interface SuiMergeCoinRequest : NSObject <goSeqRefInterface> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -213,7 +213,7 @@ if time < 0 indicates how much time has passed since the reward was earned;
 @property (nonatomic) BOOL willBeAchieved;
 @end
 
-@interface SuiRestReachability : NSObject <goSeqRefInterface, BaseRpcReachability, BaseSignedTransaction> {
+@interface SuiRestReachability : NSObject <goSeqRefInterface, BaseRpcReachability> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -235,9 +235,10 @@ if time < 0 indicates how much time has passed since the reward was earned;
 
 // skipped field SignedTransaction.Signature with unsupported type: *github.com/coming-chat/go-sui/v2/sui_types.Signature
 
+- (BaseOptionalString* _Nullable)hexString:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface SuiSuiCatConfig : NSObject <goSeqRefInterface, BaseSignedTransaction> {
+@interface SuiSuiCatConfig : NSObject <goSeqRefInterface> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -248,7 +249,7 @@ if time < 0 indicates how much time has passed since the reward was earned;
 @property (nonatomic) NSString* _Nonnull moduleName;
 @end
 
-@interface SuiSuiCatGlobalData : NSObject <goSeqRefInterface, BaseJsonable, BaseSignedTransaction> {
+@interface SuiSuiCatGlobalData : NSObject <goSeqRefInterface, BaseJsonable> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -263,7 +264,7 @@ if time < 0 indicates how much time has passed since the reward was earned;
 - (BaseOptionalString* _Nullable)jsonString:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface SuiToken : NSObject <goSeqRefInterface, BaseSignedTransaction, BaseToken> {
+@interface SuiToken : NSObject <goSeqRefInterface, BaseToken> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -292,7 +293,7 @@ if time < 0 indicates how much time has passed since the reward was earned;
 - (BaseTokenInfo* _Nullable)tokenInfo:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface SuiTransaction : NSObject <goSeqRefInterface, BaseSignedTransaction, BaseTransaction> {
+@interface SuiTransaction : NSObject <goSeqRefInterface, BaseTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -308,7 +309,7 @@ if time < 0 indicates how much time has passed since the reward was earned;
 - (NSData* _Nullable)transactionBytes;
 @end
 
-@interface SuiUtil : NSObject <goSeqRefInterface, BaseAddressUtil, BaseSignedTransaction> {
+@interface SuiUtil : NSObject <goSeqRefInterface, BaseAddressUtil> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -325,7 +326,7 @@ if time < 0 indicates how much time has passed since the reward was earned;
 - (BOOL)isValidAddress:(NSString* _Nullable)address;
 @end
 
-@interface SuiValidator : NSObject <goSeqRefInterface, BaseAniable, BaseJsonable, BaseSignedTransaction> {
+@interface SuiValidator : NSObject <goSeqRefInterface, BaseAniable, BaseJsonable> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -349,7 +350,7 @@ if time < 0 indicates how much time has passed since the reward was earned;
 - (BaseOptionalString* _Nullable)jsonString:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface SuiValidatorState : NSObject <goSeqRefInterface, BaseJsonable, BaseSignedTransaction> {
+@interface SuiValidatorState : NSObject <goSeqRefInterface, BaseJsonable> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -439,6 +440,8 @@ Android cannot support both NewAccountWithMnemonic(string) and NewAccountWithPri
 FOUNDATION_EXPORT SuiAccount* _Nullable SuiAccountWithPrivateKey(NSString* _Nullable prikey, NSError* _Nullable* _Nullable error);
 
 FOUNDATION_EXPORT SuiDelegatedStake* _Nullable SuiAsDelegatedStake(BaseAny* _Nullable a);
+
+FOUNDATION_EXPORT SuiSignedTransaction* _Nullable SuiAsSignedTransaction(id<BaseSignedTransaction> _Nullable txn);
 
 FOUNDATION_EXPORT SuiAccount* _Nullable SuiAsSuiAccount(id<BaseAccount> _Nullable account);
 

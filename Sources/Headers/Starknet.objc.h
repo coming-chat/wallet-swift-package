@@ -20,7 +20,7 @@
 @class StarknetTransaction;
 @class StarknetUtil;
 
-@interface StarknetAccount : NSObject <goSeqRefInterface, BaseAccount, BaseSignedTransaction> {
+@interface StarknetAccount : NSObject <goSeqRefInterface, BaseAccount> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -54,7 +54,7 @@
 - (BaseOptionalString* _Nullable)signHex:(NSString* _Nullable)messageHex password:(NSString* _Nullable)password error:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface StarknetChain : NSObject <goSeqRefInterface, BaseChain, BaseSignedTransaction> {
+@interface StarknetChain : NSObject <goSeqRefInterface, BaseChain> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -104,7 +104,7 @@ which can only be passed as strings separated by ","
 - (BaseOptionalString* _Nullable)sendSignedTransaction:(id<BaseSignedTransaction> _Nullable)signedTxn error:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface StarknetDeployAccountTransaction : NSObject <goSeqRefInterface, BaseSignedTransaction, BaseTransaction> {
+@interface StarknetDeployAccountTransaction : NSObject <goSeqRefInterface, BaseTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -150,9 +150,10 @@ which can only be passed as strings separated by ","
  * Do you need to automatically deploy the contract address first when you send the transaction for the first time? default NO
  */
 @property (nonatomic) BOOL needAutoDeploy;
+- (BaseOptionalString* _Nullable)hexString:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface StarknetToken : NSObject <goSeqRefInterface, BaseSignedTransaction, BaseToken> {
+@interface StarknetToken : NSObject <goSeqRefInterface, BaseToken> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -175,7 +176,7 @@ which can only be passed as strings separated by ","
 - (BaseTokenInfo* _Nullable)tokenInfo:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface StarknetTransaction : NSObject <goSeqRefInterface, BaseSignedTransaction, BaseTransaction> {
+@interface StarknetTransaction : NSObject <goSeqRefInterface, BaseTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -185,7 +186,7 @@ which can only be passed as strings separated by ","
 - (id<BaseSignedTransaction> _Nullable)signedTransactionWithAccount:(id<BaseAccount> _Nullable)account error:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface StarknetUtil : NSObject <goSeqRefInterface, BaseAddressUtil, BaseSignedTransaction> {
+@interface StarknetUtil : NSObject <goSeqRefInterface, BaseAddressUtil> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 

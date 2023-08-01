@@ -15,10 +15,12 @@
 @class SolanaAccount;
 @class SolanaChain;
 @class SolanaRpcReachability;
+@class SolanaSignedTransaction;
 @class SolanaToken;
+@class SolanaTransaction;
 @class SolanaUtil;
 
-@interface SolanaAccount : NSObject <goSeqRefInterface, BaseAccount, BaseAddressUtil, BaseSignedTransaction> {
+@interface SolanaAccount : NSObject <goSeqRefInterface, BaseAccount, BaseAddressUtil> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -54,7 +56,7 @@
 - (BaseOptionalString* _Nullable)signHex:(NSString* _Nullable)messageHex password:(NSString* _Nullable)password error:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface SolanaChain : NSObject <goSeqRefInterface, BaseAddressUtil, BaseChain, BaseSignedTransaction> {
+@interface SolanaChain : NSObject <goSeqRefInterface, BaseAddressUtil, BaseChain> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -85,7 +87,7 @@
 - (BaseOptionalString* _Nullable)sendSignedTransaction:(id<BaseSignedTransaction> _Nullable)signedTxn error:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface SolanaRpcReachability : NSObject <goSeqRefInterface, BaseRpcReachability, BaseSignedTransaction> {
+@interface SolanaRpcReachability : NSObject <goSeqRefInterface, BaseRpcReachability> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -97,7 +99,18 @@
 - (BaseRpcLatency* _Nullable)latencyOf:(NSString* _Nullable)rpc timeout:(int64_t)timeout error:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface SolanaToken : NSObject <goSeqRefInterface, BaseSignedTransaction, BaseToken> {
+@interface SolanaSignedTransaction : NSObject <goSeqRefInterface, BaseSignedTransaction> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nonnull instancetype)init;
+// skipped field SignedTransaction.Transaction with unsupported type: invalid type
+
+- (BaseOptionalString* _Nullable)hexString:(NSError* _Nullable* _Nullable)error;
+@end
+
+@interface SolanaToken : NSObject <goSeqRefInterface, BaseToken> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -116,7 +129,19 @@
 - (BaseTokenInfo* _Nullable)tokenInfo:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface SolanaUtil : NSObject <goSeqRefInterface, BaseAddressUtil, BaseSignedTransaction> {
+@interface SolanaTransaction : NSObject <goSeqRefInterface, BaseTransaction> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nonnull instancetype)init;
+// skipped field Transaction.Message with unsupported type: invalid type
+
+- (BaseOptionalString* _Nullable)signWithAccount:(id<BaseAccount> _Nullable)account error:(NSError* _Nullable* _Nullable)error;
+- (id<BaseSignedTransaction> _Nullable)signedTransactionWithAccount:(id<BaseAccount> _Nullable)account error:(NSError* _Nullable* _Nullable)error;
+@end
+
+@interface SolanaUtil : NSObject <goSeqRefInterface, BaseAddressUtil> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -145,6 +170,8 @@
 Android cant support both NewAccountWithMnemonic(string) and NewAccountWithPrivateKey(string)
  */
 FOUNDATION_EXPORT SolanaAccount* _Nullable SolanaAccountWithPrivateKey(NSString* _Nullable prikey, NSError* _Nullable* _Nullable error);
+
+FOUNDATION_EXPORT SolanaSignedTransaction* _Nullable SolanaAsSignedTransaction(id<BaseSignedTransaction> _Nullable txn);
 
 FOUNDATION_EXPORT SolanaAccount* _Nullable SolanaAsSolanaAccount(id<BaseAccount> _Nullable account);
 

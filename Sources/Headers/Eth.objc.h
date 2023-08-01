@@ -86,7 +86,7 @@
 - (BaseTokenInfo* _Nullable)tokenInfo:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface EthAccount : NSObject <goSeqRefInterface, BaseAccount, BaseAddressUtil, BaseSignedTransaction> {
+@interface EthAccount : NSObject <goSeqRefInterface, BaseAccount, BaseAddressUtil> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -123,7 +123,7 @@
 - (BaseOptionalString* _Nullable)signHex:(NSString* _Nullable)messageHex password:(NSString* _Nullable)password error:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface EthBuildTxResult : NSObject <goSeqRefInterface, BaseSignedTransaction> {
+@interface EthBuildTxResult : NSObject <goSeqRefInterface> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -134,7 +134,7 @@
 @property (nonatomic) NSString* _Nonnull txHex;
 @end
 
-@interface EthCallMethodOpts : NSObject <goSeqRefInterface, BaseSignedTransaction> {
+@interface EthCallMethodOpts : NSObject <goSeqRefInterface> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -148,7 +148,7 @@
 @property (nonatomic) NSString* _Nonnull maxPriorityFeePerGas;
 @end
 
-@interface EthCallMethodOptsBigInt : NSObject <goSeqRefInterface, BaseSignedTransaction> {
+@interface EthCallMethodOptsBigInt : NSObject <goSeqRefInterface> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -170,7 +170,7 @@
 /**
  * CallMsg contains parameters for contract calls.
  */
-@interface EthCallMsg : NSObject <goSeqRefInterface, BaseSignedTransaction> {
+@interface EthCallMsg : NSObject <goSeqRefInterface> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -203,7 +203,7 @@
 - (EthTransaction* _Nullable)transferToTransaction;
 @end
 
-@interface EthChain : NSObject <goSeqRefInterface, BaseChain, BaseSignedTransaction, EthIChain> {
+@interface EthChain : NSObject <goSeqRefInterface, BaseChain, EthIChain> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -294,7 +294,7 @@ Support normal or erc20 transfer
 - (EthGasPrice* _Nullable)suggestGasPriceEIP1559:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface EthErc20Token : NSObject <goSeqRefInterface, BaseSignedTransaction, BaseToken, EthTokenProtocol> {
+@interface EthErc20Token : NSObject <goSeqRefInterface, BaseToken, EthTokenProtocol> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -325,7 +325,7 @@ Support normal or erc20 transfer
 - (BaseTokenInfo* _Nullable)tokenInfo:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface EthErc20TokenInfo : NSObject <goSeqRefInterface, BaseSignedTransaction> {
+@interface EthErc20TokenInfo : NSObject <goSeqRefInterface> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -341,7 +341,7 @@ Support normal or erc20 transfer
 @property (nonatomic) NSString* _Nonnull balance;
 @end
 
-@interface EthErc20TxParams : NSObject <goSeqRefInterface, BaseSignedTransaction> {
+@interface EthErc20TxParams : NSObject <goSeqRefInterface> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -352,7 +352,7 @@ Support normal or erc20 transfer
 @property (nonatomic) NSString* _Nonnull method;
 @end
 
-@interface EthEthChain : NSObject <goSeqRefInterface, BaseSignedTransaction> {
+@interface EthEthChain : NSObject <goSeqRefInterface> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -520,7 +520,7 @@ postTxState: 交易执行后的状态，1 表示成功，0表示失败
 
 @end
 
-@interface EthGasPrice : NSObject <goSeqRefInterface, BaseSignedTransaction> {
+@interface EthGasPrice : NSObject <goSeqRefInterface> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -555,7 +555,7 @@ MaxFee = (MaxPriorityFee + BaseFee) * maxFeeRate
 - (EthGasPrice* _Nullable)useRate:(double)priorityRate maxFeeRate:(double)maxFeeRate;
 @end
 
-@interface EthOptimismLayer2Gas : NSObject <goSeqRefInterface, BaseSignedTransaction> {
+@interface EthOptimismLayer2Gas : NSObject <goSeqRefInterface> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -571,7 +571,7 @@ MaxFee = (MaxPriorityFee + BaseFee) * maxFeeRate
 - (NSString* _Nonnull)gasFee;
 @end
 
-@interface EthRSS3Fetcher : NSObject <goSeqRefInterface, BaseNFTFetcher, BaseSignedTransaction> {
+@interface EthRSS3Fetcher : NSObject <goSeqRefInterface, BaseNFTFetcher> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -603,7 +603,7 @@ Possible values: [ethereum, ethereum_classic, binance_smart_chain, polygon, zksy
 
 @end
 
-@interface EthRSS3Metadata : NSObject <goSeqRefInterface, BaseSignedTransaction> {
+@interface EthRSS3Metadata : NSObject <goSeqRefInterface> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -618,7 +618,7 @@ Possible values: [ethereum, ethereum_classic, binance_smart_chain, polygon, zksy
 @property (nonatomic) NSString* _Nonnull contractAddress;
 @end
 
-@interface EthRSS3Note : NSObject <goSeqRefInterface, BaseSignedTransaction> {
+@interface EthRSS3Note : NSObject <goSeqRefInterface> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -633,7 +633,7 @@ Possible values: [ethereum, ethereum_classic, binance_smart_chain, polygon, zksy
 
 @end
 
-@interface EthRSS3NoteAction : NSObject <goSeqRefInterface, BaseSignedTransaction> {
+@interface EthRSS3NoteAction : NSObject <goSeqRefInterface> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -660,7 +660,7 @@ Possible values: [ethereum, ethereum_classic, binance_smart_chain, polygon, zksy
 /**
  * customReceipt is inherit from eth/core types.Receipt, and added some necessary properties
  */
-@interface EthReceipt : NSObject <goSeqRefInterface, BaseSignedTransaction> {
+@interface EthReceipt : NSObject <goSeqRefInterface> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -684,7 +684,7 @@ Possible values: [ethereum, ethereum_classic, binance_smart_chain, polygon, zksy
 - (BOOL)unmarshalJSON:(NSData* _Nullable)data error:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface EthRedPacketAction : NSObject <goSeqRefInterface, BaseSignedTransaction> {
+@interface EthRedPacketAction : NSObject <goSeqRefInterface> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -731,7 +731,7 @@ Deprecated: use NewRedPacketContract() get base.RedPacketContract, and SendTrans
 /**
  * Deprecated: use base.RedPacketDetail
  */
-@interface EthRedPacketDetail : NSObject <goSeqRefInterface, BaseSignedTransaction, EthJsonable> {
+@interface EthRedPacketDetail : NSObject <goSeqRefInterface, EthJsonable> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -752,7 +752,7 @@ Deprecated: use NewRedPacketContract() get base.RedPacketContract, and SendTrans
 - (NSString* _Nonnull)jsonString;
 @end
 
-@interface EthRpcReachability : NSObject <goSeqRefInterface, BaseRpcReachability, BaseSignedTransaction> {
+@interface EthRpcReachability : NSObject <goSeqRefInterface, BaseRpcReachability> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -764,7 +764,7 @@ Deprecated: use NewRedPacketContract() get base.RedPacketContract, and SendTrans
 - (BaseRpcLatency* _Nullable)latencyOf:(NSString* _Nullable)rpc timeout:(int64_t)timeout error:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface EthToken : NSObject <goSeqRefInterface, BaseSignedTransaction, BaseToken, EthTokenProtocol> {
+@interface EthToken : NSObject <goSeqRefInterface, BaseToken, EthTokenProtocol> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -787,7 +787,7 @@ Deprecated: use NewRedPacketContract() get base.RedPacketContract, and SendTrans
 - (BaseTokenInfo* _Nullable)tokenInfo:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface EthTransaction : NSObject <goSeqRefInterface, BaseSignedTransaction, BaseTransaction> {
+@interface EthTransaction : NSObject <goSeqRefInterface, BaseTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -823,7 +823,7 @@ Deprecated: use NewRedPacketContract() get base.RedPacketContract, and SendTrans
 - (BOOL)transformToErc20Transaction:(NSString* _Nullable)contractAddress error:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface EthTransactionByHashResult : NSObject <goSeqRefInterface, BaseSignedTransaction> {
+@interface EthTransactionByHashResult : NSObject <goSeqRefInterface> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -839,7 +839,7 @@ Deprecated: use NewRedPacketContract() get base.RedPacketContract, and SendTrans
 @property (nonatomic) NSString* _Nonnull blockNumber;
 @end
 
-@interface EthUrlParam : NSObject <goSeqRefInterface, BaseSignedTransaction> {
+@interface EthUrlParam : NSObject <goSeqRefInterface> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -849,7 +849,7 @@ Deprecated: use NewRedPacketContract() get base.RedPacketContract, and SendTrans
 @property (nonatomic) NSString* _Nonnull wsUrl;
 @end
 
-@interface EthUtil : NSObject <goSeqRefInterface, BaseAddressUtil, BaseSignedTransaction> {
+@interface EthUtil : NSObject <goSeqRefInterface, BaseAddressUtil> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 

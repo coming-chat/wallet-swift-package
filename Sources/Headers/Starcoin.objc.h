@@ -15,10 +15,12 @@
 
 @class StarcoinAccount;
 @class StarcoinChain;
+@class StarcoinSignedTransaction;
 @class StarcoinToken;
+@class StarcoinTransaction;
 @class StarcoinUtil;
 
-@interface StarcoinAccount : NSObject <goSeqRefInterface, BaseAccount, BaseAddressUtil, BaseSignedTransaction> {
+@interface StarcoinAccount : NSObject <goSeqRefInterface, BaseAccount, BaseAddressUtil> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -61,7 +63,7 @@
 
 @end
 
-@interface StarcoinChain : NSObject <goSeqRefInterface, BaseChain, BaseSignedTransaction> {
+@interface StarcoinChain : NSObject <goSeqRefInterface, BaseChain> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -72,8 +74,6 @@
 - (BaseBalance* _Nullable)balanceOfAddress:(NSString* _Nullable)address error:(NSError* _Nullable* _Nullable)error;
 - (BaseBalance* _Nullable)balanceOfPublicKey:(NSString* _Nullable)publicKey error:(NSError* _Nullable* _Nullable)error;
 - (NSString* _Nonnull)batchFetchTransactionStatus:(NSString* _Nullable)hashListString;
-// skipped method Chain.BuildRawUserTransaction with unsupported parameter or return types
-
 - (BaseOptionalString* _Nullable)estimateTransactionFee:(id<BaseTransaction> _Nullable)transaction error:(NSError* _Nullable* _Nullable)error;
 - (BaseOptionalString* _Nullable)estimateTransactionFeeUsePublicKey:(id<BaseTransaction> _Nullable)transaction pubkey:(NSString* _Nullable)pubkey error:(NSError* _Nullable* _Nullable)error;
 /**
@@ -82,6 +82,8 @@
 - (BaseTransactionDetail* _Nullable)fetchTransactionDetail:(NSString* _Nullable)hash error:(NSError* _Nullable* _Nullable)error;
 - (long)fetchTransactionStatus:(NSString* _Nullable)hash;
 - (BaseOptionalString* _Nullable)gasPrice:(NSError* _Nullable* _Nullable)error;
+// skipped method Chain.GetState with unsupported parameter or return types
+
 - (id<BaseToken> _Nullable)mainToken;
 /**
  * Send the raw transaction on-chain
@@ -91,7 +93,18 @@
 - (BaseOptionalString* _Nullable)sendSignedTransaction:(id<BaseSignedTransaction> _Nullable)signedTxn error:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface StarcoinToken : NSObject <goSeqRefInterface, BaseSignedTransaction, BaseToken> {
+@interface StarcoinSignedTransaction : NSObject <goSeqRefInterface, BaseSignedTransaction> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nonnull instancetype)init;
+// skipped field SignedTransaction.Txn with unsupported type: *invalid type
+
+- (BaseOptionalString* _Nullable)hexString:(NSError* _Nullable* _Nullable)error;
+@end
+
+@interface StarcoinToken : NSObject <goSeqRefInterface, BaseToken> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -112,7 +125,19 @@
 - (BaseTokenInfo* _Nullable)tokenInfo:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface StarcoinUtil : NSObject <goSeqRefInterface, BaseAddressUtil, BaseSignedTransaction> {
+@interface StarcoinTransaction : NSObject <goSeqRefInterface, BaseTransaction> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nonnull instancetype)init;
+// skipped field Transaction.Txn with unsupported type: *invalid type
+
+- (BaseOptionalString* _Nullable)signWithAccount:(id<BaseAccount> _Nullable)account error:(NSError* _Nullable* _Nullable)error;
+- (id<BaseSignedTransaction> _Nullable)signedTransactionWithAccount:(id<BaseAccount> _Nullable)account error:(NSError* _Nullable* _Nullable)error;
+@end
+
+@interface StarcoinUtil : NSObject <goSeqRefInterface, BaseAddressUtil> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -133,6 +158,8 @@
 
 
 FOUNDATION_EXPORT StarcoinAccount* _Nullable StarcoinAccountWithPrivateKey(NSString* _Nullable privateKey, NSError* _Nullable* _Nullable error);
+
+FOUNDATION_EXPORT StarcoinSignedTransaction* _Nullable StarcoinAsSignedTransaction(id<BaseSignedTransaction> _Nullable txn);
 
 FOUNDATION_EXPORT StarcoinAccount* _Nullable StarcoinAsStarcoinAccount(id<BaseAccount> _Nullable account);
 

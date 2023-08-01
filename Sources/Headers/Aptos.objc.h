@@ -20,6 +20,7 @@
 @class AptosRestReachability;
 @class AptosSignMessagePayload;
 @class AptosSignMessageResponse;
+@class AptosSignedTransaction;
 @class AptosToken;
 @class AptosTransaction;
 @class AptosUtil;
@@ -43,7 +44,7 @@
 - (NSString* _Nonnull)submitTransactionPayloadBCS:(id<BaseAccount> _Nullable)account data:(NSData* _Nullable)data error:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface AptosAccount : NSObject <goSeqRefInterface, BaseAccount, BaseAddressUtil, BaseSignedTransaction> {
+@interface AptosAccount : NSObject <goSeqRefInterface, BaseAccount, BaseAddressUtil> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -79,7 +80,7 @@
 - (BaseOptionalString* _Nullable)signHex:(NSString* _Nullable)messageHex password:(NSString* _Nullable)password error:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface AptosChain : NSObject <goSeqRefInterface, BaseChain, BaseSignedTransaction, AptosIChain> {
+@interface AptosChain : NSObject <goSeqRefInterface, BaseChain, AptosIChain> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -125,7 +126,7 @@
 - (NSString* _Nonnull)submitTransactionPayloadBCS:(id<BaseAccount> _Nullable)account data:(NSData* _Nullable)data error:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface AptosNFTFetcher : NSObject <goSeqRefInterface, BaseNFTFetcher, BaseSignedTransaction> {
+@interface AptosNFTFetcher : NSObject <goSeqRefInterface, BaseNFTFetcher> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -161,7 +162,7 @@
 	print("submited hash = %s", hash)
 	```
  */
-@interface AptosNFTPayloadBCSBuilder : NSObject <goSeqRefInterface, BaseSignedTransaction> {
+@interface AptosNFTPayloadBCSBuilder : NSObject <goSeqRefInterface> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -212,7 +213,7 @@
 - (NSData* _Nullable)tokenTransferPayload:(NSString* _Nullable)receiver creator:(NSString* _Nullable)creator collectionName:(NSString* _Nullable)collectionName tokenName:(NSString* _Nullable)tokenName tokenVersion:(int64_t)tokenVersion amount:(int64_t)amount error:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface AptosRestReachability : NSObject <goSeqRefInterface, BaseRpcReachability, BaseSignedTransaction> {
+@interface AptosRestReachability : NSObject <goSeqRefInterface, BaseRpcReachability> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -224,7 +225,7 @@
 - (BaseRpcLatency* _Nullable)latencyOf:(NSString* _Nullable)rpc timeout:(int64_t)timeout error:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface AptosSignMessagePayload : NSObject <goSeqRefInterface, BaseSignedTransaction> {
+@interface AptosSignMessagePayload : NSObject <goSeqRefInterface> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -253,7 +254,7 @@
 - (NSString* _Nonnull)jsonString;
 @end
 
-@interface AptosSignMessageResponse : NSObject <goSeqRefInterface, BaseSignedTransaction> {
+@interface AptosSignMessageResponse : NSObject <goSeqRefInterface> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -271,7 +272,19 @@
 - (NSString* _Nonnull)jsonString;
 @end
 
-@interface AptosToken : NSObject <goSeqRefInterface, BaseSignedTransaction, BaseToken> {
+@interface AptosSignedTransaction : NSObject <goSeqRefInterface, BaseSignedTransaction> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nonnull instancetype)init;
+// skipped field SignedTransaction.RawTxn with unsupported type: *github.com/coming-chat/go-aptos/transaction_builder.RawTransaction
+
+@property (nonatomic) NSData* _Nullable signedBytes;
+- (BaseOptionalString* _Nullable)hexString:(NSError* _Nullable* _Nullable)error;
+@end
+
+@interface AptosToken : NSObject <goSeqRefInterface, BaseToken> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -308,7 +321,7 @@
 - (BaseTokenInfo* _Nullable)tokenInfo:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface AptosTransaction : NSObject <goSeqRefInterface, BaseSignedTransaction, BaseTransaction> {
+@interface AptosTransaction : NSObject <goSeqRefInterface, BaseTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -320,7 +333,7 @@
 - (id<BaseSignedTransaction> _Nullable)signedTransactionWithAccount:(id<BaseAccount> _Nullable)account error:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface AptosUtil : NSObject <goSeqRefInterface, BaseAddressUtil, BaseSignedTransaction> {
+@interface AptosUtil : NSObject <goSeqRefInterface, BaseAddressUtil> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -355,6 +368,8 @@ Android cant support both NewAccountWithMnemonic(string) and NewAccountWithPriva
 FOUNDATION_EXPORT AptosAccount* _Nullable AptosAccountWithPrivateKey(NSString* _Nullable prikey, NSError* _Nullable* _Nullable error);
 
 FOUNDATION_EXPORT AptosAccount* _Nullable AptosAsAptosAccount(id<BaseAccount> _Nullable account);
+
+FOUNDATION_EXPORT AptosSignedTransaction* _Nullable AptosAsSignedTransaction(id<BaseSignedTransaction> _Nullable txn);
 
 FOUNDATION_EXPORT NSString* _Nonnull AptosDecodeAddressToPublicKey(NSString* _Nullable address, NSError* _Nullable* _Nullable error);
 
