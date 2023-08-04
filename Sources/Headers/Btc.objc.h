@@ -280,6 +280,9 @@
 - (NSString* _Nonnull)encodePublicKeyToAddress:(NSString* _Nullable)publicKey error:(NSError* _Nullable* _Nullable)error;
 - (BaseOptionalString* _Nullable)estimateTransactionFee:(id<BaseTransaction> _Nullable)transaction error:(NSError* _Nullable* _Nullable)error;
 - (BaseOptionalString* _Nullable)estimateTransactionFeeUsePublicKey:(id<BaseTransaction> _Nullable)transaction pubkey:(NSString* _Nullable)pubkey error:(NSError* _Nullable* _Nullable)error;
+- (BtcBrc20InscriptionPage* _Nullable)fetchBrc20Inscription:(NSString* _Nullable)owner cursor:(NSString* _Nullable)cursor pageSize:(long)pageSize error:(NSError* _Nullable* _Nullable)error;
+- (BtcBrc20TokenBalancePage* _Nullable)fetchBrc20TokenBalance:(NSString* _Nullable)owner cursor:(NSString* _Nullable)cursor pageSize:(long)pageSize error:(NSError* _Nullable* _Nullable)error;
+- (BtcBrc20TransferableInscriptionPage* _Nullable)fetchBrc20TransferableInscription:(NSString* _Nullable)owner ticker:(NSString* _Nullable)ticker error:(NSError* _Nullable* _Nullable)error;
 /**
  * Fetch transaction details through transaction hash
 Note: The input parsing of bitcoin is very complex and the network cost is relatively high,
@@ -289,6 +292,7 @@ So only the status and timestamp can be queried.
 - (long)fetchTransactionStatus:(NSString* _Nullable)hash;
 - (BOOL)isValidAddress:(NSString* _Nullable)address;
 - (id<BaseToken> _Nullable)mainToken;
+- (BtcBrc20TokenBalance* _Nullable)queryBrc20Balance:(NSString* _Nullable)owner ticker:(NSString* _Nullable)ticker error:(NSError* _Nullable* _Nullable)error;
 /**
  * Send the raw transaction on-chain
 @return the hex hash string
@@ -427,16 +431,6 @@ FOUNDATION_EXPORT NSString* _Nonnull BtcEncodePublicKeyToAddress(NSString* _Null
 
 // skipped function ExtractPsbtToMsgTx with unsupported parameter or return types
 
-
-/**
- * FetchBrc20Inscription
-@param cursor start from 0
- */
-FOUNDATION_EXPORT BtcBrc20InscriptionPage* _Nullable BtcFetchBrc20Inscription(NSString* _Nullable owner, NSString* _Nullable cursor, long pageSize, NSError* _Nullable* _Nullable error);
-
-FOUNDATION_EXPORT BtcBrc20TokenBalancePage* _Nullable BtcFetchBrc20TokenBalance(NSString* _Nullable owner, NSString* _Nullable cursor, long pageSize, NSError* _Nullable* _Nullable error);
-
-FOUNDATION_EXPORT BtcBrc20TransferableInscriptionPage* _Nullable BtcFetchBrc20TransferableInscription(NSString* _Nullable owner, NSString* _Nullable ticker, NSError* _Nullable* _Nullable error);
 
 /**
  * Deprecated: FetchTransactionDetail is deprecated. Please Use Chain.FetchTransactionDetail() instead.
