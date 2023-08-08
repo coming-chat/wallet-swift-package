@@ -15,15 +15,19 @@
 @class BtcAccount;
 @class BtcBrc20Inscription;
 @class BtcBrc20InscriptionPage;
+@class BtcBrc20MintTransaction;
 @class BtcBrc20Token;
 @class BtcBrc20TokenBalance;
 @class BtcBrc20TokenBalancePage;
 @class BtcBrc20TokenInfo;
+@class BtcBrc20TransferTransaction;
 @class BtcBrc20TransferableInscription;
 @class BtcBrc20TransferableInscriptionPage;
 @class BtcChain;
 @class BtcFeeRate;
 @class BtcNFTPage;
+@class BtcPsbtTransaction;
+@class BtcSignedPsbtTransaction;
 @class BtcStringMap;
 @class BtcUtil;
 
@@ -144,6 +148,36 @@
 - (long)totalCount;
 @end
 
+@interface BtcBrc20MintTransaction : NSObject <goSeqRefInterface, BaseSignedTransaction, BaseTransaction> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nonnull instancetype)init;
+@property (nonatomic) NSString* _Nonnull commit;
+// skipped field Brc20MintTransaction.Reveal with unsupported type: []string
+
+// skipped field Brc20MintTransaction.Inscription with unsupported type: []string
+
+@property (nonatomic) int64_t networkFee;
+@property (nonatomic) int64_t satpointFee;
+@property (nonatomic) int64_t serviceFee;
+@property (nonatomic) int64_t commitFee;
+@property (nonatomic) int64_t commitVsize;
+- (BaseOptionalString* _Nullable)hexString:(NSError* _Nullable* _Nullable)error;
+- (BaseStringArray* _Nullable)inscriptionArray;
+- (BOOL)isSigned;
+- (BaseOptionalString* _Nullable)psbtHexString:(NSError* _Nullable* _Nullable)error;
+/**
+ * PublishWithChain
+@return hash string
+ */
+- (BaseOptionalString* _Nullable)publishWithChain:(BtcChain* _Nullable)c error:(NSError* _Nullable* _Nullable)error;
+- (BaseStringArray* _Nullable)revealArray;
+- (BaseOptionalString* _Nullable)signWithAccount:(id<BaseAccount> _Nullable)account error:(NSError* _Nullable* _Nullable)error;
+- (id<BaseSignedTransaction> _Nullable)signedTransactionWithAccount:(id<BaseAccount> _Nullable)account error:(NSError* _Nullable* _Nullable)error;
+@end
+
 @interface BtcBrc20Token : NSObject <goSeqRefInterface> {
 }
 @property(strong, readonly) _Nonnull id _ref;
@@ -228,6 +262,17 @@
 - (BaseOptionalString* _Nullable)jsonString:(NSError* _Nullable* _Nullable)error;
 @end
 
+@interface BtcBrc20TransferTransaction : NSObject <goSeqRefInterface> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nonnull instancetype)init;
+@property (nonatomic) NSString* _Nonnull transaction;
+@property (nonatomic) int64_t networkFee;
+- (BtcPsbtTransaction* _Nullable)toPsbtTransaction:(NSError* _Nullable* _Nullable)error;
+@end
+
 @interface BtcBrc20TransferableInscription : NSObject <goSeqRefInterface, BaseAniable, BaseJsonable> {
 }
 @property(strong, readonly) _Nonnull id _ref;
@@ -271,6 +316,8 @@
 - (BaseBalance* _Nullable)balanceOfAddress:(NSString* _Nullable)address error:(NSError* _Nullable* _Nullable)error;
 - (BaseBalance* _Nullable)balanceOfPublicKey:(NSString* _Nullable)publicKey error:(NSError* _Nullable* _Nullable)error;
 - (NSString* _Nonnull)batchFetchTransactionStatus:(NSString* _Nullable)hashListString;
+- (BtcBrc20MintTransaction* _Nullable)buildBrc20MintTransaction:(NSString* _Nullable)sender receiver:(NSString* _Nullable)receiver op:(NSString* _Nullable)op ticker:(NSString* _Nullable)ticker amount:(NSString* _Nullable)amount feeRate:(int64_t)feeRate error:(NSError* _Nullable* _Nullable)error;
+- (BtcBrc20TransferTransaction* _Nullable)buildBrc20TransferTransaction:(NSString* _Nullable)sender receiver:(NSString* _Nullable)receiver inscriptionIds:(BaseStringArray* _Nullable)inscriptionIds feeRate:(int64_t)feeRate opReturn:(NSString* _Nullable)opReturn error:(NSError* _Nullable* _Nullable)error;
 - (id<BaseTransaction> _Nullable)buildTransfer:(NSString* _Nullable)sender receiver:(NSString* _Nullable)receiver amount:(NSString* _Nullable)amount error:(NSError* _Nullable* _Nullable)error;
 - (id<BaseTransaction> _Nullable)buildTransferAll:(NSString* _Nullable)sender receiver:(NSString* _Nullable)receiver error:(NSError* _Nullable* _Nullable)error;
 - (BOOL)canTransferAll;
@@ -328,6 +375,30 @@ So only the status and timestamp can be queried.
 - (BaseNFT* _Nullable)itemAt:(long)index;
 - (BaseOptionalString* _Nullable)jsonString:(NSError* _Nullable* _Nullable)error;
 - (long)totalCount;
+@end
+
+@interface BtcPsbtTransaction : NSObject <goSeqRefInterface, BaseTransaction> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nullable instancetype)init:(NSString* _Nullable)psbtString;
+// skipped field PsbtTransaction.Packet with unsupported type: invalid type
+
+- (BaseOptionalString* _Nullable)signWithAccount:(id<BaseAccount> _Nullable)account error:(NSError* _Nullable* _Nullable)error;
+- (id<BaseSignedTransaction> _Nullable)signedTransactionWithAccount:(id<BaseAccount> _Nullable)account error:(NSError* _Nullable* _Nullable)error;
+@end
+
+@interface BtcSignedPsbtTransaction : NSObject <goSeqRefInterface, BaseSignedTransaction> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nonnull instancetype)init;
+// skipped field SignedPsbtTransaction.Packet with unsupported type: invalid type
+
+- (BaseOptionalString* _Nullable)hexString:(NSError* _Nullable* _Nullable)error;
+- (BaseOptionalString* _Nullable)publishWithChain:(BtcChain* _Nullable)c error:(NSError* _Nullable* _Nullable)error;
 @end
 
 @interface BtcStringMap : NSObject <goSeqRefInterface, BaseJsonable> {
@@ -394,6 +465,9 @@ FOUNDATION_EXPORT NSString* _Nonnull const BtcChainTestnet;
 + (NSError* _Nullable) errPsbtUnsupportedAccountType;
 + (void) setErrPsbtUnsupportedAccountType:(NSError* _Nullable)v;
 
++ (NSError* _Nullable) errTransactionNotSigned;
++ (void) setErrTransactionNotSigned:(NSError* _Nullable)v;
+
 + (NSError* _Nullable) errUnsupportedChain;
 + (void) setErrUnsupportedChain:(NSError* _Nullable)v;
 
@@ -428,6 +502,9 @@ FOUNDATION_EXPORT NSString* _Nonnull BtcEncodePublicDataToAddress(NSData* _Nulla
  * @param publicKey can start with 0x or not.
  */
 FOUNDATION_EXPORT NSString* _Nonnull BtcEncodePublicKeyToAddress(NSString* _Nullable publicKey, NSString* _Nullable chainnet, NSError* _Nullable* _Nullable error);
+
+// skipped function EnsurePsbtFinalize with unsupported parameter or return types
+
 
 // skipped function ExtractPsbtToMsgTx with unsupported parameter or return types
 
@@ -468,6 +545,8 @@ FOUNDATION_EXPORT BtcBrc20TransferableInscriptionPage* _Nullable BtcNewBrc20Tran
 FOUNDATION_EXPORT BtcBrc20TransferableInscription* _Nullable BtcNewBrc20TransferableInscriptionWithJsonString(NSString* _Nullable str, NSError* _Nullable* _Nullable error);
 
 FOUNDATION_EXPORT BtcChain* _Nullable BtcNewChainWithChainnet(NSString* _Nullable chainnet, NSError* _Nullable* _Nullable error);
+
+FOUNDATION_EXPORT BtcPsbtTransaction* _Nullable BtcNewPsbtTransaction(NSString* _Nullable psbtString, NSError* _Nullable* _Nullable error);
 
 FOUNDATION_EXPORT BtcStringMap* _Nullable BtcNewStringMap(void);
 

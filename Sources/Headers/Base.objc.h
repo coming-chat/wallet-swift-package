@@ -190,6 +190,9 @@ which can only be passed as strings separated by ","
 @end
 
 @protocol BaseSignedTransaction <NSObject>
+/**
+ * Hex string can use chain to broadcast transactions, `chain.SendRawTransaction(txString)`
+ */
 - (BaseOptionalString* _Nullable)hexString:(NSError* _Nullable* _Nullable)error;
 @end
 
@@ -928,11 +931,17 @@ which can only be passed as strings separated by ","
 - (BaseRpcLatency* _Nullable)latencyOf:(NSString* _Nullable)rpc timeout:(int64_t)timeout error:(NSError* _Nullable* _Nullable)error;
 @end
 
+/**
+ * SignedTransaction can use chain to broadcast transactions, `chain.SendSignedTransaction(signedTxn)`
+ */
 @interface BaseSignedTransaction : NSObject <goSeqRefInterface, BaseSignedTransaction> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+/**
+ * Hex string can use chain to broadcast transactions, `chain.SendRawTransaction(txString)`
+ */
 - (BaseOptionalString* _Nullable)hexString:(NSError* _Nullable* _Nullable)error;
 @end
 
