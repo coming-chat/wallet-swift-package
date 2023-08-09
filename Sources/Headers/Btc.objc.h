@@ -259,6 +259,7 @@
 @property (nonatomic) int64_t completeBlocktime;
 @property (nonatomic) int64_t inscriptionNumberStart;
 @property (nonatomic) int64_t inscriptionNumberEnd;
+@property (nonatomic) double price;
 - (BaseOptionalString* _Nullable)jsonString:(NSError* _Nullable* _Nullable)error;
 @end
 
