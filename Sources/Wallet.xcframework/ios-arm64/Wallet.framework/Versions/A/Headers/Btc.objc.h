@@ -153,7 +153,7 @@
 @property(strong, readonly) _Nonnull id _ref;
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
-- (nonnull instancetype)init;
+- (nullable instancetype)initWithJsonString:(NSString* _Nullable)jsonStr;
 @property (nonatomic) NSString* _Nonnull commit;
 // skipped field Brc20MintTransaction.Reveal with unsupported type: []string
 
@@ -267,7 +267,7 @@
 @property(strong, readonly) _Nonnull id _ref;
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
-- (nonnull instancetype)init;
+- (nullable instancetype)init;
 @property (nonatomic) NSString* _Nonnull transaction;
 @property (nonatomic) int64_t networkFee;
 - (BtcPsbtTransaction* _Nullable)toPsbtTransaction:(NSError* _Nullable* _Nullable)error;
@@ -532,6 +532,8 @@ FOUNDATION_EXPORT BtcBrc20InscriptionPage* _Nullable BtcNewBrc20InscriptionPageW
 
 FOUNDATION_EXPORT BtcBrc20Inscription* _Nullable BtcNewBrc20InscriptionWithJsonString(NSString* _Nullable str, NSError* _Nullable* _Nullable error);
 
+FOUNDATION_EXPORT BtcBrc20MintTransaction* _Nullable BtcNewBrc20MintTransactionWithJsonString(NSString* _Nullable jsonStr, NSError* _Nullable* _Nullable error);
+
 FOUNDATION_EXPORT BtcBrc20Token* _Nullable BtcNewBrc20Token(NSString* _Nullable ticker);
 
 FOUNDATION_EXPORT BtcBrc20TokenBalancePage* _Nullable BtcNewBrc20TokenBalancePageWithJsonString(NSString* _Nullable str, NSError* _Nullable* _Nullable error);
@@ -539,6 +541,8 @@ FOUNDATION_EXPORT BtcBrc20TokenBalancePage* _Nullable BtcNewBrc20TokenBalancePag
 FOUNDATION_EXPORT BtcBrc20TokenBalance* _Nullable BtcNewBrc20TokenBalanceWithJsonString(NSString* _Nullable str, NSError* _Nullable* _Nullable error);
 
 FOUNDATION_EXPORT BtcBrc20TokenInfo* _Nullable BtcNewBrc20TokenInfoWithJsonString(NSString* _Nullable str, NSError* _Nullable* _Nullable error);
+
+FOUNDATION_EXPORT BtcBrc20TransferTransaction* _Nullable BtcNewBrc20TransferTransaction(void);
 
 FOUNDATION_EXPORT BtcBrc20TransferableInscriptionPage* _Nullable BtcNewBrc20TransferableInscriptionPageWithJsonString(NSString* _Nullable str, NSError* _Nullable* _Nullable error);
 
