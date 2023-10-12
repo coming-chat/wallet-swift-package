@@ -311,7 +311,8 @@ which can only be passed as strings separated by ","
 @property(strong, readonly) _Nonnull id _ref;
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
-- (nonnull instancetype)init;
+- (nullable instancetype)init:(NSString* _Nullable)amount;
+- (nullable instancetype)initWithInt:(int64_t)amount;
 @property (nonatomic) NSString* _Nonnull total;
 @property (nonatomic) NSString* _Nonnull usable;
 @end
@@ -439,7 +440,7 @@ selects base 2. Otherwise the selected base is 10.
 @property(strong, readonly) _Nonnull id _ref;
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
-- (nonnull instancetype)init;
+- (nullable instancetype)init:(BOOL)b;
 @property (nonatomic) BOOL value;
 @end
 
@@ -451,7 +452,7 @@ selects base 2. Otherwise the selected base is 10.
 @property(strong, readonly) _Nonnull id _ref;
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
-- (nonnull instancetype)init;
+- (nullable instancetype)init:(NSString* _Nullable)s;
 @property (nonatomic) NSString* _Nonnull value;
 @end
 
@@ -644,6 +645,9 @@ FOUNDATION_EXPORT BaseAnyMap* _Nullable BaseAsAnyMap(BaseAny* _Nullable a);
 // skipped function CatchPanicAndMapToBasicError with unsupported parameter or return types
 
 
+/**
+ * Deprecated: use `NewBalance("0")`
+ */
 FOUNDATION_EXPORT BaseBalance* _Nullable BaseEmptyBalance(void);
 
 /**
@@ -683,6 +687,10 @@ FOUNDATION_EXPORT BaseAnyArray* _Nullable BaseNewAnyArray(void);
 
 FOUNDATION_EXPORT BaseAnyMap* _Nullable BaseNewAnyMap(void);
 
+FOUNDATION_EXPORT BaseBalance* _Nullable BaseNewBalance(NSString* _Nullable amount);
+
+FOUNDATION_EXPORT BaseBalance* _Nullable BaseNewBalanceWithInt(int64_t amount);
+
 /**
  * NewBigInt allocates and returns a new BigInt set to x.
  */
@@ -698,6 +706,10 @@ FOUNDATION_EXPORT BaseBigInt* _Nullable BaseNewBigIntFromString(NSString* _Nulla
  * NewBigInts creates a slice of uninitialized big numbers.
  */
 FOUNDATION_EXPORT BaseBigInts* _Nullable BaseNewBigInts(long size);
+
+FOUNDATION_EXPORT BaseOptionalBool* _Nullable BaseNewOptionalBool(BOOL b);
+
+FOUNDATION_EXPORT BaseOptionalString* _Nullable BaseNewOptionalString(NSString* _Nullable s);
 
 /**
  * You need to pass in different objects to get the latency and block height of different chains.
