@@ -138,6 +138,11 @@ Available
 // skipped method SPLToken.TokenAccountOfAddress with unsupported parameter or return types
 
 - (BaseTokenInfo* _Nullable)tokenInfo:(NSError* _Nullable* _Nullable)error;
+/**
+ * TokenInfoChainid
+@param chainId mainnet 101, testnet 102, devnet 103
+ */
+- (BaseTokenInfo* _Nullable)tokenInfoChainid:(long)chainId error:(NSError* _Nullable* _Nullable)error;
 @end
 
 @interface SolanaSignedTransaction : NSObject <goSeqRefInterface, BaseSignedTransaction> {
