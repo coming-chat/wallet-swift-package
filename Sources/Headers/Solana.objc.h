@@ -70,6 +70,8 @@
 - (BaseBalance* _Nullable)balanceOfAddress:(NSString* _Nullable)address error:(NSError* _Nullable* _Nullable)error;
 - (BaseBalance* _Nullable)balanceOfPublicKey:(NSString* _Nullable)publicKey error:(NSError* _Nullable* _Nullable)error;
 - (NSString* _Nonnull)batchFetchTransactionStatus:(NSString* _Nullable)hashListString;
+// skipped method Chain.Client with unsupported parameter or return types
+
 - (NSString* _Nonnull)decodeAddressToPublicKey:(NSString* _Nullable)address error:(NSError* _Nullable* _Nullable)error;
 - (NSString* _Nonnull)encodePublicKeyToAddress:(NSString* _Nullable)publicKey error:(NSError* _Nullable* _Nullable)error;
 - (BaseOptionalString* _Nullable)estimateTransactionFee:(id<BaseTransaction> _Nullable)transaction error:(NSError* _Nullable* _Nullable)error;
@@ -193,7 +195,7 @@ Available
 @property(strong, readonly) _Nonnull id _ref;
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
-- (nonnull instancetype)init;
+- (nullable instancetype)init:(NSString* _Nullable)rawBase58String;
 // skipped field Transaction.Message with unsupported type: invalid type
 
 - (BaseOptionalString* _Nullable)signWithAccount:(id<BaseAccount> _Nullable)account error:(NSError* _Nullable* _Nullable)error;
@@ -259,6 +261,8 @@ FOUNDATION_EXPORT SolanaRpcReachability* _Nullable SolanaNewRpcReachability(void
 FOUNDATION_EXPORT SolanaSPLToken* _Nullable SolanaNewSPLToken(SolanaChain* _Nullable chain, NSString* _Nullable mintAddress, NSError* _Nullable* _Nullable error);
 
 FOUNDATION_EXPORT SolanaToken* _Nullable SolanaNewToken(SolanaChain* _Nullable chain);
+
+FOUNDATION_EXPORT SolanaTransaction* _Nullable SolanaNewTransaction(NSString* _Nullable rawBase58String, NSError* _Nullable* _Nullable error);
 
 FOUNDATION_EXPORT SolanaUtil* _Nullable SolanaNewUtil(void);
 
