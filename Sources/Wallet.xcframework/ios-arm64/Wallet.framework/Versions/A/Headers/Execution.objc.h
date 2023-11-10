@@ -47,6 +47,7 @@
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
 - (nonnull instancetype)init;
 @property (nonatomic) long statusQueryIntervalSecond;
+@property (nonatomic) long txStatusQueryIntervalSecond;
 @end
 
 @interface ExecutionExecution : NSObject <goSeqRefInterface> {

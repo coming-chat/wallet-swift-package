@@ -36,6 +36,9 @@
 + (NSError* _Nullable) errNumber;
 + (void) setErrNumber:(NSError* _Nullable)v;
 
++ (NSError* _Nullable) errSwapIdRepeated;
++ (void) setErrSwapIdRepeated:(NSError* _Nullable)v;
+
 + (NSError* _Nullable) errUnsupportedAsset;
 + (void) setErrUnsupportedAsset:(NSError* _Nullable)v;
 

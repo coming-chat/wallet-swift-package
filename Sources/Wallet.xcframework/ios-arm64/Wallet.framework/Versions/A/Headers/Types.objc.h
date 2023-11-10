@@ -26,6 +26,7 @@
 @class TypesEstimate;
 @class TypesEstimateGasReq;
 @class TypesEstimateGasRes;
+@class TypesFailInfo;
 @class TypesGetChainTokensReq;
 @class TypesGetDynamicTxDataReq;
 @class TypesQuoteListRes;
@@ -240,6 +241,7 @@ connections struct like ["chainA":{"tokens": [tokenAA, tokenAB]}, "chainB": {"to
 // skipped field Estimate.Costs with unsupported type: []github.com/coming-chat/go-defi-sdk/core/crossswap/types.Cost
 
 @property (nonatomic) float swapRate;
+@property (nonatomic) float swapRateWithFee;
 - (TypesCost* _Nullable)indexCost:(long)i;
 - (long)sizeCosts;
 @end
@@ -265,6 +267,16 @@ connections struct like ["chainA":{"tokens": [tokenAA, tokenAB]}, "chainB": {"to
 - (nonnull instancetype)init;
 // skipped field EstimateGasRes.Gas with unsupported type: uint64
 
+@end
+
+@interface TypesFailInfo : NSObject <goSeqRefInterface> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nonnull instancetype)init;
+@property (nonatomic) NSString* _Nonnull amount;
+@property (nonatomic) TypesTokenInfo* _Nullable toTokenInfo;
 @end
 
 @interface TypesGetChainTokensReq : NSObject <goSeqRefInterface> {
@@ -425,6 +437,8 @@ success means swap success, and dst balance transferred to receiver account
 @property (nonatomic) int64_t updateTime;
 @property (nonatomic) NSString* _Nonnull txHash;
 @property (nonatomic) TypesTxBaseInfo* _Nullable dstTxInfo;
+// skipped field StatusRes.FailInfo with unsupported type: github.com/coming-chat/go-defi-sdk/core/crossswap/types.FailInfo
+
 @end
 
 /**
@@ -444,7 +458,6 @@ user should follow steps, sign and send transaction
 @property (nonatomic) TypesAction* _Nullable action;
 @property (nonatomic) TypesEstimate* _Nullable estimate;
 @property (nonatomic) TypesTxData* _Nullable txData;
-@property (nonatomic) BOOL isDynamic;
 @end
 
 @interface TypesStepPath : NSObject <goSeqRefInterface> {
@@ -459,6 +472,12 @@ user should follow steps, sign and send transaction
 @property (nonatomic) TypesTokenInfo* _Nullable toToken;
 @property (nonatomic) NSString* _Nonnull type;
 @property (nonatomic) NSString* _Nonnull name;
+// skipped field StepPath.TokenPath with unsupported type: []github.com/coming-chat/go-defi-sdk/core/crossswap/types.TokenInfo
+
+// skipped field StepPath.PoolFee with unsupported type: []int32
+
+- (TypesTokenInfo* _Nullable)indexTokens:(long)i;
+- (long)sizeTokens;
 @end
 
 @interface TypesTokenInfo : NSObject <goSeqRefInterface> {
@@ -541,6 +560,7 @@ user should follow steps, sign and send transaction
 @property (nonatomic) NSString* _Nonnull txHash;
 @property (nonatomic) long blockNumber;
 @property (nonatomic) long blockTimestamp;
+@property (nonatomic) NSString* _Nonnull chain;
 @end
 
 @interface TypesTxData : NSObject <goSeqRefInterface> {
@@ -587,6 +607,7 @@ user should follow steps, sign and send transaction
 FOUNDATION_EXPORT NSString* _Nonnull const TypesChainTypeAptos;
 FOUNDATION_EXPORT NSString* _Nonnull const TypesChainTypeEvm;
 FOUNDATION_EXPORT NSString* _Nonnull const TypesChainTypePolka;
+FOUNDATION_EXPORT NSString* _Nonnull const TypesChainTypeStarknet;
 FOUNDATION_EXPORT NSString* _Nonnull const TypesChainTypeSui;
 FOUNDATION_EXPORT NSString* _Nonnull const TypesCostTypeCrossFee;
 FOUNDATION_EXPORT NSString* _Nonnull const TypesCostTypeGasFee;
@@ -605,11 +626,14 @@ FOUNDATION_EXPORT NSString* _Nonnull const TypesStepPathTypeSwap;
 FOUNDATION_EXPORT NSString* _Nonnull const TypesStepTypeApprove;
 FOUNDATION_EXPORT NSString* _Nonnull const TypesStepTypeCrossSwap;
 FOUNDATION_EXPORT NSString* _Nonnull const TypesStepTypeLocalSwap;
-FOUNDATION_EXPORT NSString* _Nonnull const TypesStepTypeProcessCoins;
+FOUNDATION_EXPORT NSString* _Nonnull const TypesStepTypePostData;
 FOUNDATION_EXPORT NSString* _Nonnull const TypesStepTypeRegister;
 FOUNDATION_EXPORT NSString* _Nonnull const TypesToolCCSwap;
 FOUNDATION_EXPORT NSString* _Nonnull const TypesToolLiquidSwap;
 FOUNDATION_EXPORT NSString* _Nonnull const TypesToolSoDiamond;
+FOUNDATION_EXPORT NSString* _Nonnull const TypesToolSolanaSwap;
+FOUNDATION_EXPORT NSString* _Nonnull const TypesToolStarknet;
 FOUNDATION_EXPORT NSString* _Nonnull const TypesToolSuiSwap;
+FOUNDATION_EXPORT NSString* _Nonnull const TypesZkSync;
 
 #endif

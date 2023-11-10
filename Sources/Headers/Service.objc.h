@@ -107,6 +107,7 @@ so we use generated swapId to represent the swap
 - (TypesDeviceInfo* _Nullable)updateDeviceInfo:(TypesDeviceInfo* _Nullable)device;
 - (void)useDefaultApi;
 - (void)useLocalApi;
+- (void)useStagingApi;
 - (void)useTestApi;
 @end
 
