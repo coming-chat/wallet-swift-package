@@ -183,8 +183,9 @@
 @property(strong, readonly) _Nonnull id _ref;
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
-- (nullable instancetype)init:(NSString* _Nullable)ticker;
+- (nullable instancetype)init:(NSString* _Nullable)ticker chainnet:(NSString* _Nullable)chainnet;
 @property (nonatomic) NSString* _Nonnull ticker;
+@property (nonatomic) NSString* _Nonnull chainnet;
 // skipped method Brc20Token.BalanceOfAccount with unsupported parameter or return types
 
 - (BaseBalance* _Nullable)balanceOfAddress:(NSString* _Nullable)address error:(NSError* _Nullable* _Nullable)error;
@@ -535,7 +536,7 @@ FOUNDATION_EXPORT BtcBrc20Inscription* _Nullable BtcNewBrc20InscriptionWithJsonS
 
 FOUNDATION_EXPORT BtcBrc20MintTransaction* _Nullable BtcNewBrc20MintTransactionWithJsonString(NSString* _Nullable jsonStr, NSError* _Nullable* _Nullable error);
 
-FOUNDATION_EXPORT BtcBrc20Token* _Nullable BtcNewBrc20Token(NSString* _Nullable ticker);
+FOUNDATION_EXPORT BtcBrc20Token* _Nullable BtcNewBrc20Token(NSString* _Nullable ticker, NSString* _Nullable chainnet);
 
 FOUNDATION_EXPORT BtcBrc20TokenBalancePage* _Nullable BtcNewBrc20TokenBalancePageWithJsonString(NSString* _Nullable str, NSError* _Nullable* _Nullable error);
 
