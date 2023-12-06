@@ -15,6 +15,7 @@
 @class SuiAccount;
 @class SuiChain;
 @class SuiDelegatedStake;
+@class SuiDelegatedStakeArray;
 @class SuiMergeCoinPreview;
 @class SuiMergeCoinRequest;
 @class SuiRestReachability;
@@ -25,6 +26,7 @@
 @class SuiTransaction;
 @class SuiUtil;
 @class SuiValidator;
+@class SuiValidatorArray;
 @class SuiValidatorState;
 
 @interface SuiAccount : NSObject <goSeqRefInterface, BaseAccount, BaseAddressUtil> {
@@ -109,7 +111,7 @@
 /**
  * @return Array of `DelegatedStake` elements
  */
-- (BaseAnyArray* _Nullable)getDelegatedStakes:(NSString* _Nullable)owner error:(NSError* _Nullable* _Nullable)error;
+- (SuiDelegatedStakeArray* _Nullable)getDelegatedStakes:(NSString* _Nullable)owner error:(NSError* _Nullable* _Nullable)error;
 - (SuiValidator* _Nullable)getValidator:(NSString* _Nullable)address useCache:(BOOL)useCache error:(NSError* _Nullable* _Nullable)error;
 - (SuiValidatorState* _Nullable)getValidatorState:(NSError* _Nullable* _Nullable)error;
 - (id<BaseToken> _Nullable)mainToken;
@@ -137,7 +139,7 @@
 - (SuiTransaction* _Nullable)withdrawDelegation:(NSString* _Nullable)owner stakeId:(NSString* _Nullable)stakeId error:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface SuiDelegatedStake : NSObject <goSeqRefInterface, BaseAniable, BaseJsonable> {
+@interface SuiDelegatedStake : NSObject <goSeqRefInterface, BaseJsonable> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -152,7 +154,6 @@
 @property (nonatomic) NSString* _Nonnull delegationId;
 @property (nonatomic) NSString* _Nonnull earnedAmount;
 @property (nonatomic) SuiValidator* _Nullable validator;
-- (BaseAny* _Nullable)asAny;
 /**
  * @return if time > 0 indicates how long it will take to get the reward;
 if time < 0 indicates how much time has passed since the reward was earned;
@@ -160,6 +161,24 @@ if time < 0 indicates how much time has passed since the reward was earned;
 - (int64_t)earningAmountTimeAfterNowMs:(SuiValidatorState* _Nullable)stateInfo;
 - (int64_t)earningAmountTimeAfterTimestampMs:(int64_t)timestamp stateInfo:(SuiValidatorState* _Nullable)stateInfo;
 - (BaseOptionalString* _Nullable)jsonString:(NSError* _Nullable* _Nullable)error;
+@end
+
+@interface SuiDelegatedStakeArray : NSObject <goSeqRefInterface> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nullable instancetype)initWithJsonString:(NSString* _Nullable)str;
+// skipped field DelegatedStakeArray.AnyArray with unsupported type: github.com/coming-chat/wallet-SDK/core/base/inter.AnyArray[*github.com/coming-chat/wallet-SDK/core/sui.DelegatedStake]
+
+- (void)append:(SuiDelegatedStake* _Nullable)value;
+- (long)count;
+- (NSString* _Nonnull)jsonString;
+- (NSData* _Nullable)marshalJSON:(NSError* _Nullable* _Nullable)error;
+- (SuiDelegatedStake* _Nullable)remove:(long)index;
+- (void)setValue:(SuiDelegatedStake* _Nullable)value index:(long)index;
+- (BOOL)unmarshalJSON:(NSData* _Nullable)data error:(NSError* _Nullable* _Nullable)error;
+- (SuiDelegatedStake* _Nullable)valueAt:(long)index;
 @end
 
 @interface SuiMergeCoinPreview : NSObject <goSeqRefInterface> {
@@ -326,7 +345,7 @@ if time < 0 indicates how much time has passed since the reward was earned;
 - (BOOL)isValidAddress:(NSString* _Nullable)address;
 @end
 
-@interface SuiValidator : NSObject <goSeqRefInterface, BaseAniable, BaseJsonable> {
+@interface SuiValidator : NSObject <goSeqRefInterface, BaseJsonable> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -346,8 +365,25 @@ if time < 0 indicates how much time has passed since the reward was earned;
 @property (nonatomic) NSString* _Nonnull totalRewards;
 @property (nonatomic) int64_t gasPrice;
 @property (nonatomic) double poolShare;
-- (BaseAny* _Nullable)asAny;
 - (BaseOptionalString* _Nullable)jsonString:(NSError* _Nullable* _Nullable)error;
+@end
+
+@interface SuiValidatorArray : NSObject <goSeqRefInterface> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nonnull instancetype)init;
+// skipped field ValidatorArray.AnyArray with unsupported type: github.com/coming-chat/wallet-SDK/core/base/inter.AnyArray[*github.com/coming-chat/wallet-SDK/core/sui.Validator]
+
+- (void)append:(SuiValidator* _Nullable)value;
+- (long)count;
+- (NSString* _Nonnull)jsonString;
+- (NSData* _Nullable)marshalJSON:(NSError* _Nullable* _Nullable)error;
+- (SuiValidator* _Nullable)remove:(long)index;
+- (void)setValue:(SuiValidator* _Nullable)value index:(long)index;
+- (BOOL)unmarshalJSON:(NSData* _Nullable)data error:(NSError* _Nullable* _Nullable)error;
+- (SuiValidator* _Nullable)valueAt:(long)index;
 @end
 
 @interface SuiValidatorState : NSObject <goSeqRefInterface, BaseJsonable> {
@@ -364,7 +400,7 @@ if time < 0 indicates how much time has passed since the reward was earned;
 /**
  * Array of `Validator` elements
  */
-@property (nonatomic) BaseAnyArray* _Nullable validators;
+@property (nonatomic) SuiValidatorArray* _Nullable validators;
 /**
  * The amount of all tokens staked in the Sui Network.
  */
@@ -439,15 +475,11 @@ Android cannot support both NewAccountWithMnemonic(string) and NewAccountWithPri
  */
 FOUNDATION_EXPORT SuiAccount* _Nullable SuiAccountWithPrivateKey(NSString* _Nullable prikey, NSError* _Nullable* _Nullable error);
 
-FOUNDATION_EXPORT SuiDelegatedStake* _Nullable SuiAsDelegatedStake(BaseAny* _Nullable a);
-
 FOUNDATION_EXPORT SuiSignedTransaction* _Nullable SuiAsSignedTransaction(id<BaseSignedTransaction> _Nullable txn);
 
 FOUNDATION_EXPORT SuiAccount* _Nullable SuiAsSuiAccount(id<BaseAccount> _Nullable account);
 
-FOUNDATION_EXPORT SuiValidator* _Nullable SuiAsValidator(BaseAny* _Nullable a);
-
-FOUNDATION_EXPORT double SuiAverageApyOfDelegatedStakes(BaseAnyArray* _Nullable stakes);
+FOUNDATION_EXPORT double SuiAverageApyOfDelegatedStakes(SuiDelegatedStakeArray* _Nullable stakes);
 
 FOUNDATION_EXPORT NSString* _Nonnull SuiDecodeAddressToPublicKey(NSString* _Nullable address, NSError* _Nullable* _Nullable error);
 
@@ -479,7 +511,7 @@ FOUNDATION_EXPORT SuiChain* _Nullable SuiNewChainWithRpcUrl(NSString* _Nullable 
 
 FOUNDATION_EXPORT SuiDelegatedStake* _Nullable SuiNewDelegatedStake(void);
 
-FOUNDATION_EXPORT BaseAnyArray* _Nullable SuiNewDelegatedStakeArrayWithJsonString(NSString* _Nullable str, NSError* _Nullable* _Nullable error);
+FOUNDATION_EXPORT SuiDelegatedStakeArray* _Nullable SuiNewDelegatedStakeArrayWithJsonString(NSString* _Nullable str, NSError* _Nullable* _Nullable error);
 
 FOUNDATION_EXPORT SuiDelegatedStake* _Nullable SuiNewDelegatedStakeWithJsonString(NSString* _Nullable str, NSError* _Nullable* _Nullable error);
 

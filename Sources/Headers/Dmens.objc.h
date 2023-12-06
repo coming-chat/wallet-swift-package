@@ -28,29 +28,6 @@
 @class DmensUserInfo;
 @class DmensUserPage;
 @class DmensValidProfile;
-@protocol DmensPageable;
-@class DmensPageable;
-
-@protocol DmensPageable <NSObject>
-/**
- * The count of data in the current page.
- */
-- (long)currentCount;
-/**
- * The cursor of the current page.
- */
-- (NSString* _Nonnull)currentCursor;
-/**
- * Is there has next page.
- */
-- (BOOL)hasNextPage;
-- (BaseAnyArray* _Nullable)itemArray;
-- (NSString* _Nonnull)jsonString:(NSError* _Nullable* _Nullable)error;
-/**
- * The total count of all data in the remote server.
- */
-- (long)totalCount;
-@end
 
 @interface DmensConfiguration : NSObject <goSeqRefInterface> {
 }
@@ -68,7 +45,7 @@
 @property (nonatomic) BOOL isMainNet;
 @end
 
-@interface DmensNFTAvatar : NSObject <goSeqRefInterface, BaseAniable, BaseJsonable> {
+@interface DmensNFTAvatar : NSObject <goSeqRefInterface, BaseJsonable> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -80,11 +57,10 @@
 @property (nonatomic) NSString* _Nonnull image;
 @property (nonatomic) NSString* _Nonnull type;
 @property (nonatomic) NSString* _Nonnull name;
-- (BaseAny* _Nullable)asAny;
 - (BaseOptionalString* _Nullable)jsonString:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface DmensNote : NSObject <goSeqRefInterface, BaseAniable, BaseJsonable> {
+@interface DmensNote : NSObject <goSeqRefInterface, BaseJsonable> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -98,23 +74,23 @@
 @property (nonatomic) NSString* _Nonnull poster;
 @property (nonatomic) NSString* _Nonnull refId;
 @property (nonatomic) DmensNoteStatus* _Nullable status;
-- (BaseAny* _Nullable)asAny;
 - (BaseOptionalString* _Nullable)jsonString:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface DmensNotePage : NSObject <goSeqRefInterface, BaseJsonable, BasePageable> {
+@interface DmensNotePage : NSObject <goSeqRefInterface> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
 - (nullable instancetype)init;
 - (nullable instancetype)initWithJsonString:(NSString* _Nullable)str;
+// skipped field NotePage.SdkPageable with unsupported type: *github.com/coming-chat/wallet-SDK/core/base/inter.SdkPageable[*github.com/coming-chat/go-dmens-sdk/dmens.Note]
+
 - (long)currentCount;
 - (NSString* _Nonnull)currentCursor;
-- (DmensNote* _Nullable)firstObject;
 - (BOOL)hasNextPage;
-- (BaseAnyArray* _Nullable)itemArray;
-- (BaseOptionalString* _Nullable)jsonString:(NSError* _Nullable* _Nullable)error;
+- (DmensNote* _Nullable)itemAt:(long)index;
+- (NSString* _Nonnull)jsonString;
 - (long)totalCount;
 @end
 
@@ -295,7 +271,7 @@ cursor 为空时，表示 null
 - (NSString* _Nonnull)actualQueryString;
 @end
 
-@interface DmensRepostNote : NSObject <goSeqRefInterface, BaseAniable, BaseJsonable> {
+@interface DmensRepostNote : NSObject <goSeqRefInterface, BaseJsonable> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -304,23 +280,23 @@ cursor 为空时，表示 null
 - (nullable instancetype)initWithJsonString:(NSString* _Nullable)str;
 @property (nonatomic) DmensNote* _Nullable note;
 @property (nonatomic) DmensNote* _Nullable repost;
-- (BaseAny* _Nullable)asAny;
 - (BaseOptionalString* _Nullable)jsonString:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface DmensRepostNotePage : NSObject <goSeqRefInterface, BaseJsonable, BasePageable> {
+@interface DmensRepostNotePage : NSObject <goSeqRefInterface> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
 - (nullable instancetype)init;
 - (nullable instancetype)initWithJsonString:(NSString* _Nullable)str;
+// skipped field RepostNotePage.SdkPageable with unsupported type: *github.com/coming-chat/wallet-SDK/core/base/inter.SdkPageable[*github.com/coming-chat/go-dmens-sdk/dmens.RepostNote]
+
 - (long)currentCount;
 - (NSString* _Nonnull)currentCursor;
-- (DmensRepostNote* _Nullable)firstObject;
 - (BOOL)hasNextPage;
-- (BaseAnyArray* _Nullable)itemArray;
-- (BaseOptionalString* _Nullable)jsonString:(NSError* _Nullable* _Nullable)error;
+- (DmensRepostNote* _Nullable)itemAt:(long)index;
+- (NSString* _Nonnull)jsonString;
 - (long)totalCount;
 @end
 
@@ -337,7 +313,7 @@ cursor 为空时，表示 null
 - (BaseOptionalString* _Nullable)jsonString:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface DmensUserInfo : NSObject <goSeqRefInterface, BaseAniable, BaseJsonable> {
+@interface DmensUserInfo : NSObject <goSeqRefInterface, BaseJsonable> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
@@ -360,23 +336,23 @@ cursor 为空时，表示 null
 
 @property (nonatomic) DmensNFTAvatar* _Nullable nftAvatar;
 @property (nonatomic) BOOL isFollowing;
-- (BaseAny* _Nullable)asAny;
 - (BaseOptionalString* _Nullable)jsonString:(NSError* _Nullable* _Nullable)error;
 @end
 
-@interface DmensUserPage : NSObject <goSeqRefInterface, BaseJsonable, BasePageable> {
+@interface DmensUserPage : NSObject <goSeqRefInterface> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
 - (nullable instancetype)init;
 - (nullable instancetype)initWithJsonString:(NSString* _Nullable)str;
+// skipped field UserPage.SdkPageable with unsupported type: *github.com/coming-chat/wallet-SDK/core/base/inter.SdkPageable[*github.com/coming-chat/go-dmens-sdk/dmens.UserInfo]
+
 - (long)currentCount;
 - (NSString* _Nonnull)currentCursor;
-- (DmensUserInfo* _Nullable)firstObject;
 - (BOOL)hasNextPage;
-- (BaseAnyArray* _Nullable)itemArray;
-- (BaseOptionalString* _Nullable)jsonString:(NSError* _Nullable* _Nullable)error;
+- (DmensUserInfo* _Nullable)itemAt:(long)index;
+- (NSString* _Nonnull)jsonString;
 - (long)totalCount;
 @end
 
@@ -424,14 +400,6 @@ FOUNDATION_EXPORT NSString* _Nonnull const DmensFunctionRemoveItem;
 
 @end
 
-FOUNDATION_EXPORT DmensNFTAvatar* _Nullable DmensAsNFTAvatar(BaseAny* _Nullable any);
-
-FOUNDATION_EXPORT DmensNote* _Nullable DmensAsNote(BaseAny* _Nullable any);
-
-FOUNDATION_EXPORT DmensRepostNote* _Nullable DmensAsRepostNote(BaseAny* _Nullable any);
-
-FOUNDATION_EXPORT DmensUserInfo* _Nullable DmensAsUserInfo(BaseAny* _Nullable a);
-
 FOUNDATION_EXPORT DmensNFTAvatar* _Nullable DmensNewNFTAvatar(void);
 
 FOUNDATION_EXPORT DmensNFTAvatar* _Nullable DmensNewNFTAvatarWithId(NSString* _Nullable nftId, NSString* _Nullable image, NSString* _Nullable typ);
@@ -469,32 +437,5 @@ FOUNDATION_EXPORT DmensUserInfo* _Nullable DmensNewUserInfoWithJsonString(NSStri
 FOUNDATION_EXPORT DmensUserPage* _Nullable DmensNewUserPage(void);
 
 FOUNDATION_EXPORT DmensUserPage* _Nullable DmensNewUserPageWithJsonString(NSString* _Nullable str, NSError* _Nullable* _Nullable error);
-
-@class DmensPageable;
-
-@interface DmensPageable : NSObject <goSeqRefInterface, DmensPageable> {
-}
-@property(strong, readonly) _Nonnull id _ref;
-
-- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
-/**
- * The count of data in the current page.
- */
-- (long)currentCount;
-/**
- * The cursor of the current page.
- */
-- (NSString* _Nonnull)currentCursor;
-/**
- * Is there has next page.
- */
-- (BOOL)hasNextPage;
-- (BaseAnyArray* _Nullable)itemArray;
-- (NSString* _Nonnull)jsonString:(NSError* _Nullable* _Nullable)error;
-/**
- * The total count of all data in the remote server.
- */
-- (long)totalCount;
-@end
 
 #endif

@@ -23,6 +23,7 @@
 @class BaseReachMonitor;
 @class BaseRpcLatency;
 @class BaseStringArray;
+@class BaseStringMap;
 @class BaseTokenInfo;
 @class BaseTransactionDetail;
 @protocol BaseAccount;
@@ -37,8 +38,6 @@
 @class BaseJsonable;
 @protocol BaseNFTFetcher;
 @class BaseNFTFetcher;
-@protocol BasePageable;
-@class BasePageable;
 @protocol BaseReachMonitorDelegate;
 @class BaseReachMonitorDelegate;
 @protocol BaseRpcReachability;
@@ -148,27 +147,6 @@ which can only be passed as strings separated by ","
 - (BaseOptionalString* _Nullable)fetchNFTsJsonString:(NSString* _Nullable)owner error:(NSError* _Nullable* _Nullable)error;
 @end
 
-@protocol BasePageable <NSObject>
-/**
- * The count of data in the current page.
- */
-- (long)currentCount;
-/**
- * The cursor of the current page.
- */
-- (NSString* _Nonnull)currentCursor;
-/**
- * Is there has next page.
- */
-- (BOOL)hasNextPage;
-- (BaseAnyArray* _Nullable)itemArray;
-- (BaseOptionalString* _Nullable)jsonString:(NSError* _Nullable* _Nullable)error;
-/**
- * The total count of all data in the remote server. Returns 0 if statistics are not available
- */
-- (long)totalCount;
-@end
-
 @protocol BaseReachMonitorDelegate <NSObject>
 /**
  * A node request failed
@@ -257,52 +235,41 @@ which can only be passed as strings separated by ","
 - (void)setUInt8:(BaseBigInt* _Nullable)v;
 @end
 
-@interface BaseAnyArray : NSObject <goSeqRefInterface, BaseAniable, BaseJsonable> {
+@interface BaseAnyArray : NSObject <goSeqRefInterface> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
 - (nullable instancetype)init;
-// skipped field AnyArray.Values with unsupported type: []any
+// skipped field AnyArray.AnyArray with unsupported type: github.com/coming-chat/wallet-SDK/core/base/inter.AnyArray[*github.com/coming-chat/wallet-SDK/core/base.Any]
 
-- (void)append:(BaseAny* _Nullable)any;
-- (BaseAny* _Nullable)asAny;
-- (BOOL)contains:(BaseAny* _Nullable)any;
+- (void)append:(BaseAny* _Nullable)value;
 - (long)count;
-/**
- * return -1 if not found
- */
-- (long)indexOf:(BaseAny* _Nullable)any;
-- (BaseOptionalString* _Nullable)jsonString:(NSError* _Nullable* _Nullable)error;
-/**
- * `AnyArray` only support Marshal
- */
+- (NSString* _Nonnull)jsonString;
 - (NSData* _Nullable)marshalJSON:(NSError* _Nullable* _Nullable)error;
-- (void)remove:(long)index;
+- (BaseAny* _Nullable)remove:(long)index;
 - (void)setValue:(BaseAny* _Nullable)value index:(long)index;
-- (NSString* _Nonnull)string;
-- (BaseAny* _Nullable)valueOf:(long)index;
+- (BOOL)unmarshalJSON:(NSData* _Nullable)data error:(NSError* _Nullable* _Nullable)error;
+- (BaseAny* _Nullable)valueAt:(long)index;
 @end
 
-@interface BaseAnyMap : NSObject <goSeqRefInterface, BaseAniable, BaseJsonable> {
+@interface BaseAnyMap : NSObject <goSeqRefInterface> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
 - (nullable instancetype)init;
-// skipped field AnyMap.Values with unsupported type: map[string]any
+// skipped field AnyMap.AnyMap with unsupported type: github.com/coming-chat/wallet-SDK/core/base/inter.AnyMap[string, *github.com/coming-chat/wallet-SDK/core/base.Any]
 
-- (BaseAny* _Nullable)asAny;
+- (BOOL)contains:(NSString* _Nullable)key;
+- (long)count;
 - (BOOL)hasKey:(NSString* _Nullable)key;
-- (BaseOptionalString* _Nullable)jsonString:(NSError* _Nullable* _Nullable)error;
+- (NSString* _Nonnull)jsonString;
 - (BaseStringArray* _Nullable)keys;
-/**
- * `AnyMap` only support Marshal
- */
 - (NSData* _Nullable)marshalJSON:(NSError* _Nullable* _Nullable)error;
 - (BaseAny* _Nullable)remove:(NSString* _Nullable)key;
 - (void)setValue:(BaseAny* _Nullable)value key:(NSString* _Nullable)key;
-- (NSString* _Nonnull)string;
+- (BOOL)unmarshalJSON:(NSData* _Nullable)data error:(NSError* _Nullable* _Nullable)error;
 - (BaseAny* _Nullable)valueOf:(NSString* _Nullable)key;
 @end
 
@@ -510,20 +477,39 @@ let monitor = NewReachMonitorWithReachability(reachability)
 @property(strong, readonly) _Nonnull id _ref;
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
-- (nonnull instancetype)init;
-// skipped field StringArray.Values with unsupported type: []string
+- (nullable instancetype)init;
+- (nullable instancetype)initWithItem:(NSString* _Nullable)elem;
+// skipped field StringArray.AnyArray with unsupported type: github.com/coming-chat/wallet-SDK/core/base/inter.AnyArray[string]
 
 - (void)append:(NSString* _Nullable)value;
 - (BOOL)contains:(NSString* _Nullable)value;
 - (long)count;
-/**
- * return -1 if not found
- */
-- (long)indexOf:(NSString* _Nullable)value;
-- (void)remove:(long)index;
+- (NSString* _Nonnull)jsonString;
+- (NSData* _Nullable)marshalJSON:(NSError* _Nullable* _Nullable)error;
+- (NSString* _Nonnull)remove:(long)index;
 - (void)setValue:(NSString* _Nullable)value index:(long)index;
-- (NSString* _Nonnull)string;
-- (NSString* _Nonnull)valueOf:(long)index;
+- (BOOL)unmarshalJSON:(NSData* _Nullable)data error:(NSError* _Nullable* _Nullable)error;
+- (NSString* _Nonnull)valueAt:(long)index;
+@end
+
+@interface BaseStringMap : NSObject <goSeqRefInterface> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nullable instancetype)init;
+// skipped field StringMap.AnyMap with unsupported type: github.com/coming-chat/wallet-SDK/core/base/inter.AnyMap[string, string]
+
+- (BOOL)contains:(NSString* _Nullable)key;
+- (long)count;
+- (BOOL)hasKey:(NSString* _Nullable)key;
+- (NSString* _Nonnull)jsonString;
+- (BaseStringArray* _Nullable)keys;
+- (NSData* _Nullable)marshalJSON:(NSError* _Nullable* _Nullable)error;
+- (NSString* _Nonnull)remove:(NSString* _Nullable)key;
+- (void)setValue:(NSString* _Nullable)value key:(NSString* _Nullable)key;
+- (BOOL)unmarshalJSON:(NSData* _Nullable)data error:(NSError* _Nullable* _Nullable)error;
+- (NSString* _Nonnull)valueOf:(NSString* _Nullable)key;
 @end
 
 @interface BaseTokenInfo : NSObject <goSeqRefInterface> {
@@ -638,10 +624,6 @@ FOUNDATION_EXPORT const long BaseTransactionStatusSuccess;
 
 @end
 
-FOUNDATION_EXPORT BaseAnyArray* _Nullable BaseAsAnyArray(BaseAny* _Nullable a);
-
-FOUNDATION_EXPORT BaseAnyMap* _Nullable BaseAsAnyMap(BaseAny* _Nullable a);
-
 // skipped function CatchPanicAndMapToBasicError with unsupported parameter or return types
 
 
@@ -721,6 +703,12 @@ let monitor = NewReachMonitorWithReachability(reachability)
  */
 FOUNDATION_EXPORT BaseReachMonitor* _Nullable BaseNewReachMonitorWithReachability(id<BaseRpcReachability> _Nullable reachability);
 
+FOUNDATION_EXPORT BaseStringArray* _Nullable BaseNewStringArray(void);
+
+FOUNDATION_EXPORT BaseStringArray* _Nullable BaseNewStringArrayWithItem(NSString* _Nullable elem);
+
+FOUNDATION_EXPORT BaseStringMap* _Nullable BaseNewStringMap(void);
+
 // skipped function ParseNumber with unsupported parameter or return types
 
 
@@ -749,8 +737,6 @@ FOUNDATION_EXPORT NSString* _Nonnull BaseParseNumberToHex(NSString* _Nullable nu
 @class BaseJsonable;
 
 @class BaseNFTFetcher;
-
-@class BasePageable;
 
 @class BaseReachMonitorDelegate;
 
@@ -885,31 +871,6 @@ which can only be passed as strings separated by ","
 	 * @return This method directly calls `FetchNFTs()` and jsonifies the result and returns
  */
 - (BaseOptionalString* _Nullable)fetchNFTsJsonString:(NSString* _Nullable)owner error:(NSError* _Nullable* _Nullable)error;
-@end
-
-@interface BasePageable : NSObject <goSeqRefInterface, BasePageable> {
-}
-@property(strong, readonly) _Nonnull id _ref;
-
-- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
-/**
- * The count of data in the current page.
- */
-- (long)currentCount;
-/**
- * The cursor of the current page.
- */
-- (NSString* _Nonnull)currentCursor;
-/**
- * Is there has next page.
- */
-- (BOOL)hasNextPage;
-- (BaseAnyArray* _Nullable)itemArray;
-- (BaseOptionalString* _Nullable)jsonString:(NSError* _Nullable* _Nullable)error;
-/**
- * The total count of all data in the remote server. Returns 0 if statistics are not available
- */
-- (long)totalCount;
 @end
 
 @interface BaseReachMonitorDelegate : NSObject <goSeqRefInterface, BaseReachMonitorDelegate> {
