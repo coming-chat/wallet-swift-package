@@ -59,7 +59,7 @@
 @property(strong, readonly) _Nonnull id _ref;
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
-- (nullable instancetype)initWithRpc:(NSString* _Nullable)baseRpc network:(long)network;
+- (nullable instancetype)initWithRpc:(NSString* _Nullable)baseRpc;
 - (BaseBalance* _Nullable)balanceOf:(NSString* _Nullable)ownerAddress erc20Address:(NSString* _Nullable)erc20Address error:(NSError* _Nullable* _Nullable)error;
 - (BaseBalance* _Nullable)balanceOfAccount:(id<BaseAccount> _Nullable)account error:(NSError* _Nullable* _Nullable)error;
 - (BaseBalance* _Nullable)balanceOfAddress:(NSString* _Nullable)address error:(NSError* _Nullable* _Nullable)error;
@@ -109,34 +109,14 @@ which can only be passed as strings separated by ","
 @property(strong, readonly) _Nonnull id _ref;
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
-- (nonnull instancetype)init;
-// skipped field DeployAccountTransaction.TransactionHash with unsupported type: *math/big.Int
+// skipped constructor DeployAccountTransaction.NewDeployAccountTransaction with unsupported parameter or return types
 
-// skipped field DeployAccountTransaction.ContractAddressSalt with unsupported type: *math/big.Int
+// skipped field DeployAccountTransaction.DeployAccountTxn with unsupported type: invalid type
 
-// skipped field DeployAccountTransaction.ContractAddress with unsupported type: *math/big.Int
-
-// skipped field DeployAccountTransaction.ClassHash with unsupported type: *math/big.Int
-
-// skipped field DeployAccountTransaction.ConstructorCallData with unsupported type: []*math/big.Int
-
-// skipped field DeployAccountTransaction.Version with unsupported type: *math/big.Int
-
-// skipped field DeployAccountTransaction.MaxFee with unsupported type: *math/big.Int
-
-// skipped field DeployAccountTransaction.TransactionSignature with unsupported type: []*math/big.Int
-
-// skipped field DeployAccountTransaction.Nonce with unsupported type: *math/big.Int
-
-@property (nonatomic) long network;
-// skipped method DeployAccountTransaction.CaigoDeployAccountRequest with unsupported parameter or return types
-
-// skipped method DeployAccountTransaction.ComputeContractAddress with unsupported parameter or return types
+// skipped field DeployAccountTransaction.TransactionHash with unsupported type: *invalid type
 
 - (BaseOptionalString* _Nullable)signWithAccount:(id<BaseAccount> _Nullable)account error:(NSError* _Nullable* _Nullable)error;
 - (id<BaseSignedTransaction> _Nullable)signedTransactionWithAccount:(id<BaseAccount> _Nullable)account error:(NSError* _Nullable* _Nullable)error;
-// skipped method DeployAccountTransaction.TransactionHashAt with unsupported parameter or return types
-
 @end
 
 @interface StarknetSignedTransaction : NSObject <goSeqRefInterface, BaseSignedTransaction> {
@@ -145,11 +125,11 @@ which can only be passed as strings separated by ","
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
 - (nonnull instancetype)init;
-@property (nonatomic) StarknetAccount* _Nullable account;
 /**
  * Do you need to automatically deploy the contract address first when you send the transaction for the first time? default NO
  */
 @property (nonatomic) BOOL needAutoDeploy;
+@property (nonatomic) StarknetAccount* _Nullable account;
 - (BaseOptionalString* _Nullable)hexString:(NSError* _Nullable* _Nullable)error;
 @end
 
@@ -203,26 +183,9 @@ which can only be passed as strings separated by ","
 - (BOOL)isValidAddress:(NSString* _Nullable)address;
 @end
 
-// skipped const BaseRpcUrlGoerli with unsupported type: invalid type
-
-// skipped const BaseRpcUrlMainnet with unsupported type: invalid type
-
+FOUNDATION_EXPORT NSString* _Nonnull const StarknetBaseRpcUrlMainnet;
 FOUNDATION_EXPORT NSString* _Nonnull const StarknetETHTokenAddress;
-FOUNDATION_EXPORT const int64_t StarknetNetworkGoerli;
-FOUNDATION_EXPORT const int64_t StarknetNetworkMainnet;
-
-@interface Starknet : NSObject
-// skipped variable DeployAccountHash with unsupported type: *math/big.Int
-
-+ (NSError* _Nullable) errInvalidDeployTransactionVersion;
-+ (void) setErrInvalidDeployTransactionVersion:(NSError* _Nullable)v;
-
-+ (NSError* _Nullable) errUnknownNetwork;
-+ (void) setErrUnknownNetwork:(NSError* _Nullable)v;
-
-// skipped variable MaxFee with unsupported type: invalid type
-
-@end
+FOUNDATION_EXPORT const double StarknetInvokeMaxFee;
 
 FOUNDATION_EXPORT StarknetAccount* _Nullable StarknetAccountWithPrivateKey(NSString* _Nullable privatekey, NSError* _Nullable* _Nullable error);
 
@@ -243,14 +206,12 @@ FOUNDATION_EXPORT BOOL StarknetIsValidAddress(NSString* _Nullable address);
 
 FOUNDATION_EXPORT BOOL StarknetIsValidPrivateKey(NSString* _Nullable key);
 
-// skipped function NetworkChainID with unsupported parameter or return types
-
-
-FOUNDATION_EXPORT NSString* _Nonnull StarknetNetworkString(long n, NSError* _Nullable* _Nullable error);
-
 FOUNDATION_EXPORT StarknetAccount* _Nullable StarknetNewAccountWithMnemonic(NSString* _Nullable mnemonic, NSError* _Nullable* _Nullable error);
 
-FOUNDATION_EXPORT StarknetChain* _Nullable StarknetNewChainWithRpc(NSString* _Nullable baseRpc, long network, NSError* _Nullable* _Nullable error);
+FOUNDATION_EXPORT StarknetChain* _Nullable StarknetNewChainWithRpc(NSString* _Nullable baseRpc, NSError* _Nullable* _Nullable error);
+
+// skipped function NewDeployAccountTransaction with unsupported parameter or return types
+
 
 FOUNDATION_EXPORT StarknetToken* _Nullable StarknetNewToken(StarknetChain* _Nullable chain, NSString* _Nullable tokenAddress, NSError* _Nullable* _Nullable error);
 

@@ -610,6 +610,12 @@ FOUNDATION_EXPORT const long BaseTransactionStatusSuccess;
 + (NSError* _Nullable) errInvalidPublicKey;
 + (void) setErrInvalidPublicKey:(NSError* _Nullable)v;
 
++ (NSError* _Nullable) errInvalidTransactionData;
++ (void) setErrInvalidTransactionData:(NSError* _Nullable)v;
+
++ (NSError* _Nullable) errInvalidTransactionHash;
++ (void) setErrInvalidTransactionHash:(NSError* _Nullable)v;
+
 + (NSError* _Nullable) errInvalidTransactionType;
 + (void) setErrInvalidTransactionType:(NSError* _Nullable)v;
 
@@ -623,6 +629,9 @@ FOUNDATION_EXPORT const long BaseTransactionStatusSuccess;
 + (void) setErrUnsupportedFunction:(NSError* _Nullable)v;
 
 @end
+
+// skipped function BigIntMultiply with unsupported parameter or return types
+
 
 // skipped function CatchPanicAndMapToBasicError with unsupported parameter or return types
 
