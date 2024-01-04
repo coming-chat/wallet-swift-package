@@ -27,9 +27,15 @@
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
 - (nullable instancetype)initWithMnemonic:(NSString* _Nullable)mnemonic;
 /**
+ * default false
+ */
+@property (nonatomic) BOOL cairo0;
+/**
  * The ethereum address is same as public key in coming
  */
 - (NSString* _Nonnull)address;
+- (NSString* _Nonnull)addressCairo0;
+- (NSString* _Nonnull)addressCairo1;
 /**
  * @return privateKey data
  */
@@ -77,6 +83,11 @@ which can only be passed as strings separated by ","
  */
 - (StarknetDeployAccountTransaction* _Nullable)buildDeployAccountTransaction:(NSString* _Nullable)publicKey maxFee:(NSString* _Nullable)maxFee error:(NSError* _Nullable* _Nullable)error;
 /**
+ * BuildDeployAccountTransaction
+@param maxFee default is 0.0002
+ */
+- (StarknetDeployAccountTransaction* _Nullable)buildDeployAccountTransactionCairo0:(NSString* _Nullable)publicKey maxFee:(NSString* _Nullable)maxFee error:(NSError* _Nullable* _Nullable)error;
+/**
  * unsupported
  */
 - (BaseOptionalString* _Nullable)estimateTransactionFee:(id<BaseTransaction> _Nullable)transaction error:(NSError* _Nullable* _Nullable)error;
@@ -94,6 +105,7 @@ which can only be passed as strings separated by ","
  */
 - (long)fetchTransactionStatus:(NSString* _Nullable)hash;
 - (BaseOptionalBool* _Nullable)isContractAddressDeployed:(NSString* _Nullable)contractAddress error:(NSError* _Nullable* _Nullable)error;
+- (BaseOptionalBool* _Nullable)isContractAddressUpgraded:(NSString* _Nullable)contractAddress error:(NSError* _Nullable* _Nullable)error;
 - (id<BaseToken> _Nullable)mainToken;
 - (StarknetToken* _Nullable)newToken:(NSString* _Nullable)tokenAddress error:(NSError* _Nullable* _Nullable)error;
 /**
@@ -194,11 +206,26 @@ FOUNDATION_EXPORT StarknetSignedTransaction* _Nullable StarknetAsSignedTransacti
 FOUNDATION_EXPORT StarknetAccount* _Nullable StarknetAsStarknetAccount(id<BaseAccount> _Nullable account);
 
 /**
+ * CheckCairoVersion
+- return address version, 0 for cairo0, 1 for cairo1.0
+ */
+FOUNDATION_EXPORT BaseOptionalInt* _Nullable StarknetCheckCairoVersion(NSString* _Nullable address, NSString* _Nullable pubkey, NSError* _Nullable* _Nullable error);
+
+// skipped function CheckCairoVersionFelt with unsupported parameter or return types
+
+
+/**
  * Warning: starknet cannot support decode address to public key
  */
 FOUNDATION_EXPORT NSString* _Nonnull StarknetDecodeAddressToPublicKey(NSString* _Nullable address, NSError* _Nullable* _Nullable error);
 
+/**
+ * EncodePublicKeyToAddress
+- return: encode cairo version 1.0 address
+ */
 FOUNDATION_EXPORT NSString* _Nonnull StarknetEncodePublicKeyToAddress(NSString* _Nullable publicKey, NSError* _Nullable* _Nullable error);
+
+FOUNDATION_EXPORT NSString* _Nonnull StarknetEncodePublicKeyToAddressCairo0(NSString* _Nullable publicKey, NSError* _Nullable* _Nullable error);
 
 FOUNDATION_EXPORT BOOL StarknetIsNotDeployedError(NSError* _Nullable err);
 

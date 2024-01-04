@@ -19,6 +19,7 @@
 @class BaseBigInts;
 @class BaseNFT;
 @class BaseOptionalBool;
+@class BaseOptionalInt;
 @class BaseOptionalString;
 @class BaseReachMonitor;
 @class BaseRpcLatency;
@@ -411,6 +412,15 @@ selects base 2. Otherwise the selected base is 10.
 @property (nonatomic) BOOL value;
 @end
 
+@interface BaseOptionalInt : NSObject <goSeqRefInterface> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nullable instancetype)init:(long)i;
+@property (nonatomic) long value;
+@end
+
 /**
  * Optional string for easy of writing iOS code
  */
@@ -699,6 +709,8 @@ FOUNDATION_EXPORT BaseBigInt* _Nullable BaseNewBigIntFromString(NSString* _Nulla
 FOUNDATION_EXPORT BaseBigInts* _Nullable BaseNewBigInts(long size);
 
 FOUNDATION_EXPORT BaseOptionalBool* _Nullable BaseNewOptionalBool(BOOL b);
+
+FOUNDATION_EXPORT BaseOptionalInt* _Nullable BaseNewOptionalInt(long i);
 
 FOUNDATION_EXPORT BaseOptionalString* _Nullable BaseNewOptionalString(NSString* _Nullable s);
 
