@@ -172,7 +172,7 @@
 /**
  * Get or create the starknet account.
  */
-- (StarknetAccount* _Nullable)getOrCreateStarknetAccount:(NSError* _Nullable* _Nullable)error;
+- (StarknetAccount* _Nullable)getOrCreateStarknetAccount:(BOOL)isCairo0 error:(NSError* _Nullable* _Nullable)error;
 /**
  * Get or create the sui account.
  */
