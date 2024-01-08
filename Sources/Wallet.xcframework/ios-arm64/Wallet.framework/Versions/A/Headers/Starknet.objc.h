@@ -105,7 +105,6 @@ which can only be passed as strings separated by ","
  */
 - (long)fetchTransactionStatus:(NSString* _Nullable)hash;
 - (BaseOptionalBool* _Nullable)isContractAddressDeployed:(NSString* _Nullable)contractAddress error:(NSError* _Nullable* _Nullable)error;
-- (BaseOptionalBool* _Nullable)isContractAddressUpgraded:(NSString* _Nullable)contractAddress error:(NSError* _Nullable* _Nullable)error;
 - (id<BaseToken> _Nullable)mainToken;
 - (StarknetToken* _Nullable)newToken:(NSString* _Nullable)tokenAddress error:(NSError* _Nullable* _Nullable)error;
 /**

@@ -103,7 +103,7 @@
 - (WalletAccountInfo* _Nullable)polkaAccountInfo:(long)network;
 - (WalletAccountInfo* _Nullable)solanaAccountInfo;
 - (WalletAccountInfo* _Nullable)starcoinAccountInfo;
-- (WalletAccountInfo* _Nullable)starknetAccountInfo;
+- (WalletAccountInfo* _Nullable)starknetAccountInfo:(BOOL)isCairo0;
 - (WalletAccountInfo* _Nullable)suiAccountInfo;
 /**
  * 获取钱包类型
