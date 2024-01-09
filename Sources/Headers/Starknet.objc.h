@@ -142,6 +142,7 @@ which can only be passed as strings separated by ","
 @property (nonatomic) BOOL needAutoDeploy;
 @property (nonatomic) StarknetAccount* _Nullable account;
 - (BaseOptionalString* _Nullable)hexString:(NSError* _Nullable* _Nullable)error;
+- (BOOL)resignInvokeTransaction:(StarknetChain* _Nullable)chain acc:(StarknetAccount* _Nullable)acc error:(NSError* _Nullable* _Nullable)error;
 @end
 
 @interface StarknetToken : NSObject <goSeqRefInterface, BaseToken> {
