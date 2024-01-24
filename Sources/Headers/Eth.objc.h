@@ -412,6 +412,12 @@ Support normal or erc20 transfer
  * The gas price use average grade default.
  */
 - (EthGasPrice* _Nullable)suggestGasPriceEIP1559:(NSError* _Nullable* _Nullable)error;
+- (EthTransaction* _Nullable)transferNFT:(NSString* _Nullable)sender receiver:(NSString* _Nullable)receiver nft:(BaseNFT* _Nullable)nft error:(NSError* _Nullable* _Nullable)error;
+/**
+ * TransferNFTParams
+- param nftStandard: only support erc-721 now, else throw error unsupported nft type.
+ */
+- (EthTransaction* _Nullable)transferNFTParams:(NSString* _Nullable)sender receiver:(NSString* _Nullable)receiver nftId:(NSString* _Nullable)nftId nftContractAddress:(NSString* _Nullable)nftContractAddress nftStandard:(NSString* _Nullable)nftStandard error:(NSError* _Nullable* _Nullable)error;
 @end
 
 @interface EthErc20Token : NSObject <goSeqRefInterface, BaseToken, EthTokenProtocol> {
@@ -914,6 +920,8 @@ Deprecated: use NewRedPacketContract() get base.RedPacketContract, and SendTrans
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
 - (nullable instancetype)init:(NSString* _Nullable)nonce gasPrice:(NSString* _Nullable)gasPrice gasLimit:(NSString* _Nullable)gasLimit to:(NSString* _Nullable)to value:(NSString* _Nullable)value data:(NSString* _Nullable)data;
 - (nullable instancetype)initFromHex:(NSString* _Nullable)hexData;
+- (nullable instancetype)initNftTransfer:(NSString* _Nullable)sender receiver:(NSString* _Nullable)receiver gasPrice:(NSString* _Nullable)gasPrice gasLimit:(NSString* _Nullable)gasLimit nft:(BaseNFT* _Nullable)nft;
+- (nullable instancetype)initNftTransferParams:(NSString* _Nullable)sender receiver:(NSString* _Nullable)receiver gasPrice:(NSString* _Nullable)gasPrice gasLimit:(NSString* _Nullable)gasLimit nftId:(NSString* _Nullable)nftId nftContractAddress:(NSString* _Nullable)nftContractAddress nftStandard:(NSString* _Nullable)nftStandard;
 @property (nonatomic) NSString* _Nonnull nonce;
 @property (nonatomic) NSString* _Nonnull gasPrice;
 @property (nonatomic) NSString* _Nonnull gasLimit;
@@ -1009,6 +1017,10 @@ FOUNDATION_EXPORT NSString* _Nonnull const EthERC20_METHOD_TRANSFER;
  * 合约 ABI json文件，查询ERC20 相关代币信息需要使用 ABI 文件
  */
 FOUNDATION_EXPORT NSString* _Nonnull const EthErc20AbiStr;
+/**
+ * erc721 的 ABI 文件, 只支持 transferFrom 方法
+ */
+FOUNDATION_EXPORT NSString* _Nonnull const EthErc721Abi_TransferOnly;
 FOUNDATION_EXPORT NSString* _Nonnull const EthNetworkNameArbitrum;
 FOUNDATION_EXPORT NSString* _Nonnull const EthNetworkNameAvalanche;
 FOUNDATION_EXPORT NSString* _Nonnull const EthNetworkNameBSC;
@@ -1043,6 +1055,8 @@ FOUNDATION_EXPORT NSString* _Nonnull EthDecodeAddressToPublicKey(NSString* _Null
  * Encode erc20 transfer data
  */
 FOUNDATION_EXPORT NSData* _Nullable EthEncodeErc20Transfer(NSString* _Nullable toAddress, NSString* _Nullable amount, NSError* _Nullable* _Nullable error);
+
+FOUNDATION_EXPORT NSData* _Nullable EthEncodeErc721TransferFrom(NSString* _Nullable sender, NSString* _Nullable receiver, NSString* _Nullable nftId, NSError* _Nullable* _Nullable error);
 
 FOUNDATION_EXPORT NSString* _Nonnull EthEncodePublicKeyToAddress(NSString* _Nullable publicKey, NSError* _Nullable* _Nullable error);
 
@@ -1126,6 +1140,10 @@ FOUNDATION_EXPORT EthToken* _Nullable EthNewToken(EthChain* _Nullable chain);
 FOUNDATION_EXPORT EthTransaction* _Nullable EthNewTransaction(NSString* _Nullable nonce, NSString* _Nullable gasPrice, NSString* _Nullable gasLimit, NSString* _Nullable to, NSString* _Nullable value, NSString* _Nullable data);
 
 FOUNDATION_EXPORT EthTransaction* _Nullable EthNewTransactionFromHex(NSString* _Nullable hexData, NSError* _Nullable* _Nullable error);
+
+FOUNDATION_EXPORT EthTransaction* _Nullable EthNewTransactionNftTransfer(NSString* _Nullable sender, NSString* _Nullable receiver, NSString* _Nullable gasPrice, NSString* _Nullable gasLimit, BaseNFT* _Nullable nft);
+
+FOUNDATION_EXPORT EthTransaction* _Nullable EthNewTransactionNftTransferParams(NSString* _Nullable sender, NSString* _Nullable receiver, NSString* _Nullable gasPrice, NSString* _Nullable gasLimit, NSString* _Nullable nftId, NSString* _Nullable nftContractAddress, NSString* _Nullable nftStandard);
 
 FOUNDATION_EXPORT EthUtil* _Nullable EthNewUtil(void);
 
