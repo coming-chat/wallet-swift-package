@@ -18,6 +18,10 @@
 @class BaseBigInt;
 @class BaseBigInts;
 @class BaseNFT;
+@class BaseNFTArray;
+@class BaseNFTGroup;
+@class BaseNFTGroupArray;
+@class BaseNFTGroupedMap;
 @class BaseOptionalBool;
 @class BaseOptionalInt;
 @class BaseOptionalString;
@@ -398,6 +402,73 @@ selects base 2. Otherwise the selected base is 10.
 @property (nonatomic) int64_t aptAmount;
 - (NSString* _Nonnull)extractedImageUrl;
 - (NSString* _Nonnull)groupName;
+@end
+
+@interface BaseNFTArray : NSObject <goSeqRefInterface> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nonnull instancetype)init;
+// skipped field NFTArray.AnyArray with unsupported type: github.com/coming-chat/wallet-SDK/core/base/inter.AnyArray[*github.com/coming-chat/wallet-SDK/core/base.NFT]
+
+- (void)append:(BaseNFT* _Nullable)value;
+- (long)count;
+- (NSString* _Nonnull)jsonString;
+- (NSData* _Nullable)marshalJSON:(NSError* _Nullable* _Nullable)error;
+- (BaseNFT* _Nullable)remove:(long)index;
+- (void)setValue:(BaseNFT* _Nullable)value index:(long)index;
+- (BOOL)unmarshalJSON:(NSData* _Nullable)data error:(NSError* _Nullable* _Nullable)error;
+- (BaseNFT* _Nullable)valueAt:(long)index;
+@end
+
+@interface BaseNFTGroup : NSObject <goSeqRefInterface> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nonnull instancetype)init;
+@property (nonatomic) NSString* _Nonnull collection;
+@property (nonatomic) BaseNFTArray* _Nullable items;
+@end
+
+@interface BaseNFTGroupArray : NSObject <goSeqRefInterface> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nonnull instancetype)init;
+// skipped field NFTGroupArray.AnyArray with unsupported type: github.com/coming-chat/wallet-SDK/core/base/inter.AnyArray[*github.com/coming-chat/wallet-SDK/core/base.NFTGroup]
+
+- (void)append:(BaseNFTGroup* _Nullable)value;
+- (long)count;
+- (NSString* _Nonnull)jsonString;
+- (NSData* _Nullable)marshalJSON:(NSError* _Nullable* _Nullable)error;
+- (BaseNFTGroup* _Nullable)remove:(long)index;
+- (void)setValue:(BaseNFTGroup* _Nullable)value index:(long)index;
+- (BOOL)unmarshalJSON:(NSData* _Nullable)data error:(NSError* _Nullable* _Nullable)error;
+- (BaseNFTGroup* _Nullable)valueAt:(long)index;
+@end
+
+@interface BaseNFTGroupedMap : NSObject <goSeqRefInterface> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nonnull instancetype)init;
+// skipped field NFTGroupedMap.AnyMap with unsupported type: github.com/coming-chat/wallet-SDK/core/base/inter.AnyMap[string, *github.com/coming-chat/wallet-SDK/core/base.NFTArray]
+
+- (BOOL)contains:(NSString* _Nullable)key;
+- (long)count;
+- (BOOL)hasKey:(NSString* _Nullable)key;
+- (NSString* _Nonnull)jsonString;
+- (BaseStringArray* _Nullable)keys;
+- (NSData* _Nullable)marshalJSON:(NSError* _Nullable* _Nullable)error;
+- (BaseNFTArray* _Nullable)remove:(NSString* _Nullable)key;
+- (void)setValue:(BaseNFTArray* _Nullable)value key:(NSString* _Nullable)key;
+- (BaseNFTGroupArray* _Nullable)toNFTGroupArray;
+- (BOOL)unmarshalJSON:(NSData* _Nullable)data error:(NSError* _Nullable* _Nullable)error;
+- (BaseNFTArray* _Nullable)valueOf:(NSString* _Nullable)key;
 @end
 
 /**

@@ -13,6 +13,13 @@
 #include "Base.objc.h"
 
 @class EthAccount;
+@class EthBKSNFT;
+@class EthBKSNFTFetcher;
+@class EthBKSNFTMetadata;
+@class EthBKSNFTPage;
+@class EthBKSPageParams;
+@class EthBKSToken;
+@class EthBlockScout;
 @class EthBuildTxResult;
 @class EthCallMethodOpts;
 @class EthCallMethodOptsBigInt;
@@ -121,6 +128,119 @@
 - (NSData* _Nullable)sign:(NSData* _Nullable)message password:(NSString* _Nullable)password error:(NSError* _Nullable* _Nullable)error;
 - (NSData* _Nullable)signHash:(NSData* _Nullable)hash error:(NSError* _Nullable* _Nullable)error;
 - (BaseOptionalString* _Nullable)signHex:(NSString* _Nullable)messageHex password:(NSString* _Nullable)password error:(NSError* _Nullable* _Nullable)error;
+@end
+
+@interface EthBKSNFT : NSObject <goSeqRefInterface> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nonnull instancetype)init;
+/**
+ * AnimationUrl   string `json:"animation_url"`
+ExternalAppUrl string `json:"external_app_url"`
+IsUnique       string `json:"is_unique"`
+Value          string `json:"value"`
+ */
+@property (nonatomic) NSString* _Nonnull id_;
+@property (nonatomic) NSString* _Nonnull imageUrl;
+@property (nonatomic) EthBKSNFTMetadata* _Nullable metadata;
+@property (nonatomic) NSString* _Nonnull owner;
+@property (nonatomic) EthBKSToken* _Nullable token;
+@property (nonatomic) NSString* _Nonnull tokenType;
+- (BaseNFT* _Nullable)toBaseNFT;
+@end
+
+@interface EthBKSNFTFetcher : NSObject <goSeqRefInterface> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nullable instancetype)init:(NSString* _Nullable)url owner:(NSString* _Nullable)owner;
+@property (nonatomic) NSString* _Nonnull apiUrl;
+@property (nonatomic) NSString* _Nonnull owner;
+- (EthBKSNFTPage* _Nullable)fetchNextPage:(NSError* _Nullable* _Nullable)error;
+- (BOOL)hasNextPage;
+- (void)resetPage;
+@end
+
+@interface EthBKSNFTMetadata : NSObject <goSeqRefInterface> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nonnull instancetype)init;
+/**
+ * Attributes any    `json:"attributes"`
+ */
+@property (nonatomic) NSString* _Nonnull descr;
+@property (nonatomic) NSString* _Nonnull image;
+@property (nonatomic) NSString* _Nonnull name;
+@property (nonatomic) NSString* _Nonnull externalUrl;
+@end
+
+@interface EthBKSNFTPage : NSObject <goSeqRefInterface, BaseJsonable> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nonnull instancetype)init;
+- (long)count;
+- (BOOL)hasNextPage;
+- (BaseOptionalString* _Nullable)jsonString:(NSError* _Nullable* _Nullable)error;
+- (EthBKSPageParams* _Nullable)nextPageParams;
+- (BaseNFTGroupedMap* _Nullable)toNFTGroupedMap;
+- (EthBKSNFT* _Nullable)valueAt:(long)index;
+@end
+
+/**
+ * BlockScout Next Page Params
+ */
+@interface EthBKSPageParams : NSObject <goSeqRefInterface> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nonnull instancetype)init;
+// skipped field BKSPageParams.Raw with unsupported type: map[string]interface{}
+
+- (NSData* _Nullable)marshalJSON:(NSError* _Nullable* _Nullable)error;
+- (NSString* _Nonnull)string;
+- (BOOL)unmarshalJSON:(NSData* _Nullable)data error:(NSError* _Nullable* _Nullable)error;
+@end
+
+@interface EthBKSToken : NSObject <goSeqRefInterface> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nonnull instancetype)init;
+/**
+ * CirculatingMarketCap string `json:"circulating_market_cap"`
+Decimals             string `json:"decimals"`
+ExchangeRate         string `json:"exchange_rate"`
+Holders              string `json:"holders"`
+IconUrl              string `json:"icon_url"`
+ */
+@property (nonatomic) NSString* _Nonnull address;
+@property (nonatomic) NSString* _Nonnull name;
+@property (nonatomic) NSString* _Nonnull symbol;
+@property (nonatomic) NSString* _Nonnull totalSupply;
+@property (nonatomic) NSString* _Nonnull type;
+@end
+
+@interface EthBlockScout : NSObject <goSeqRefInterface> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nullable instancetype)init:(NSString* _Nullable)url;
+@property (nonatomic) NSString* _Nonnull baseUrl;
+/**
+ * Nfts
+- params nextPage: set nil when query first page.
+ */
+- (EthBKSNFTPage* _Nullable)nft:(NSString* _Nullable)owner nextPage:(EthBKSPageParams* _Nullable)nextPage error:(NSError* _Nullable* _Nullable)error;
 @end
 
 @interface EthBuildTxResult : NSObject <goSeqRefInterface> {
@@ -866,6 +986,8 @@ Deprecated: use NewRedPacketContract() get base.RedPacketContract, and SendTrans
 - (BOOL)isValidAddress:(NSString* _Nullable)address;
 @end
 
+FOUNDATION_EXPORT NSString* _Nonnull const EthBlockScoutURLBevm;
+FOUNDATION_EXPORT NSString* _Nonnull const EthBlockScoutURLEth;
 /**
  * 默认gas limit估算失败后，21000 * 3 = 63000
  */
@@ -952,6 +1074,10 @@ FOUNDATION_EXPORT BOOL EthIsValidEIP55Address(NSString* _Nullable address);
 FOUNDATION_EXPORT BOOL EthIsValidSignature(NSData* _Nullable publicKey, NSData* _Nullable msg, NSData* _Nullable signature);
 
 FOUNDATION_EXPORT EthAccount* _Nullable EthNewAccountWithMnemonic(NSString* _Nullable mnemonic, NSError* _Nullable* _Nullable error);
+
+FOUNDATION_EXPORT EthBKSNFTFetcher* _Nullable EthNewBKSNFTFetcher(NSString* _Nullable url, NSString* _Nullable owner);
+
+FOUNDATION_EXPORT EthBlockScout* _Nullable EthNewBlockScout(NSString* _Nullable url);
 
 /**
  * NewCallMsg creates an empty contract call parameter list.
