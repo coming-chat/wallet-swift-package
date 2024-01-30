@@ -25,6 +25,8 @@
 @class EthCallMethodOptsBigInt;
 @class EthCallMsg;
 @class EthChain;
+@class EthDonutInscription;
+@class EthDonutInscriptionArray;
 @class EthErc20Token;
 @class EthErc20TokenInfo;
 @class EthErc20TxParams;
@@ -350,6 +352,8 @@ which can only be passed as strings separated by ","
 @return Batch transaction status, its order is consistent with hashListString: "status1,status2,status3"
  */
 - (NSString* _Nonnull)batchFetchTransactionStatus:(NSString* _Nullable)hashListString;
+- (EthTransaction* _Nullable)buildDonutTransfer:(NSString* _Nullable)sender receiver:(NSString* _Nullable)receiver tick:(NSString* _Nullable)tick amount:(NSString* _Nullable)amount error:(NSError* _Nullable* _Nullable)error;
+- (EthTransaction* _Nullable)buildSrc20Transfer:(NSString* _Nullable)sender receiver:(NSString* _Nullable)receiver src20ContractAddress:(NSString* _Nullable)src20ContractAddress tick:(NSString* _Nullable)tick amount:(NSString* _Nullable)amount error:(NSError* _Nullable* _Nullable)error;
 - (BaseOptionalString* _Nullable)buildTransferTx:(NSString* _Nullable)privateKey transaction:(EthTransaction* _Nullable)transaction error:(NSError* _Nullable* _Nullable)error;
 - (BaseOptionalString* _Nullable)buildTransferTxWithAccount:(EthAccount* _Nullable)account transaction:(EthTransaction* _Nullable)transaction error:(NSError* _Nullable* _Nullable)error;
 /**
@@ -418,6 +422,34 @@ Support normal or erc20 transfer
 - param nftStandard: only support erc-721 now, else throw error unsupported nft type.
  */
 - (EthTransaction* _Nullable)transferNFTParams:(NSString* _Nullable)sender receiver:(NSString* _Nullable)receiver nftId:(NSString* _Nullable)nftId nftContractAddress:(NSString* _Nullable)nftContractAddress nftStandard:(NSString* _Nullable)nftStandard error:(NSError* _Nullable* _Nullable)error;
+@end
+
+@interface EthDonutInscription : NSObject <goSeqRefInterface> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nonnull instancetype)init;
+@property (nonatomic) NSString* _Nonnull tick;
+@property (nonatomic) NSString* _Nonnull amount;
+@end
+
+@interface EthDonutInscriptionArray : NSObject <goSeqRefInterface, EthJsonable> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nonnull instancetype)init;
+// skipped field DonutInscriptionArray.AnyArray with unsupported type: github.com/coming-chat/wallet-SDK/core/base/inter.AnyArray[*github.com/coming-chat/wallet-SDK/core/eth.DonutInscription]
+
+- (void)append:(EthDonutInscription* _Nullable)value;
+- (long)count;
+- (NSString* _Nonnull)jsonString;
+- (NSData* _Nullable)marshalJSON:(NSError* _Nullable* _Nullable)error;
+- (EthDonutInscription* _Nullable)remove:(long)index;
+- (void)setValue:(EthDonutInscription* _Nullable)value index:(long)index;
+- (BOOL)unmarshalJSON:(NSData* _Nullable)data error:(NSError* _Nullable* _Nullable)error;
+- (EthDonutInscription* _Nullable)valueAt:(long)index;
 @end
 
 @interface EthErc20Token : NSObject <goSeqRefInterface, BaseToken, EthTokenProtocol> {
@@ -1033,6 +1065,12 @@ FOUNDATION_EXPORT NSString* _Nonnull const EthRPAMethodOpen;
 FOUNDATION_EXPORT NSString* _Nonnull const EthRedPacketABI;
 FOUNDATION_EXPORT NSString* _Nonnull const EthTagCollectible;
 
+// skipped function AbiCoder with unsupported parameter or return types
+
+
+// skipped function AbiCoderEncode with unsupported parameter or return types
+
+
 FOUNDATION_EXPORT EthAccount* _Nullable EthAccountWithPrivateKey(NSString* _Nullable privatekey, NSError* _Nullable* _Nullable error);
 
 FOUNDATION_EXPORT EthAccount* _Nullable EthAsEthereumAccount(id<BaseAccount> _Nullable account);
@@ -1064,6 +1102,12 @@ FOUNDATION_EXPORT NSString* _Nonnull EthEncodePublicKeyToAddress(NSString* _Null
  * We cannot use name `NewAccountWithPrivateKey`, because android not support.
  */
 FOUNDATION_EXPORT EthAccount* _Nullable EthEthAccountWithPrivateKey(NSString* _Nullable privateKey, NSError* _Nullable* _Nullable error);
+
+/**
+ * FetchDonutInscriptions
+- param graphURL Default "https://bc.dnt.social/v1/common/search"
+ */
+FOUNDATION_EXPORT EthDonutInscriptionArray* _Nullable EthFetchDonutInscriptions(NSString* _Nullable owner, NSString* _Nullable graphURL, NSError* _Nullable* _Nullable error);
 
 /**
  * 获取链ID
