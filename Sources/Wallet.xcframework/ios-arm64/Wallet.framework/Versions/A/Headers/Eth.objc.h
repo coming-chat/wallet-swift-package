@@ -41,6 +41,7 @@
 @class EthRedPacketAction;
 @class EthRedPacketDetail;
 @class EthRpcReachability;
+@class EthSrc20Token;
 @class EthToken;
 @class EthTransaction;
 @class EthTransactionByHashResult;
@@ -352,8 +353,6 @@ which can only be passed as strings separated by ","
 @return Batch transaction status, its order is consistent with hashListString: "status1,status2,status3"
  */
 - (NSString* _Nonnull)batchFetchTransactionStatus:(NSString* _Nullable)hashListString;
-- (EthTransaction* _Nullable)buildDonutTransfer:(NSString* _Nullable)sender receiver:(NSString* _Nullable)receiver tick:(NSString* _Nullable)tick amount:(NSString* _Nullable)amount error:(NSError* _Nullable* _Nullable)error;
-- (EthTransaction* _Nullable)buildSrc20Transfer:(NSString* _Nullable)sender receiver:(NSString* _Nullable)receiver src20ContractAddress:(NSString* _Nullable)src20ContractAddress tick:(NSString* _Nullable)tick amount:(NSString* _Nullable)amount error:(NSError* _Nullable* _Nullable)error;
 - (BaseOptionalString* _Nullable)buildTransferTx:(NSString* _Nullable)privateKey transaction:(EthTransaction* _Nullable)transaction error:(NSError* _Nullable* _Nullable)error;
 - (BaseOptionalString* _Nullable)buildTransferTxWithAccount:(EthAccount* _Nullable)account transaction:(EthTransaction* _Nullable)transaction error:(NSError* _Nullable* _Nullable)error;
 /**
@@ -922,6 +921,30 @@ Deprecated: use NewRedPacketContract() get base.RedPacketContract, and SendTrans
 - (BaseRpcLatency* _Nullable)latencyOf:(NSString* _Nullable)rpc timeout:(int64_t)timeout error:(NSError* _Nullable* _Nullable)error;
 @end
 
+@interface EthSrc20Token : NSObject <goSeqRefInterface, BaseToken> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nullable instancetype)init:(EthChain* _Nullable)chain tick:(NSString* _Nullable)tick;
+@property (nonatomic) NSString* _Nonnull tick;
+/**
+ * current support bevm donut token, Default is "0xf414dF7d8260A8e1e007F72892Cf5F0A7955cf04"
+ */
+@property (nonatomic) NSString* _Nonnull contractAddress;
+- (BaseBalance* _Nullable)balanceOfAccount:(id<BaseAccount> _Nullable)account error:(NSError* _Nullable* _Nullable)error;
+- (BaseBalance* _Nullable)balanceOfAddress:(NSString* _Nullable)address error:(NSError* _Nullable* _Nullable)error;
+- (BaseBalance* _Nullable)balanceOfPublicKey:(NSString* _Nullable)publicKey error:(NSError* _Nullable* _Nullable)error;
+- (id<BaseTransaction> _Nullable)buildTransfer:(NSString* _Nullable)sender receiver:(NSString* _Nullable)receiver amount:(NSString* _Nullable)amount error:(NSError* _Nullable* _Nullable)error;
+- (id<BaseTransaction> _Nullable)buildTransferAll:(NSString* _Nullable)sender receiver:(NSString* _Nullable)receiver error:(NSError* _Nullable* _Nullable)error;
+/**
+ * Before invoking this method, it is best to check `CanTransferAll()`
+ */
+- (BOOL)canTransferAll;
+- (id<BaseChain> _Nullable)chain;
+- (BaseTokenInfo* _Nullable)tokenInfo:(NSError* _Nullable* _Nullable)error;
+@end
+
 @interface EthToken : NSObject <goSeqRefInterface, BaseToken, EthTokenProtocol> {
 }
 @property(strong, readonly) _Nonnull id _ref;
@@ -1073,6 +1096,8 @@ FOUNDATION_EXPORT NSString* _Nonnull const EthTagCollectible;
 
 FOUNDATION_EXPORT EthAccount* _Nullable EthAccountWithPrivateKey(NSString* _Nullable privatekey, NSError* _Nullable* _Nullable error);
 
+FOUNDATION_EXPORT EthTransaction* _Nullable EthAsEthTransaction(id<BaseTransaction> _Nullable txn);
+
 FOUNDATION_EXPORT EthAccount* _Nullable EthAsEthereumAccount(id<BaseAccount> _Nullable account);
 
 /**
@@ -1105,7 +1130,7 @@ FOUNDATION_EXPORT EthAccount* _Nullable EthEthAccountWithPrivateKey(NSString* _N
 
 /**
  * FetchDonutInscriptions
-- param graphURL Default "https://bc.dnt.social/v1/common/search"
+- param graphURL: Default "https://bc.dnt.social/v1/common/search"
  */
 FOUNDATION_EXPORT EthDonutInscriptionArray* _Nullable EthFetchDonutInscriptions(NSString* _Nullable owner, NSString* _Nullable graphURL, NSError* _Nullable* _Nullable error);
 
@@ -1178,6 +1203,8 @@ FOUNDATION_EXPORT EthRedPacketDetail* _Nullable EthNewRedPacketDetail(void);
 FOUNDATION_EXPORT EthRedPacketDetail* _Nullable EthNewRedPacketDetailWithJsonString(NSString* _Nullable s, NSError* _Nullable* _Nullable error);
 
 FOUNDATION_EXPORT EthRpcReachability* _Nullable EthNewRpcReachability(void);
+
+FOUNDATION_EXPORT EthSrc20Token* _Nullable EthNewSrc20Token(EthChain* _Nullable chain, NSString* _Nullable tick);
 
 FOUNDATION_EXPORT EthToken* _Nullable EthNewToken(EthChain* _Nullable chain);
 
