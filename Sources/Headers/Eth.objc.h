@@ -517,8 +517,6 @@ Support normal or erc20 transfer
 - (nullable instancetype)init;
 // skipped field EthChain.RemoteRpcClient with unsupported type: *github.com/ethereum/go-ethereum/ethclient.Client
 
-// skipped field EthChain.RpcClient with unsupported type: *github.com/ethereum/go-ethereum/rpc.Client
-
 /**
  * @title    主网代币余额查询
 @description   返回主网代币余额，decimal为代币精度
