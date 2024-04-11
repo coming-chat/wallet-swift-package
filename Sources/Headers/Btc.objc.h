@@ -99,6 +99,14 @@
  */
 - (BaseOptionalString* _Nullable)signHex:(NSString* _Nullable)messageHex password:(NSString* _Nullable)password error:(NSError* _Nullable* _Nullable)error;
 /**
+ * SignMessage
+https://developer.bitcoin.org/reference/rpc/signmessage.html
+@param msg The message to create a signature of.
+@return The signature of the message encoded in base64.
+ */
+- (BaseOptionalString* _Nullable)signMessage:(NSString* _Nullable)msg error:(NSError* _Nullable* _Nullable)error;
+- (BtcSignedPsbtTransaction* _Nullable)signPsbt:(NSString* _Nullable)psbtHex error:(NSError* _Nullable* _Nullable)error;
+/**
  * TaprootAddress P2TR just for m/86'/
  */
 - (BaseOptionalString* _Nullable)taprootAddress:(NSError* _Nullable* _Nullable)error;
@@ -377,6 +385,7 @@ So only the status and timestamp can be queried.
 - (long)fetchTransactionStatus:(NSString* _Nullable)hash;
 - (BOOL)isValidAddress:(NSString* _Nullable)address;
 - (id<BaseToken> _Nullable)mainToken;
+- (BaseOptionalString* _Nullable)pushPsbt:(NSString* _Nullable)psbtHex error:(NSError* _Nullable* _Nullable)error;
 - (BtcBrc20TokenBalance* _Nullable)queryBrc20Balance:(NSString* _Nullable)owner ticker:(NSString* _Nullable)ticker error:(NSError* _Nullable* _Nullable)error;
 /**
  * Send the raw transaction on-chain
@@ -436,6 +445,7 @@ So only the status and timestamp can be queried.
 // skipped field SignedPsbtTransaction.Packet with unsupported type: invalid type
 
 - (BaseOptionalString* _Nullable)hexString:(NSError* _Nullable* _Nullable)error;
+- (BaseOptionalString* _Nullable)psbtHexString:(NSError* _Nullable* _Nullable)error;
 - (BaseOptionalString* _Nullable)publishWithChain:(BtcChain* _Nullable)c error:(NSError* _Nullable* _Nullable)error;
 @end
 
@@ -609,5 +619,7 @@ FOUNDATION_EXPORT NSString* _Nonnull BtcSendRawTransaction(NSString* _Nullable s
 
 
 FOUNDATION_EXPORT BtcFeeRate* _Nullable BtcSuggestFeeRate(NSError* _Nullable* _Nullable error);
+
+FOUNDATION_EXPORT BOOL BtcVerifySignature(NSString* _Nullable pubkey, NSString* _Nullable message, NSString* _Nullable signature);
 
 #endif
