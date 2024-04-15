@@ -48,6 +48,7 @@
 - (NSString* _Nonnull)address;
 - (long)addressType;
 - (NSString* _Nonnull)addressTypeString;
+- (BaseOptionalString* _Nullable)addressWithType:(long)addrType error:(NSError* _Nullable* _Nullable)error;
 /**
  * @return publicKey that will start with 0x.
  */
@@ -92,6 +93,7 @@ https://developer.bitcoin.org/reference/rpc/signmessage.html
  */
 - (BaseOptionalString* _Nullable)signMessage:(NSString* _Nullable)msg error:(NSError* _Nullable* _Nullable)error;
 - (BtcSignedPsbtTransaction* _Nullable)signPsbt:(NSString* _Nullable)psbtHex error:(NSError* _Nullable* _Nullable)error;
+- (BaseOptionalString* _Nullable)wifPrivateKeyString:(NSError* _Nullable* _Nullable)error;
 @end
 
 @interface BtcBrc20CommitCustom : NSObject <goSeqRefInterface, BaseJsonable> {
@@ -577,12 +579,12 @@ FOUNDATION_EXPORT BtcTransactionDetail* _Nullable BtcDecodeTxHexTransactionDetai
 // skipped function EncodePubKeyToAddress with unsupported parameter or return types
 
 
-FOUNDATION_EXPORT NSString* _Nonnull BtcEncodePublicDataToAddress(NSData* _Nullable public, NSString* _Nullable chainnet, NSError* _Nullable* _Nullable error);
+FOUNDATION_EXPORT NSString* _Nonnull BtcEncodePublicDataToAddress(NSData* _Nullable pubKey, NSString* _Nullable chainnet, long addressType, NSError* _Nullable* _Nullable error);
 
 /**
  * @param publicKey can start with 0x or not.
  */
-FOUNDATION_EXPORT NSString* _Nonnull BtcEncodePublicKeyToAddress(NSString* _Nullable publicKey, NSString* _Nullable chainnet, NSError* _Nullable* _Nullable error);
+FOUNDATION_EXPORT NSString* _Nonnull BtcEncodePublicKeyToAddress(NSString* _Nullable publicKey, NSString* _Nullable chainnet, long addressType, NSError* _Nullable* _Nullable error);
 
 // skipped function EnsurePsbtFinalize with unsupported parameter or return types
 
