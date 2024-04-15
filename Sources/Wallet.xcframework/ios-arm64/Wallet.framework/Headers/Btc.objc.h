@@ -31,6 +31,9 @@
 @class BtcNFTPage;
 @class BtcPsbtTransaction;
 @class BtcSignedPsbtTransaction;
+@class BtcTransactionDetail;
+@class BtcTxOut;
+@class BtcTxOutArray;
 @class BtcUtil;
 
 @interface BtcAccount : NSObject <goSeqRefInterface, BaseAccount, BaseAddressUtil> {
@@ -38,18 +41,13 @@
 @property(strong, readonly) _Nonnull id _ref;
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
-- (nullable instancetype)initWithMnemonic:(NSString* _Nullable)mnemonic chainnet:(NSString* _Nullable)chainnet;
-/**
- * Default is `AddressTypeComingTaproot`
- */
-@property (nonatomic) long addressType;
+- (nullable instancetype)initWithMnemonic:(NSString* _Nullable)mnemonic chainnet:(NSString* _Nullable)chainnet addressType:(long)addressType;
 /**
  * @return default is the mainnet address
  */
 - (NSString* _Nonnull)address;
+- (long)addressType;
 - (NSString* _Nonnull)addressTypeString;
-- (BaseOptionalString* _Nullable)addressWithType:(long)addrType error:(NSError* _Nullable* _Nullable)error;
-- (BaseOptionalString* _Nullable)comingTaprootAddress:(NSError* _Nullable* _Nullable)error;
 /**
  * @return publicKey that will start with 0x.
  */
@@ -61,19 +59,7 @@
  */
 - (NSString* _Nonnull)encodePublicKeyToAddress:(NSString* _Nullable)publicKey error:(NSError* _Nullable* _Nullable)error;
 - (BOOL)isValidAddress:(NSString* _Nullable)address;
-/**
- * LegacyAddress P2PKH just for m/44'/
- */
-- (BaseOptionalString* _Nullable)legacyAddress:(NSError* _Nullable* _Nullable)error;
 - (NSString* _Nonnull)multiSignaturePubKey;
-/**
- * NativeSegwitAddress P2WPKH just for m/84'/
- */
-- (BaseOptionalString* _Nullable)nativeSegwitAddress:(NSError* _Nullable* _Nullable)error;
-/**
- * NestedSegwitAddress P2SH-P2WPKH just for m/49'/
- */
-- (BaseOptionalString* _Nullable)nestedSegwitAddress:(NSError* _Nullable* _Nullable)error;
 /**
  * @return privateKey data
  */
@@ -106,10 +92,6 @@ https://developer.bitcoin.org/reference/rpc/signmessage.html
  */
 - (BaseOptionalString* _Nullable)signMessage:(NSString* _Nullable)msg error:(NSError* _Nullable* _Nullable)error;
 - (BtcSignedPsbtTransaction* _Nullable)signPsbt:(NSString* _Nullable)psbtHex error:(NSError* _Nullable* _Nullable)error;
-/**
- * TaprootAddress P2TR just for m/86'/
- */
-- (BaseOptionalString* _Nullable)taprootAddress:(NSError* _Nullable* _Nullable)error;
 @end
 
 @interface BtcBrc20CommitCustom : NSObject <goSeqRefInterface, BaseJsonable> {
@@ -449,6 +431,50 @@ So only the status and timestamp can be queried.
 - (BaseOptionalString* _Nullable)publishWithChain:(BtcChain* _Nullable)c error:(NSError* _Nullable* _Nullable)error;
 @end
 
+@interface BtcTransactionDetail : NSObject <goSeqRefInterface, BaseJsonable> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nonnull instancetype)init;
+@property (nonatomic) int64_t networkFee;
+@property (nonatomic) double feeRate;
+@property (nonatomic) BtcTxOutArray* _Nullable inputs;
+@property (nonatomic) BtcTxOutArray* _Nullable outputs;
+- (NSString* _Nonnull)desc;
+- (BaseOptionalString* _Nullable)jsonString:(NSError* _Nullable* _Nullable)error;
+@end
+
+@interface BtcTxOut : NSObject <goSeqRefInterface> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nonnull instancetype)init;
+@property (nonatomic) NSString* _Nonnull hash;
+@property (nonatomic) int64_t index;
+@property (nonatomic) int64_t value;
+@property (nonatomic) NSString* _Nonnull address;
+@end
+
+@interface BtcTxOutArray : NSObject <goSeqRefInterface> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nonnull instancetype)init;
+// skipped field TxOutArray.AnyArray with unsupported type: github.com/coming-chat/wallet-SDK/core/base/inter.AnyArray[*github.com/coming-chat/wallet-SDK/core/btc.TxOut]
+
+- (void)append:(BtcTxOut* _Nullable)value;
+- (long)count;
+- (NSString* _Nonnull)jsonString;
+- (NSData* _Nullable)marshalJSON:(NSError* _Nullable* _Nullable)error;
+- (BtcTxOut* _Nullable)remove:(long)index;
+- (void)setValue:(BtcTxOut* _Nullable)value index:(long)index;
+- (BOOL)unmarshalJSON:(NSData* _Nullable)data error:(NSError* _Nullable* _Nullable)error;
+- (BtcTxOut* _Nullable)valueAt:(long)index;
+@end
+
 @interface BtcUtil : NSObject <goSeqRefInterface, BaseAddressUtil> {
 }
 @property(strong, readonly) _Nonnull id _ref;
@@ -502,7 +528,11 @@ FOUNDATION_EXPORT NSString* _Nonnull const BtcChainTestnet;
 
 @end
 
-FOUNDATION_EXPORT BtcAccount* _Nullable BtcAccountWithPrivateKey(NSString* _Nullable prikey, NSString* _Nullable chainnet, NSError* _Nullable* _Nullable error);
+FOUNDATION_EXPORT BtcAccount* _Nullable BtcAccountWithPrivateKey(NSString* _Nullable prikey, NSString* _Nullable chainnet, long addressType, NSError* _Nullable* _Nullable error);
+
+FOUNDATION_EXPORT NSString* _Nonnull BtcAddressTypeDerivePath(long t);
+
+FOUNDATION_EXPORT NSString* _Nonnull BtcAddressTypeDescription(long t);
 
 FOUNDATION_EXPORT BtcAccount* _Nullable BtcAsBitcoinAccount(id<BaseAccount> _Nullable account);
 
@@ -513,10 +543,38 @@ FOUNDATION_EXPORT BtcAccount* _Nullable BtcAsBitcoinAccount(id<BaseAccount> _Nul
  */
 FOUNDATION_EXPORT BaseStringMap* _Nullable BtcBatchQueryBalance(BaseStringArray* _Nullable addresses, NSString* _Nullable chainnet, NSError* _Nullable* _Nullable error);
 
+// skipped function ComingPrivateKey with unsupported parameter or return types
+
+
+FOUNDATION_EXPORT BtcTransactionDetail* _Nullable BtcDecodePsbtTransactionDetail(NSString* _Nullable psbtHex, NSString* _Nullable chainnet, NSError* _Nullable* _Nullable error);
+
 // skipped function DecodePsbtTxToPacket with unsupported parameter or return types
 
 
 // skipped function DecodeTx with unsupported parameter or return types
+
+
+FOUNDATION_EXPORT BtcTransactionDetail* _Nullable BtcDecodeTxHexTransactionDetail(NSString* _Nullable txHex, NSString* _Nullable chainnet, NSError* _Nullable* _Nullable error);
+
+// skipped function Derivation with unsupported parameter or return types
+
+
+// skipped function EncodeAddressComingTaproot with unsupported parameter or return types
+
+
+// skipped function EncodeAddressLegacy with unsupported parameter or return types
+
+
+// skipped function EncodeAddressNativeSegwit with unsupported parameter or return types
+
+
+// skipped function EncodeAddressNestedSegwit with unsupported parameter or return types
+
+
+// skipped function EncodeAddressTaproot with unsupported parameter or return types
+
+
+// skipped function EncodePubKeyToAddress with unsupported parameter or return types
 
 
 FOUNDATION_EXPORT NSString* _Nonnull BtcEncodePublicDataToAddress(NSData* _Nullable public, NSString* _Nullable chainnet, NSError* _Nullable* _Nullable error);
@@ -549,7 +607,7 @@ FOUNDATION_EXPORT BOOL BtcIsValidAddress(NSString* _Nullable address, NSString* 
 
 FOUNDATION_EXPORT BOOL BtcIsValidPrivateKey(NSString* _Nullable prikey);
 
-FOUNDATION_EXPORT BtcAccount* _Nullable BtcNewAccountWithMnemonic(NSString* _Nullable mnemonic, NSString* _Nullable chainnet, NSError* _Nullable* _Nullable error);
+FOUNDATION_EXPORT BtcAccount* _Nullable BtcNewAccountWithMnemonic(NSString* _Nullable mnemonic, NSString* _Nullable chainnet, long addressType, NSError* _Nullable* _Nullable error);
 
 FOUNDATION_EXPORT BtcBrc20CommitCustom* _Nullable BtcNewBrc20CommitCustomJson(NSString* _Nullable json);
 
@@ -584,6 +642,9 @@ FOUNDATION_EXPORT BtcChain* _Nullable BtcNewChainWithChainnet(NSString* _Nullabl
 FOUNDATION_EXPORT BtcPsbtTransaction* _Nullable BtcNewPsbtTransaction(NSString* _Nullable psbtString, NSError* _Nullable* _Nullable error);
 
 FOUNDATION_EXPORT BtcUtil* _Nullable BtcNewUtilWithChainnet(NSString* _Nullable chainnet, NSError* _Nullable* _Nullable error);
+
+// skipped function PrivateKeyToWIF with unsupported parameter or return types
+
 
 // skipped function PsbtPacketToMsgTx with unsupported parameter or return types
 
