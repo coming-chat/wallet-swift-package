@@ -439,6 +439,7 @@ So only the status and timestamp can be queried.
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
 - (nonnull instancetype)init;
+@property (nonatomic) int64_t totalCost;
 @property (nonatomic) int64_t networkFee;
 @property (nonatomic) double feeRate;
 @property (nonatomic) BtcTxOutArray* _Nullable inputs;
