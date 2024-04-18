@@ -414,7 +414,7 @@ So only the status and timestamp can be queried.
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
 - (nullable instancetype)init:(NSString* _Nullable)psbtString;
-// skipped field PsbtTransaction.Packet with unsupported type: invalid type
+// skipped field PsbtTransaction.Packet with unsupported type: github.com/btcsuite/btcd/btcutil/psbt.Packet
 
 - (BaseOptionalString* _Nullable)signWithAccount:(id<BaseAccount> _Nullable)account error:(NSError* _Nullable* _Nullable)error;
 - (id<BaseSignedTransaction> _Nullable)signedTransactionWithAccount:(id<BaseAccount> _Nullable)account error:(NSError* _Nullable* _Nullable)error;
@@ -426,7 +426,7 @@ So only the status and timestamp can be queried.
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
 - (nonnull instancetype)init;
-// skipped field SignedPsbtTransaction.Packet with unsupported type: invalid type
+// skipped field SignedPsbtTransaction.Packet with unsupported type: github.com/btcsuite/btcd/btcutil/psbt.Packet
 
 - (BaseOptionalString* _Nullable)hexString:(NSError* _Nullable* _Nullable)error;
 - (BaseOptionalString* _Nullable)psbtHexString:(NSError* _Nullable* _Nullable)error;
