@@ -682,8 +682,6 @@ FOUNDATION_EXPORT NSString* _Nonnull BtcSendRawTransaction(NSString* _Nullable s
 // skipped function SignPSBTTx with unsupported parameter or return types
 
 
-FOUNDATION_EXPORT BtcFeeRate* _Nullable BtcSuggestFeeRate(NSError* _Nullable* _Nullable error);
-
 FOUNDATION_EXPORT BOOL BtcVerifySignature(NSString* _Nullable pubkey, NSString* _Nullable message, NSString* _Nullable signature);
 
 #endif
