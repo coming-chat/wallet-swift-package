@@ -31,6 +31,8 @@
 @class BtcNFTPage;
 @class BtcPsbtTransaction;
 @class BtcSignedPsbtTransaction;
+@class BtcSignedTransaction;
+@class BtcTransaction;
 @class BtcTransactionDetail;
 @class BtcTxOut;
 @class BtcTxOutArray;
@@ -433,6 +435,34 @@ So only the status and timestamp can be queried.
 - (BaseOptionalString* _Nullable)publishWithChain:(BtcChain* _Nullable)c error:(NSError* _Nullable* _Nullable)error;
 @end
 
+@interface BtcSignedTransaction : NSObject <goSeqRefInterface, BaseSignedTransaction> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nonnull instancetype)init;
+- (BaseOptionalString* _Nullable)hexString:(NSError* _Nullable* _Nullable)error;
+@end
+
+@interface BtcTransaction : NSObject <goSeqRefInterface, BaseTransaction> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (nullable instancetype)init:(NSString* _Nullable)chainnet;
+- (BOOL)addInput:(NSString* _Nullable)txId index:(int64_t)index address:(NSString* _Nullable)address value:(int64_t)value error:(NSError* _Nullable* _Nullable)error;
+- (BOOL)addInput2:(NSString* _Nullable)txId index:(int64_t)index prevTx:(NSString* _Nullable)prevTx error:(NSError* _Nullable* _Nullable)error;
+- (BOOL)addOpReturn:(NSString* _Nullable)opReturn error:(NSError* _Nullable* _Nullable)error;
+/**
+ * If the value is 0, `AddOpReturn` will be called.
+ */
+- (BOOL)addOutput:(NSString* _Nullable)address value:(int64_t)value error:(NSError* _Nullable* _Nullable)error;
+- (BaseOptionalString* _Nullable)signWithAccount:(id<BaseAccount> _Nullable)account error:(NSError* _Nullable* _Nullable)error;
+- (id<BaseSignedTransaction> _Nullable)signedTransactionWithAccount:(id<BaseAccount> _Nullable)account error:(NSError* _Nullable* _Nullable)error;
+- (int64_t)totalInputValue;
+- (int64_t)totalOutputValue;
+@end
+
 @interface BtcTransactionDetail : NSObject <goSeqRefInterface, BaseJsonable> {
 }
 @property(strong, readonly) _Nonnull id _ref;
@@ -509,6 +539,7 @@ FOUNDATION_EXPORT NSString* _Nonnull const BtcChainBitcoin;
 FOUNDATION_EXPORT NSString* _Nonnull const BtcChainMainnet;
 FOUNDATION_EXPORT NSString* _Nonnull const BtcChainSignet;
 FOUNDATION_EXPORT NSString* _Nonnull const BtcChainTestnet;
+FOUNDATION_EXPORT const int64_t BtcMaxOpReturnLength;
 
 @interface Btc : NSObject
 + (NSError* _Nullable) errDecodeAddress;
@@ -644,7 +675,13 @@ FOUNDATION_EXPORT BtcChain* _Nullable BtcNewChainWithChainnet(NSString* _Nullabl
 
 FOUNDATION_EXPORT BtcPsbtTransaction* _Nullable BtcNewPsbtTransaction(NSString* _Nullable psbtString, NSError* _Nullable* _Nullable error);
 
+FOUNDATION_EXPORT BtcTransaction* _Nullable BtcNewTransaction(NSString* _Nullable chainnet, NSError* _Nullable* _Nullable error);
+
 FOUNDATION_EXPORT BtcUtil* _Nullable BtcNewUtilWithChainnet(NSString* _Nullable chainnet, NSError* _Nullable* _Nullable error);
+
+FOUNDATION_EXPORT NSData* _Nullable BtcPayToPubKeyHashScript(NSData* _Nullable pubKeyHash, NSError* _Nullable* _Nullable error);
+
+FOUNDATION_EXPORT NSData* _Nullable BtcPayToWitnessPubKeyHashScript(NSData* _Nullable pubKeyHash, NSError* _Nullable* _Nullable error);
 
 // skipped function PrivateKeyToWIF with unsupported parameter or return types
 
@@ -674,10 +711,8 @@ FOUNDATION_EXPORT NSString* _Nonnull BtcQueryBalancePubkey(NSString* _Nullable p
  */
 FOUNDATION_EXPORT NSString* _Nonnull BtcSdkBatchTransactionStatus(NSString* _Nullable hashListString, NSString* _Nullable chainnet);
 
-/**
- * Deprecated: SendRawTransaction is deprecated. Please Use Chain.SendRawTransaction() instead.
- */
-FOUNDATION_EXPORT NSString* _Nonnull BtcSendRawTransaction(NSString* _Nullable signedTx, NSString* _Nullable chainnet, NSError* _Nullable* _Nullable error);
+// skipped function Sign with unsupported parameter or return types
+
 
 // skipped function SignPSBTTx with unsupported parameter or return types
 
