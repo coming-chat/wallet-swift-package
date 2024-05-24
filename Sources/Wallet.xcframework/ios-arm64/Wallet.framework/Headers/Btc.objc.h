@@ -457,6 +457,7 @@ So only the status and timestamp can be queried.
  * If the value is 0, `AddOpReturn` will be called.
  */
 - (BOOL)addOutput:(NSString* _Nullable)address value:(int64_t)value error:(NSError* _Nullable* _Nullable)error;
+- (int64_t)estimateTransactionSize;
 - (BaseOptionalString* _Nullable)signWithAccount:(id<BaseAccount> _Nullable)account error:(NSError* _Nullable* _Nullable)error;
 - (id<BaseSignedTransaction> _Nullable)signedTransactionWithAccount:(id<BaseAccount> _Nullable)account error:(NSError* _Nullable* _Nullable)error;
 - (int64_t)totalInputValue;
