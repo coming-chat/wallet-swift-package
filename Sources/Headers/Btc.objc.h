@@ -452,12 +452,23 @@ So only the status and timestamp can be queried.
 - (nullable instancetype)init:(NSString* _Nullable)chainnet;
 - (BOOL)addInput:(NSString* _Nullable)txId index:(int64_t)index address:(NSString* _Nullable)address value:(int64_t)value error:(NSError* _Nullable* _Nullable)error;
 - (BOOL)addInput2:(NSString* _Nullable)txId index:(int64_t)index prevTx:(NSString* _Nullable)prevTx error:(NSError* _Nullable* _Nullable)error;
+/**
+ * Add op_return to the outputs.
+ */
 - (BOOL)addOpReturn:(NSString* _Nullable)opReturn error:(NSError* _Nullable* _Nullable)error;
 /**
  * If the value is 0, `AddOpReturn` will be called.
  */
 - (BOOL)addOutput:(NSString* _Nullable)address value:(int64_t)value error:(NSError* _Nullable* _Nullable)error;
 - (int64_t)estimateTransactionSize;
+/**
+ * Nothing will happen if the index is invalid.
+ */
+- (void)removeOuput:(long)index;
+/**
+ * Nothing will happen if the index is invalid.
+ */
+- (void)setOutputValue:(int64_t)value index:(long)index;
 - (BaseOptionalString* _Nullable)signWithAccount:(id<BaseAccount> _Nullable)account error:(NSError* _Nullable* _Nullable)error;
 - (id<BaseSignedTransaction> _Nullable)signedTransactionWithAccount:(id<BaseAccount> _Nullable)account error:(NSError* _Nullable* _Nullable)error;
 - (int64_t)totalInputValue;
