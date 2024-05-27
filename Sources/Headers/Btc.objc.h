@@ -633,6 +633,12 @@ FOUNDATION_EXPORT NSString* _Nonnull BtcEncodePublicKeyToAddress(NSString* _Null
 // skipped function EnsurePsbtFinalize with unsupported parameter or return types
 
 
+// skipped function EstimateTxSize with unsupported parameter or return types
+
+
+// skipped function EstimateTxSizePkScript with unsupported parameter or return types
+
+
 // skipped function ExtractPsbtToMsgTx with unsupported parameter or return types
 
 
