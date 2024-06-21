@@ -44,6 +44,7 @@
 - (RuneInfo* _Nullable)runeInfoById:(NSString* _Nullable)id_ error:(NSError* _Nullable* _Nullable)error;
 /**
  * 构建 rune 转账交易
+@param postage: the rune utxo's satoshi value, default is 546
  */
 - (RuneTransferTransaction* _Nullable)transferRunes:(NSString* _Nullable)sender receiver:(NSString* _Nullable)receiver runeName:(NSString* _Nullable)runeName amount:(NSString* _Nullable)amount feeRate:(double)feeRate postage:(long)postage error:(NSError* _Nullable* _Nullable)error;
 @end
@@ -58,13 +59,14 @@
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
 - (nonnull instancetype)init;
 @property (nonatomic) NSString* _Nonnull address;
-@property (nonatomic) int64_t balance;
+@property (nonatomic) NSString* _Nonnull balance;
 @property (nonatomic) int16_t divisibility;
 @property (nonatomic) BOOL hasInscription;
 @property (nonatomic) NSString* _Nonnull rune;
 @property (nonatomic) NSString* _Nonnull symbol;
 - (NSString* _Nonnull)balanceWithDecimal;
 - (NSString* _Nonnull)jsonString;
+- (BOOL)unmarshalJSON:(NSData* _Nullable)data error:(NSError* _Nullable* _Nullable)error;
 @end
 
 @interface RuneBalanceArray : NSObject <goSeqRefInterface> {
