@@ -160,6 +160,7 @@ https://developer.bitcoin.org/reference/rpc/signmessage.html
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
 - (nullable instancetype)initWithJsonString:(NSString* _Nullable)jsonStr;
+@property (nonatomic) NSString* _Nonnull commitId;
 @property (nonatomic) NSString* _Nonnull commit;
 @property (nonatomic) BaseStringArray* _Nullable reveal;
 @property (nonatomic) BaseStringArray* _Nullable inscription;
@@ -274,6 +275,9 @@ https://developer.bitcoin.org/reference/rpc/signmessage.html
 - (nullable instancetype)initWithJsonString:(NSString* _Nullable)jsonStr;
 @property (nonatomic) NSString* _Nonnull transaction;
 @property (nonatomic) int64_t networkFee;
+@property (nonatomic) NSString* _Nonnull commitId;
+@property (nonatomic) int64_t commitFee;
+@property (nonatomic) int64_t commitVsize;
 @property (nonatomic) BtcBrc20CommitCustom* _Nullable commitCustom;
 - (BtcPsbtTransaction* _Nullable)toPsbtTransaction:(NSError* _Nullable* _Nullable)error;
 @end
