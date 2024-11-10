@@ -21,6 +21,7 @@ framework module "Wallet" {
     header "Redpacket.objc.h"
     header "Dmens.objc.h"
     header "Rune.objc.h"
+    header "Lndmobile.objc.h"
     header "Universe.objc.h"
     header "Wallet.h"
 
