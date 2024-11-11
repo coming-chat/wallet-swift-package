@@ -42,7 +42,7 @@
  */
 - (NSString* _Nonnull)privateKeyHex:(NSError* _Nullable* _Nullable)error;
 /**
- * Is deocde from address
+ * Is decode from address
 @return publicKey data
  */
 - (NSData* _Nullable)publicKey;

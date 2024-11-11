@@ -119,7 +119,7 @@
  */
 - (NSString* _Nonnull)privateKeyHex:(NSError* _Nullable* _Nullable)error;
 /**
- * Is deocde from address
+ * Is decode from address
 @return publicKey data
  */
 - (NSData* _Nullable)publicKey;
@@ -544,7 +544,7 @@ Support normal or erc20 transfer
 - (BOOL)connectRemote:(NSString* _Nullable)rpcUrl error:(NSError* _Nullable* _Nullable)error;
 - (EthEthChain* _Nullable)createRemote:(NSString* _Nullable)rpcUrl error:(NSError* _Nullable* _Nullable)error;
 /**
- * @param timeout time unit millsecond. 0 means use chain's default: 60000ms.
+ * @param timeout time unit millisecond. 0 means use chain's default: 60000ms.
  */
 - (EthEthChain* _Nullable)createRemoteWithTimeout:(NSString* _Nullable)rpcUrl timeout:(int64_t)timeout error:(NSError* _Nullable* _Nullable)error;
 /**

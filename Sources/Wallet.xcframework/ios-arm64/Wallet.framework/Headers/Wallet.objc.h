@@ -273,6 +273,8 @@ FOUNDATION_EXPORT BaseStringArray* _Nullable WalletChainTypeOfWatchAddress(NSStr
 
 FOUNDATION_EXPORT void WalletCleanCachedAccountInfo(void);
 
+FOUNDATION_EXPORT NSString* _Nonnull WalletExtendMasterKey(NSString* _Nullable mnemonic, NSError* _Nullable* _Nullable error);
+
 FOUNDATION_EXPORT NSString* _Nonnull WalletGenMnemonic(NSError* _Nullable* _Nullable error);
 
 FOUNDATION_EXPORT NSData* _Nullable WalletHexToByte(NSString* _Nullable hex, NSError* _Nullable* _Nullable error);
