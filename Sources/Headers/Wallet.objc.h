@@ -273,7 +273,15 @@ FOUNDATION_EXPORT BaseStringArray* _Nullable WalletChainTypeOfWatchAddress(NSStr
 
 FOUNDATION_EXPORT void WalletCleanCachedAccountInfo(void);
 
-FOUNDATION_EXPORT NSString* _Nonnull WalletExtendMasterKey(NSString* _Nullable mnemonic, NSError* _Nullable* _Nullable error);
+/**
+ * ExtendMasterKey derives a master key from the given mnemonic and chain network identifier.
+
+Parameters:
+  - mnemonic: A string representing the mnemonic phrase used to generate the seed.
+  - chainnet: The blockchain network, which must be either
+    "mainnet", "testnet", "signet", "simnet" or "regtest".
+ */
+FOUNDATION_EXPORT NSString* _Nonnull WalletExtendMasterKey(NSString* _Nullable mnemonic, NSString* _Nullable chainnet, NSError* _Nullable* _Nullable error);
 
 FOUNDATION_EXPORT NSString* _Nonnull WalletGenMnemonic(NSError* _Nullable* _Nullable error);
 
