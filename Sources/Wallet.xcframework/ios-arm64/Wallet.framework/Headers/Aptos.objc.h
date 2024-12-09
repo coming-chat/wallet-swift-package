@@ -232,6 +232,14 @@
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
 - (nonnull instancetype)init;
 /**
+ * A nonce the dApp should generate
+ */
+@property (nonatomic) int64_t nonce;
+/**
+ * The message to be signed and displayed to the user
+ */
+@property (nonatomic) NSString* _Nonnull message;
+/**
  * Should we include the address of the account in the message
  */
 @property (nonatomic) BOOL address;
@@ -243,14 +251,6 @@
  * Should we include the current chain id the wallet is connected to
  */
 @property (nonatomic) BOOL chainId;
-/**
- * The message to be signed and displayed to the user
- */
-@property (nonatomic) NSString* _Nonnull message;
-/**
- * A nonce the dApp should generate
- */
-@property (nonatomic) int64_t nonce;
 - (NSString* _Nonnull)jsonString;
 @end
 
@@ -260,11 +260,11 @@
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
 - (nonnull instancetype)init;
+@property (nonatomic) int64_t chainId;
+@property (nonatomic) int64_t nonce;
 @property (nonatomic) NSString* _Nonnull address;
 @property (nonatomic) NSString* _Nonnull application;
-@property (nonatomic) int64_t chainId;
 @property (nonatomic) NSString* _Nonnull message;
-@property (nonatomic) int64_t nonce;
 @property (nonatomic) NSString* _Nonnull prefix;
 @property (nonatomic) NSString* _Nonnull fullMessage;
 @property (nonatomic) NSString* _Nonnull signature;

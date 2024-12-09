@@ -183,10 +183,10 @@ Available
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
 - (nonnull instancetype)init;
-@property (nonatomic) NSString* _Nonnull address;
-@property (nonatomic) NSString* _Nonnull owner;
 // skipped field TokenAccount.Amount with unsupported type: uint64
 
+@property (nonatomic) NSString* _Nonnull address;
+@property (nonatomic) NSString* _Nonnull owner;
 @property (nonatomic) NSString* _Nonnull accountType;
 @end
 

@@ -383,6 +383,14 @@ selects base 2. Otherwise the selected base is 10.
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
 - (nonnull instancetype)init;
 @property (nonatomic) int64_t timestamp;
+/**
+ * Aptos token's largest_property_version
+ */
+@property (nonatomic) int64_t aptTokenVersion;
+/**
+ * Aptos token's amount
+ */
+@property (nonatomic) int64_t aptAmount;
 @property (nonatomic) NSString* _Nonnull hashString;
 @property (nonatomic) NSString* _Nonnull id_;
 @property (nonatomic) NSString* _Nonnull name;
@@ -392,14 +400,6 @@ selects base 2. Otherwise the selected base is 10.
 @property (nonatomic) NSString* _Nonnull descr;
 @property (nonatomic) NSString* _Nonnull contractAddress;
 @property (nonatomic) NSString* _Nonnull relatedUrl;
-/**
- * Aptos token's largest_property_version
- */
-@property (nonatomic) int64_t aptTokenVersion;
-/**
- * Aptos token's amount
- */
-@property (nonatomic) int64_t aptAmount;
 - (NSString* _Nonnull)extractedImageUrl;
 - (NSString* _Nonnull)groupName;
 @end
@@ -519,10 +519,6 @@ let monitor = NewReachMonitorWithReachability(reachability)
  */
 - (nullable instancetype)initWithReachability:(id<BaseRpcReachability> _Nullable)reachability;
 /**
- * The number of network connectivity tests to be performed per rpc. 0 means infinite, default is 1
- */
-@property (nonatomic) long reachCount;
-/**
  * Timeout for each connectivity test (ms). default 20000ms
  */
 @property (nonatomic) int64_t timeout;
@@ -530,6 +526,10 @@ let monitor = NewReachMonitorWithReachability(reachability)
  * Time interval between two network connectivity tests (ms). default 1500ms
  */
 @property (nonatomic) int64_t delay;
+/**
+ * The number of network connectivity tests to be performed per rpc. 0 means infinite, default is 1
+ */
+@property (nonatomic) long reachCount;
 /**
  * @param rpcList string of rpcs like "rpc1,rpc2,rpc3,..."
  */
@@ -548,9 +548,9 @@ let monitor = NewReachMonitorWithReachability(reachability)
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
 - (nonnull instancetype)init;
-@property (nonatomic) NSString* _Nonnull rpcUrl;
 @property (nonatomic) int64_t latency;
 @property (nonatomic) int64_t height;
+@property (nonatomic) NSString* _Nonnull rpcUrl;
 @end
 
 @interface BaseStringArray : NSObject <goSeqRefInterface> {
@@ -614,6 +614,11 @@ let monitor = NewReachMonitorWithReachability(reachability)
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
 - (nonnull instancetype)init;
 /**
+ * transaction completion timestamp (s), 0 if Status is in Pending
+ */
+@property (nonatomic) int64_t finishTimestamp;
+@property (nonatomic) long status;
+/**
  * hash string on chain
  */
 @property (nonatomic) NSString* _Nonnull hashString;
@@ -630,11 +635,6 @@ let monitor = NewReachMonitorWithReachability(reachability)
  * receiver's address
  */
 @property (nonatomic) NSString* _Nonnull toAddress;
-@property (nonatomic) long status;
-/**
- * transaction completion timestamp (s), 0 if Status is in Pending
- */
-@property (nonatomic) int64_t finishTimestamp;
 /**
  * failure message
  */

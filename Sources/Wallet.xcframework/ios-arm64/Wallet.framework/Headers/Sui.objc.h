@@ -146,10 +146,10 @@
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
 - (nullable instancetype)init;
 - (nullable instancetype)initWithJsonString:(NSString* _Nullable)str;
+@property (nonatomic) int64_t requestEpoch;
 @property (nonatomic) NSString* _Nonnull stakeId;
 @property (nonatomic) NSString* _Nonnull validatorAddress;
 @property (nonatomic) NSString* _Nonnull principal;
-@property (nonatomic) int64_t requestEpoch;
 @property (nonatomic) long status;
 @property (nonatomic) NSString* _Nonnull delegationId;
 @property (nonatomic) NSString* _Nonnull earnedAmount;
@@ -187,6 +187,7 @@ if time < 0 indicates how much time has passed since the reward was earned;
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
 - (nonnull instancetype)init;
+@property (nonatomic) int64_t estimateGasFee;
 /**
  * The original request
  */
@@ -196,14 +197,13 @@ if time < 0 indicates how much time has passed since the reward was earned;
  */
 @property (nonatomic) SuiTransaction* _Nullable transaction;
 /**
- * Did the simulated transaction execute successfully?
- */
-@property (nonatomic) BOOL simulateSuccess;
-@property (nonatomic) int64_t estimateGasFee;
-/**
  * If the transaction is executed, owner will receive a coin amount that is not less than this.
  */
 @property (nonatomic) NSString* _Nonnull estimateAmount;
+/**
+ * Did the simulated transaction execute successfully?
+ */
+@property (nonatomic) BOOL simulateSuccess;
 /**
  * Due to the results obtained through simulated execution, we may know that the balance may increase and the value of this state may be inconsistent with the value in the request.
  */
@@ -276,10 +276,10 @@ if time < 0 indicates how much time has passed since the reward was earned;
 - (nullable instancetype)initWithJsonString:(NSString* _Nullable)str;
 @property (nonatomic) int64_t totalMinted;
 @property (nonatomic) int64_t supply;
-@property (nonatomic) NSString* _Nonnull pricePublic;
-@property (nonatomic) NSString* _Nonnull priceWhitelist;
 @property (nonatomic) int64_t startTimeMs;
 @property (nonatomic) int64_t durationMs;
+@property (nonatomic) NSString* _Nonnull pricePublic;
+@property (nonatomic) NSString* _Nonnull priceWhitelist;
 - (BaseOptionalString* _Nullable)jsonString:(NSError* _Nullable* _Nullable)error;
 @end
 
@@ -318,11 +318,11 @@ if time < 0 indicates how much time has passed since the reward was earned;
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
 - (nonnull instancetype)init;
+@property (nonatomic) int64_t estimateGasFee;
 // skipped field Transaction.Txn with unsupported type: github.com/coming-chat/go-sui/v2/types.TransactionBytes
 
 // skipped field Transaction.TxnBytes with unsupported type: github.com/coming-chat/go-sui/v2/lib.Base64Data
 
-@property (nonatomic) int64_t estimateGasFee;
 - (BaseOptionalString* _Nullable)signWithAccount:(id<BaseAccount> _Nullable)account error:(NSError* _Nullable* _Nullable)error;
 - (id<BaseSignedTransaction> _Nullable)signedTransactionWithAccount:(id<BaseAccount> _Nullable)account error:(NSError* _Nullable* _Nullable)error;
 - (NSData* _Nullable)transactionBytes;
@@ -352,19 +352,19 @@ if time < 0 indicates how much time has passed since the reward was earned;
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
 - (nullable instancetype)init;
 - (nullable instancetype)initWithJsonString:(NSString* _Nullable)str;
+@property (nonatomic) double apy;
+@property (nonatomic) double poolShare;
+@property (nonatomic) int64_t commission;
+@property (nonatomic) int64_t gasPrice;
 @property (nonatomic) NSString* _Nonnull address;
 @property (nonatomic) NSString* _Nonnull name;
 @property (nonatomic) NSString* _Nonnull desc;
 @property (nonatomic) NSString* _Nonnull imageUrl;
 @property (nonatomic) NSString* _Nonnull projectUrl;
-@property (nonatomic) double apy;
-@property (nonatomic) int64_t commission;
 @property (nonatomic) NSString* _Nonnull totalStaked;
 @property (nonatomic) NSString* _Nonnull delegatedStaked;
 @property (nonatomic) NSString* _Nonnull selfStaked;
 @property (nonatomic) NSString* _Nonnull totalRewards;
-@property (nonatomic) int64_t gasPrice;
-@property (nonatomic) double poolShare;
 - (BaseOptionalString* _Nullable)jsonString:(NSError* _Nullable* _Nullable)error;
 @end
 
@@ -397,6 +397,8 @@ if time < 0 indicates how much time has passed since the reward was earned;
  * The current epoch in Sui. An epoch takes approximately 24 hours and runs in checkpoints.
  */
 @property (nonatomic) int64_t epoch;
+@property (nonatomic) int64_t epochStartTimestampMs;
+@property (nonatomic) int64_t epochDurationMs;
 /**
  * Array of `Validator` elements
  */
@@ -409,8 +411,6 @@ if time < 0 indicates how much time has passed since the reward was earned;
  * The amount of rewards won by all Sui validators in the last epoch.
  */
 @property (nonatomic) NSString* _Nonnull totalRewards;
-@property (nonatomic) int64_t epochStartTimestampMs;
-@property (nonatomic) int64_t epochDurationMs;
 /**
  * @return if time > 0 indicates how long it will take to get the reward;
 if time < 0 indicates how much time has passed since the reward was earned;

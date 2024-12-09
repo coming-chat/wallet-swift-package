@@ -116,16 +116,16 @@ https://developer.bitcoin.org/reference/rpc/signmessage.html
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
 - (nullable instancetype)initWithJsonString:(NSString* _Nullable)str;
-@property (nonatomic) NSString* _Nonnull inscriptionId;
 @property (nonatomic) int64_t inscriptionNumber;
-@property (nonatomic) NSString* _Nonnull address;
 @property (nonatomic) int64_t outputValue;
+@property (nonatomic) int64_t contentLength;
+@property (nonatomic) int64_t timestamp;
+@property (nonatomic) NSString* _Nonnull inscriptionId;
+@property (nonatomic) NSString* _Nonnull address;
 @property (nonatomic) NSString* _Nonnull preview;
 @property (nonatomic) NSString* _Nonnull content;
-@property (nonatomic) int64_t contentLength;
 @property (nonatomic) NSString* _Nonnull contentType;
 @property (nonatomic) NSString* _Nonnull contentBody;
-@property (nonatomic) int64_t timestamp;
 @property (nonatomic) NSString* _Nonnull genesisTransaction;
 @property (nonatomic) NSString* _Nonnull location;
 @property (nonatomic) NSString* _Nonnull output;
@@ -160,16 +160,16 @@ https://developer.bitcoin.org/reference/rpc/signmessage.html
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
 - (nullable instancetype)initWithJsonString:(NSString* _Nullable)jsonStr;
-@property (nonatomic) NSString* _Nonnull commitId;
-@property (nonatomic) NSString* _Nonnull commit;
-@property (nonatomic) BaseStringArray* _Nullable reveal;
-@property (nonatomic) BaseStringArray* _Nullable inscription;
-@property (nonatomic) BtcBrc20CommitCustom* _Nullable commitCustom;
 @property (nonatomic) int64_t networkFee;
 @property (nonatomic) int64_t satpointFee;
 @property (nonatomic) int64_t serviceFee;
 @property (nonatomic) int64_t commitFee;
 @property (nonatomic) int64_t commitVsize;
+@property (nonatomic) NSString* _Nonnull commitId;
+@property (nonatomic) NSString* _Nonnull commit;
+@property (nonatomic) BaseStringArray* _Nullable reveal;
+@property (nonatomic) BaseStringArray* _Nullable inscription;
+@property (nonatomic) BtcBrc20CommitCustom* _Nullable commitCustom;
 - (BaseOptionalString* _Nullable)hexString:(NSError* _Nullable* _Nullable)error;
 - (BOOL)isSigned;
 - (BaseOptionalString* _Nullable)psbtHexString:(NSError* _Nullable* _Nullable)error;
@@ -240,10 +240,18 @@ https://developer.bitcoin.org/reference/rpc/signmessage.html
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
 - (nullable instancetype)initWithJsonString:(NSString* _Nullable)str;
-@property (nonatomic) NSString* _Nonnull ticker;
+@property (nonatomic) double price;
 @property (nonatomic) int64_t holdersCount;
 @property (nonatomic) int64_t historyCount;
 @property (nonatomic) int64_t inscriptionNumber;
+@property (nonatomic) int64_t mintTimes;
+@property (nonatomic) int64_t deployHeight;
+@property (nonatomic) int64_t deployBlocktime;
+@property (nonatomic) int64_t completeHeight;
+@property (nonatomic) int64_t completeBlocktime;
+@property (nonatomic) int64_t inscriptionNumberStart;
+@property (nonatomic) int64_t inscriptionNumberEnd;
+@property (nonatomic) NSString* _Nonnull ticker;
 @property (nonatomic) NSString* _Nonnull inscriptionId;
 @property (nonatomic) NSString* _Nonnull max;
 @property (nonatomic) NSString* _Nonnull limit;
@@ -252,17 +260,9 @@ https://developer.bitcoin.org/reference/rpc/signmessage.html
 @property (nonatomic) NSString* _Nonnull confirmedMinted;
 @property (nonatomic) NSString* _Nonnull confirmedMinted1h;
 @property (nonatomic) NSString* _Nonnull confirmedMinted24h;
-@property (nonatomic) int64_t mintTimes;
 @property (nonatomic) int16_t decimal;
 @property (nonatomic) NSString* _Nonnull creator;
 @property (nonatomic) NSString* _Nonnull txid;
-@property (nonatomic) int64_t deployHeight;
-@property (nonatomic) int64_t deployBlocktime;
-@property (nonatomic) int64_t completeHeight;
-@property (nonatomic) int64_t completeBlocktime;
-@property (nonatomic) int64_t inscriptionNumberStart;
-@property (nonatomic) int64_t inscriptionNumberEnd;
-@property (nonatomic) double price;
 - (BaseOptionalString* _Nullable)jsonString:(NSError* _Nullable* _Nullable)error;
 @end
 
@@ -273,11 +273,11 @@ https://developer.bitcoin.org/reference/rpc/signmessage.html
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
 - (nullable instancetype)init;
 - (nullable instancetype)initWithJsonString:(NSString* _Nullable)jsonStr;
-@property (nonatomic) NSString* _Nonnull transaction;
 @property (nonatomic) int64_t networkFee;
-@property (nonatomic) NSString* _Nonnull commitId;
 @property (nonatomic) int64_t commitFee;
 @property (nonatomic) int64_t commitVsize;
+@property (nonatomic) NSString* _Nonnull transaction;
+@property (nonatomic) NSString* _Nonnull commitId;
 @property (nonatomic) BtcBrc20CommitCustom* _Nullable commitCustom;
 - (BtcPsbtTransaction* _Nullable)toPsbtTransaction:(NSError* _Nullable* _Nullable)error;
 @end
@@ -288,8 +288,8 @@ https://developer.bitcoin.org/reference/rpc/signmessage.html
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
 - (nullable instancetype)initWithJsonString:(NSString* _Nullable)str;
-@property (nonatomic) NSString* _Nonnull inscriptionId;
 @property (nonatomic) int64_t inscriptionNumber;
+@property (nonatomic) NSString* _Nonnull inscriptionId;
 @property (nonatomic) NSString* _Nonnull amount;
 @property (nonatomic) NSString* _Nonnull ticker;
 @property (nonatomic) BOOL unconfirmed;
@@ -318,8 +318,8 @@ https://developer.bitcoin.org/reference/rpc/signmessage.html
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
 - (nullable instancetype)init:(NSString* _Nullable)txid index:(int64_t)index;
-@property (nonatomic) NSString* _Nonnull txid;
 @property (nonatomic) int64_t index;
+@property (nonatomic) NSString* _Nonnull txid;
 @end
 
 @interface BtcBrc20UTXOArray : NSObject <goSeqRefInterface> {
@@ -500,9 +500,9 @@ So only the status and timestamp can be queried.
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
 - (nonnull instancetype)init;
-@property (nonatomic) NSString* _Nonnull hash;
-@property (nonatomic) int64_t index;
 @property (nonatomic) int64_t value;
+@property (nonatomic) int64_t index;
+@property (nonatomic) NSString* _Nonnull hash;
 @property (nonatomic) NSString* _Nonnull address;
 @end
 

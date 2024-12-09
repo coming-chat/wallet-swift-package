@@ -141,6 +141,7 @@
 /**
  * Demo: https://api.blockcypher.com/v1/doge/main/txs/7bc313903372776e1eb81d321e3fe27c9721ce8e71a9bcfee1bde6baea31b5c2
  */
+@property (nonatomic) int64_t confirmations;
 @property (nonatomic) NSString* _Nonnull hashString;
 // skipped field Transaction.Total with unsupported type: *math/big.Int
 
@@ -150,7 +151,6 @@
 
 // skipped field Transaction.Confirmed with unsupported type: *time.Time
 
-@property (nonatomic) int64_t confirmations;
 // skipped field Transaction.Inputs with unsupported type: []*github.com/coming-chat/wallet-SDK/core/doge.TransactionInput
 
 // skipped field Transaction.Outputs with unsupported type: []*github.com/coming-chat/wallet-SDK/core/doge.TransactionOutput

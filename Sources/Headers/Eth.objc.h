@@ -267,8 +267,8 @@ IconUrl              string `json:"icon_url"`
 @property (nonatomic) NSString* _Nonnull value;
 @property (nonatomic) NSString* _Nonnull gasPrice;
 @property (nonatomic) NSString* _Nonnull gasLimit;
-@property (nonatomic) BOOL isPredictError;
 @property (nonatomic) NSString* _Nonnull maxPriorityFeePerGas;
+@property (nonatomic) BOOL isPredictError;
 @end
 
 @interface EthCallMethodOptsBigInt : NSObject <goSeqRefInterface> {
@@ -782,10 +782,10 @@ Possible values: [ethereum, ethereum_classic, binance_smart_chain, polygon, zksy
 // skipped field RSS3Note.Timestamp with unsupported type: time.Time
 
 @property (nonatomic) NSString* _Nonnull hashString;
-@property (nonatomic) BOOL success;
 @property (nonatomic) NSString* _Nonnull network;
 // skipped field RSS3Note.Actions with unsupported type: []*github.com/coming-chat/wallet-SDK/core/eth.RSS3NoteAction
 
+@property (nonatomic) BOOL success;
 @end
 
 @interface EthRSS3NoteAction : NSObject <goSeqRefInterface> {
@@ -794,6 +794,7 @@ Possible values: [ethereum, ethereum_classic, binance_smart_chain, polygon, zksy
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
 - (nonnull instancetype)init;
+@property (nonatomic) int64_t timestamp;
 @property (nonatomic) NSString* _Nonnull from;
 @property (nonatomic) NSString* _Nonnull to;
 @property (nonatomic) NSString* _Nonnull tag;
@@ -801,7 +802,6 @@ Possible values: [ethereum, ethereum_classic, binance_smart_chain, polygon, zksy
 @property (nonatomic) EthRSS3Metadata* _Nullable metadata;
 // skipped field RSS3NoteAction.RelatedUrls with unsupported type: []string
 
-@property (nonatomic) int64_t timestamp;
 @property (nonatomic) NSString* _Nonnull hashString;
 - (BOOL)isNftAction;
 - (BaseNFT* _Nullable)nft;
