@@ -214,7 +214,8 @@ https://developer.bitcoin.org/reference/rpc/signmessage.html
 @property (nonatomic) NSString* _Nonnull ticker;
 @property (nonatomic) NSString* _Nonnull overallBalance;
 @property (nonatomic) NSString* _Nonnull transferableBalance;
-@property (nonatomic) NSString* _Nonnull availableBalance;
+@property (nonatomic) NSString* _Nonnull availableBalanceSafe;
+- (NSString* _Nonnull)availableBalance;
 - (BaseOptionalString* _Nullable)jsonString:(NSError* _Nullable* _Nullable)error;
 @end
 
@@ -288,12 +289,13 @@ https://developer.bitcoin.org/reference/rpc/signmessage.html
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
 - (nullable instancetype)initWithJsonString:(NSString* _Nullable)str;
+@property (nonatomic) int64_t confirmations;
 @property (nonatomic) int64_t inscriptionNumber;
 @property (nonatomic) NSString* _Nonnull inscriptionId;
 @property (nonatomic) NSString* _Nonnull amount;
 @property (nonatomic) NSString* _Nonnull ticker;
-@property (nonatomic) BOOL unconfirmed;
 - (BaseOptionalString* _Nullable)jsonString:(NSError* _Nullable* _Nullable)error;
+- (BOOL)unconfirmed;
 @end
 
 @interface BtcBrc20TransferableInscriptionPage : NSObject <goSeqRefInterface> {
